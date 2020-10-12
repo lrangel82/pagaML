@@ -1,0 +1,2 @@
+module MoneylendersHelper
+end

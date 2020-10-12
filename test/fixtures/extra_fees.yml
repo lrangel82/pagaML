@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  loan: one
+  late_fee: 9.99
+  late_fee_profit: 9.99
+  old_balance: 9.99
+  new_balance: 9.99
+
+two:
+  loan: two
+  late_fee: 9.99
+  late_fee_profit: 9.99
+  old_balance: 9.99
+  new_balance: 9.99

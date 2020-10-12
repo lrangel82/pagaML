@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Moneylender:</strong>
+  <%= @loan.moneylender.alias %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @loan.status.name %>
+</p>
+
+<p>
+  <strong>Loan type:</strong>
+  <%= @loan.loan_type.short_name %>
+</p>
+
+<p>
+  <strong>Amount borrowed:</strong>
+  <%= @loan.amount_borrowed %>
+</p>
+
+<p>
+  <strong>Balance:</strong>
+  <%= @loan.balance %>
+</p>
+
+<p>
+  <strong>Loan date:</strong>
+  <%= @loan.loan_date %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @loan.start_date %>
+</p>
+
+<p>
+  <strong>Next Payment:</strong>
+  <%= @loan.next_payment %>
+</p>
+
+<p>
+  <strong>Next payment date:</strong>
+  <%= @loan.next_payment_date %>
+</p>
+
+<p>
+  <strong>Next amount payment:</strong>
+  <%= @loan.next_amount_payment %>
+</p>
+
+<%= link_to 'Edit', edit_loan_path(@loan) %> |
+<%= link_to 'Back', loans_path %>

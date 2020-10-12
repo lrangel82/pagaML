@@ -1,0 +1,62 @@
+<%= form_with(model: loan, local: true) do |form| %>
+  <% if loan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(loan.errors.count, "error") %> prohibited this loan from being saved:</h2>
+
+      <ul>
+        <% loan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :moneylender_id %>
+    <%= form.collection_select :moneylender_id, Moneylender.order(:alias), :id, :alias, include_blank: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status_id %>
+    <%= form.collection_select :status_id, Status.order(:id), :id, :name, include_blank: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :loan_type_id %>
+    <%= form.collection_select :loan_type_id, LoanType.order(:short_name), :id, :short_name, include_blank: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :amount_borrowed %>
+    <%= form.text_field :amount_borrowed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :balance %>
+    <%= form.text_field :balance %>
+  </div>
+
+  <div class="field">
+    <%= form.label :loan_date %>
+    <%= form.date_select :loan_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_date %>
+    <%= form.date_select :start_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :next_payment_date %>
+    <%= form.date_select :next_payment_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :next_amount_payment %>
+    <%= form.text_field :next_amount_payment %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Loan:</strong>
+  <%= @extra_fee.loan_id %>
+</p>
+
+<p>
+  <strong>Late fee:</strong>
+  <%= @extra_fee.late_fee %>
+</p>
+
+<p>
+  <strong>Late fee profit:</strong>
+  <%= @extra_fee.late_fee_profit %>
+</p>
+
+<p>
+  <strong>Old balance:</strong>
+  <%= @extra_fee.old_balance %>
+</p>
+
+<p>
+  <strong>New balance:</strong>
+  <%= @extra_fee.new_balance %>
+</p>
+
+<%= link_to 'Edit', edit_extra_fee_path(@extra_fee) %> |
+<%= link_to 'Back', extra_fees_path %>

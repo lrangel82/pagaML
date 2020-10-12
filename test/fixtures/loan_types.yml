@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  short_name: MyString
+  description: MyString
+  payment_frequency_days: 1
+  is_profit_balane: false
+  number_of_payments: 1
+  profit_by_payment: 9.99
+  total_profit: 9.99
+  late_fee: 9.99
+  late_fee_profit: 9.99
+
+two:
+  short_name: MyString
+  description: MyString
+  payment_frequency_days: 1
+  is_profit_balane: false
+  number_of_payments: 1
+  profit_by_payment: 9.99
+  total_profit: 9.99
+  late_fee: 9.99
+  late_fee_profit: 9.99

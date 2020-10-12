@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  moneylender: one
+  status: one
+  loan_type: one
+  amount_borrowed: 9.99
+  balance: 9.99
+  loan_date: 2020-10-08
+  start_date: 2020-10-08
+  next_payment_date: 2020-10-08
+  next_amount_payment: 9.99
+
+two:
+  moneylender: two
+  status: two
+  loan_type: two
+  amount_borrowed: 9.99
+  balance: 9.99
+  loan_date: 2020-10-08
+  start_date: 2020-10-08
+  next_payment_date: 2020-10-08
+  next_amount_payment: 9.99

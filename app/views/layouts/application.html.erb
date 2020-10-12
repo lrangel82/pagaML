@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PagaMLApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= link_to 'Home', admin_path %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+    <div>
+      <% if signed_in? %>
+        <%= link_to "Salir", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to "Registrarse", new_user_registration_path %>
+        <%= link_to "Ingresar", new_user_session_path %>
+      <% end %>
+    </div>
+    
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Moneylenders</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Alias</th>
+      <th>Clabe</th>
+      <th>Account number</th>
+      <th>Bank</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @moneylenders.each do |moneylender| %>
+      <tr>
+        <td><%= moneylender.alias %></td>
+        <td><%= moneylender.clabe %></td>
+        <td><%= moneylender.account_number %></td>
+        <td><%= moneylender.bank %></td>
+        <td><%= link_to 'Show', moneylender %></td>
+        <td><%= link_to 'Edit', edit_moneylender_path(moneylender) %></td>
+        <td><%= link_to 'Destroy', moneylender, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Moneylender', new_moneylender_path %>

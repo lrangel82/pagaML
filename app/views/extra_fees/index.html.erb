@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Extra Fees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Loan</th>
+      <th>Late fee</th>
+      <th>Late fee profit</th>
+      <th>Old balance</th>
+      <th>New balance</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @extra_fees.each do |extra_fee| %>
+      <tr>
+        <td><%= extra_fee.loan_id %></td>
+        <td><%= extra_fee.late_fee %></td>
+        <td><%= extra_fee.late_fee_profit %></td>
+        <td><%= extra_fee.old_balance %></td>
+        <td><%= extra_fee.new_balance %></td>
+        <td><%= link_to 'Show', extra_fee %></td>
+        <td><%= link_to 'Edit', edit_extra_fee_path(extra_fee) %></td>
+        <td><%= link_to 'Destroy', extra_fee, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Extra Fee', new_extra_fee_path %>
