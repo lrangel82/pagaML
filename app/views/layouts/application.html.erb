@@ -10,6 +10,7 @@
   </head>
 
   <body>
+    <div class="container-fluid">
     <%= link_to 'Home', admin_path %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
@@ -22,7 +23,8 @@
         <%= link_to "Ingresar", new_user_session_path %>
       <% end %>
     </div>
-    
+
     <%= yield %>
+  </div>
   </body>
 </html>

@@ -11,6 +11,11 @@
 </p>
 
 <p>
+  <strong>User:</strong>
+  <%= @loan.user.email %>
+</p>
+
+<p>
   <strong>Loan type:</strong>
   <%= @loan.loan_type.short_name %>
 </p>
@@ -33,11 +38,6 @@
 <p>
   <strong>Start date:</strong>
   <%= @loan.start_date %>
-</p>
-
-<p>
-  <strong>Next Payment:</strong>
-  <%= @loan.next_payment %>
 </p>
 
 <p>

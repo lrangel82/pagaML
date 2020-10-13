@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_123350) do
+ActiveRecord::Schema.define(version: 2020_10_13_033247) do
 
   create_table "extra_fees", force: :cascade do |t|
     t.integer "loan_id", null: false
@@ -49,9 +49,14 @@ ActiveRecord::Schema.define(version: 2020_10_10_123350) do
     t.decimal "next_amount_payment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.string "clabe", limit: 16
+    t.integer "account_number"
+    t.string "bank"
     t.index ["loan_type_id"], name: "index_loans_on_loan_type_id"
     t.index ["moneylender_id"], name: "index_loans_on_moneylender_id"
     t.index ["status_id"], name: "index_loans_on_status_id"
+    t.index ["user_id"], name: "index_loans_on_user_id"
   end
 
   create_table "moneylenders", force: :cascade do |t|
@@ -61,6 +66,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_123350) do
     t.string "bank"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_moneylenders_on_user_id"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -100,6 +107,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_123350) do
   add_foreign_key "loans", "loan_types"
   add_foreign_key "loans", "moneylenders"
   add_foreign_key "loans", "statuses"
+  add_foreign_key "loans", "users"
+  add_foreign_key "moneylenders", "users"
   add_foreign_key "payments", "loans"
   add_foreign_key "payments", "statuses"
 end
