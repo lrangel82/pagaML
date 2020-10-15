@@ -32,9 +32,9 @@
         <td><%= loan.start_date %></td>
         <td><%= loan.next_payment_date %></td>
         <td><%= loan.next_amount_payment %></td>
-        <td><%= link_to 'Show', loan %></td>
-        <td><%= link_to 'Edit', edit_loan_path(loan) %></td>
-        <td><%= link_to 'Destroy', loan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', admin_loan_path(loan) %></td>
+        <td><%= link_to 'Edit', edit_admin_loan_path(loan) %></td>
+        <td><%= link_to 'Destroy', admin_loan_path(loan), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -42,4 +42,4 @@
 
 <br>
 
-<%= link_to 'New Loan', new_loan_path %>
+<%= link_to 'New Loan', new_admin_loan_path %>

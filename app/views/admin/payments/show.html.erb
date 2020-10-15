@@ -2,7 +2,7 @@
 
 <p>
   <strong>Loan:</strong>
-  <%= @payment.loan_id %>
+  <%= @payment.loan.name %>
 </p>
 
 <p>
@@ -27,8 +27,8 @@
 
 <p>
   <strong>Status:</strong>
-  <%= @payment.status_id %>
+  <%= @payment.status.name %>
 </p>
 
-<%= link_to 'Edit', edit_payment_path(@payment) %> |
-<%= link_to 'Back', payments_path %>
+<%= link_to 'Edit', edit_admin_payment_path(@payment) %> |
+<%= link_to 'Back', admin_payments_path %>

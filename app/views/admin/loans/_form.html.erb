@@ -1,4 +1,4 @@
-<%= form_with(model: loan, local: true) do |form| %>
+<%= form_with(model: @loan, url: admin_loans_path, local: true) do |form| %>
   <% if loan.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(loan.errors.count, "error") %> prohibited this loan from being saved:</h2>
@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :user_id %>
-    <%= form.collection_select :user_id, User.order(:id), :id, :email, include_blank: true %>
+    <%= form.collection_select :user_id, User.order(:id), :id, :email, include_blank: false %>
   </div>
 
   <div class="field">

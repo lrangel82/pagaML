@@ -1,0 +1,17 @@
+<h4>Prestamos</h4>
+<% if(@loans.size > 0) %>
+   <div class="list-group">
+   <% @loans.each do |loan| %>
+      <a href="#" class="list-group-item list-group-item-action">
+       <div class="d-flex w-100 justify-content-between">
+         <h5 class="mb-1">$<%=loan.next_amount_payment%> a pagar el <%=loan.next_payment_date%> </h5>
+         <small><%=pluralize(loan.payments.size, 'pago')%></small>
+       </div>
+       <p class="mb-1">Todo va en orden, cualquier cosa aqui ira ocmo si fuera un mensaje o vacio.</p>
+       <small>cantidad en deuda $<%=loan.balance%> finaliza el <%=loan.start_date%></small>
+     </a>
+   <% end %>
+   </div>
+<% else %>
+No tiene ninguna deuda pendiente
+<% end %>

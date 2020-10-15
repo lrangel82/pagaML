@@ -1,4 +1,4 @@
-class LoansController < ApplicationController
+class Admin::LoansController < ApplicationController
   before_action :set_loan, only: [:show, :edit, :update, :destroy]
 
   # GET /loans
@@ -25,10 +25,10 @@ class LoansController < ApplicationController
   # POST /loans.json
   def create
     @loan = Loan.new(loan_params)
-
+    
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to @loan, notice: 'Loan was successfully created.' }
+        format.html { redirect_to admin_loan_path(@loan), notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class LoansController < ApplicationController
   def update
     respond_to do |format|
       if @loan.update(loan_params)
-        format.html { redirect_to @loan, notice: 'Loan was successfully updated.' }
+        format.html { redirect_to admin_loan_path(@loan), notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class LoansController < ApplicationController
   def destroy
     @loan.destroy
     respond_to do |format|
-      format.html { redirect_to loans_url, notice: 'Loan was successfully destroyed.' }
+      format.html { redirect_to admin_loans_url, notice: 'Loan was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class LoansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def loan_params
-      params.require(:loan).permit(:moneylender_id, :status_id, :loan_type_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment)
+      params.require(:loan).permit(:moneylender_id, :status_id, :loan_type_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment,:user_id)
     end
 end

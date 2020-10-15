@@ -1,4 +1,4 @@
-<%= form_with(model: payment, local: true) do |form| %>
+<%= form_with(model: @payment, url: admin_payments_path, local: true) do |form| %>
   <% if payment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
@@ -13,12 +13,12 @@
 
   <div class="field">
     <%= form.label :loan_id %>
-    <%= form.text_field :loan_id %>
+    <%= form.collection_select :loan_id, Loan.order(:id), :id, :name, include_blank: false %>
   </div>
 
   <div class="field">
     <%= form.label :amount %>
-    <%= form.text_field :amount %>
+    <%= form.text_field :amount%>
   </div>
 
   <div class="field">
