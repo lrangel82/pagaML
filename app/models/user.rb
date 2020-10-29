@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[facebook]
 
   has_many :loans
-  has_one  :moneylender
+  has_many :moneylender
 
   def self.from_omniauth(auth)
      where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -17,6 +17,14 @@ class User < ApplicationRecord
        # uncomment the line below to skip the confirmation emails.
        #user.skip_confirmation!
      end
+  end
+
+  def monylender?
+    moneylender.size > 0
+  end
+
+  def complete_name
+    (name + ' ' + lastname).strip
   end
 
   def self.new_with_session(params, session)

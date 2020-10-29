@@ -1,0 +1,62 @@
+<%= form_with(model: loan_type, url: admin_loan_types_path, local: true) do |form| %>
+  <% if loan_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(loan_type.errors.count, "error") %> prohibited this loan_type from being saved:</h2>
+
+      <ul>
+        <% loan_type.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :short_name %>
+    <%= form.text_field :short_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :payment_frequency_days %>
+    <%= form.number_field :payment_frequency_days %>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_profit_balane %>
+    <%= form.check_box :is_profit_balane %>
+  </div>
+
+  <div class="field">
+    <%= form.label :number_of_payments %>
+    <%= form.number_field :number_of_payments %>
+  </div>
+
+  <div class="field">
+    <%= form.label :profit_by_payment %>
+    <%= form.text_field :profit_by_payment %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_profit %>
+    <%= form.text_field :total_profit %>
+  </div>
+
+  <div class="field">
+    <%= form.label :late_fee %>
+    <%= form.text_field :late_fee %>
+  </div>
+
+  <div class="field">
+    <%= form.label :late_fee_profit %>
+    <%= form.text_field :late_fee_profit %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,72 @@
+<%= javascript_pack_tag 'creditors' %>
+
+<div class="btn-group" role="group">
+ <button type="button" class="btn btn-danger">
+  Retrazados <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
+  <span class="sr-only">Prestamos retrazados</span>
+ </button>
+
+ <button type="button" class="btn btn-success">
+  Al corriente <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
+  <span class="sr-only">Prestamos al corriente</span>
+ </button>
+
+ <button type="button" class="btn btn-primary">
+  Al corriente <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
+  <span class="sr-only">Prestamos pagados</span>
+ </button>
+
+ <button type="button" class="btn btn-secondary">
+  Pagados <span class="badge badge-light"><%=@moneylender.loans_cosed%></span>
+  <span class="sr-only">Prestamos pagados</span>
+ </button>
+ </div>
+
+<div class="card">
+  <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
+  <div class="card-body">
+    <h5 class="card-title">
+      Amount borrowed <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%>
+      Balance <%=number_to_currency(@moneylender.loan.sum(:balance))%>
+      Total next payment <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%>
+      Profit paid <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%>   
+    </h5>
+    <p class="card-text">CLABE:<%=@moneylender.clabe%>   acount number:<%=@moneylender.account_number%>.</p>
+    <a href="#" class="btn btn-primary">Add new Loan</a>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">User</th>
+      <th scope="col">Loan type</th>
+      <th scope="col">Borrowed</th>
+      <th scope="col">Balance</th>
+      <th scope="col">Amount payment</th>
+      <th scope="col">payments</th>
+      <th scope="col">payment date</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @loans.each do |loan| %>
+      <tr <%="class=table-danger" if loan.next_payment_date < Time.now %>>
+        <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
+        <td><%= loan.user.complete_name %></td>
+        <td><%= loan.loan_type.short_name %></td>
+        <td><%= number_to_currency(loan.amount_borrowed) %></td>
+        <td><%= number_to_currency(loan.balance) %></td>
+        <td><%= number_to_currency(loan.next_amount_payment) %></td>
+        <td><%= loan.payments.count %></td>
+        <td><%= loan.next_payment_date %></td>
+        <td><%= loan.start_date %></td>
+        <td><%= loan.end_date %></td>
+      </tr>
+     <% end %>
+    </tbody>
+  </table>
+</div>

@@ -56,6 +56,3 @@ gem 'omniauth-facebook'
 #gem 'omniauth-google'
 #gem 'omniauth-twitter'
 #gem 'omniauth-instagram'
-
-gem 'bootstrap', '~> 5.0.0.alpha1'
-gem 'jquery-rails'

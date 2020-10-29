@@ -10,6 +10,7 @@ class CreateLoanTypes < ActiveRecord::Migration[6.0]
       t.decimal :total_profit
       t.decimal :late_fee
       t.decimal :late_fee_profit
+      t.integer :days_added
 
       t.timestamps
     end

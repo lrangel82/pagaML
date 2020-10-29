@@ -1,0 +1,59 @@
+<h1>Creditors</h1>
+
+
+<div class="alert alert-primary" role="alert">
+<h3>Amount borrowed: <%= number_to_currency(@total_amount_borrowed) %>  Balance: <%=number_to_currency(@total_balance)%></h3>
+   <span> # Prestamos otorgados: <%=@loans_count%> </span>
+   <span> Total proximo pago: <%=number_to_currency(@total_next_amount_payment)%><span>
+   <span> Ganancia pagada: <%=number_to_currency(@total_profit)%></span>
+</div>
+
+
+<% if(@moneylenders.size > 0) %>
+   <div class="list-group">
+   <% @moneylenders.each do |moneylender| %>
+      <a href="<%=creditor_path(moneylender)%>" class="list-group-item list-group-item-action">
+       <div class="d-flex w-100 justify-content-between">
+         <h5 class="mb-1"><%=moneylender.alias%> banco: <%=moneylender.bank%> </h5>
+         <small><%=pluralize(moneylender.loan.size, 'prestamos')%></small>
+       </div>
+       <p class="mb-1">CLABE:<%=moneylender.clabe%>   acount number:<%=moneylender.account_number%></p>
+       <small>Amount borrowed <%=number_to_currency(moneylender.loan.sum(:amount_borrowed))%> </small>
+       <small>Balance <%=number_to_currency(moneylender.loan.sum(:balance))%> </small>
+       <small>Total next payment <%=number_to_currency(moneylender.loan.sum(&:next_amount_payment))%> </small>
+       <small>Profit paid <%=number_to_currency(moneylender.loan.sum{ |l| l.payments.sum(:profit) })%> </small>
+
+       <div>
+       <%if (moneylender.loans_delayed > 0 ) %>
+       <button type="button" class="btn btn-danger">
+        Retrazados <span class="badge badge-light"><%=moneylender.loans_delayed%></span>
+        <span class="sr-only">Prestamos retrazados</span>
+       </button>
+       <% end %>
+
+       <%if (moneylender.loans_ok > 0 ) %>
+       <button type="button" class="btn btn-success">
+        Al corriente <span class="badge badge-light"><%=moneylender.loans_ok%></span>
+        <span class="sr-only">Prestamos al corriente</span>
+       </button>
+       <% end %>
+
+       <%if (moneylender.loans_paied > 0 ) %>
+       <button type="button" class="btn btn-primary">
+        Al corriente <span class="badge badge-light"><%=moneylender.loans_paied%></span>
+        <span class="sr-only">Prestamos pagados</span>
+       </button>
+       <% end %>
+
+       <%if (moneylender.loans_cosed > 0 ) %>
+       <button type="button" class="btn btn-secondary">
+        Pagados <span class="badge badge-light"><%=moneylender.loans_cosed%></span>
+        <span class="sr-only">Prestamos pagados</span>
+       </button>
+       <% end %>
+       </div>
+
+      </a>
+   <% end %>
+   </div>
+<% end %>

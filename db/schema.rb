@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_033247) do
     t.decimal "total_profit"
     t.decimal "late_fee"
     t.decimal "late_fee_profit"
+    t.integer "days_added"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

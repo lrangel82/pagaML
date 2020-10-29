@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Alias:</strong>
+  <%= @moneylender.alias %>
+</p>
+<p>
+  <strong>Usuario:</strong>
+  <%= @moneylender.user.email %>
+</p>
+<p>
+  <strong>Clabe:</strong>
+  <%= @moneylender.clabe %>
+</p>
+
+<p>
+  <strong>Account number:</strong>
+  <%= @moneylender.account_number %>
+</p>
+
+<p>
+  <strong>Bank:</strong>
+  <%= @moneylender.bank %>
+</p>
+
+<%= link_to 'Edit', edit_admin_moneylender_path(@moneylender) %> |
+<%= link_to 'Back', admin_moneylenders_path %>

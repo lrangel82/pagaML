@@ -1,0 +1,42 @@
+<%= form_with(model: moneylender, url: admin_moneylenders_path, local: true) do |form| %>
+  <% if moneylender.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(moneylender.errors.count, "error") %> prohibited this moneylender from being saved:</h2>
+
+      <ul>
+        <% moneylender.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :alias %>
+    <%= form.text_field :alias %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.collection_select :user_id, User.order(:id), :id, :email, include_blank: false %>
+  </div>
+
+  <div class="field">
+    <%= form.label :clabe %>
+    <%= form.text_field :clabe %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account_number %>
+    <%= form.number_field :account_number %>
+  </div>
+
+  <div class="field">
+    <%= form.label :bank %>
+    <%= form.text_field :bank %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
