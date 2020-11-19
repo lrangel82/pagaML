@@ -1,5 +1,6 @@
 $(function(){
    $('tr').click (function() {
-       alert('Aqui' + this); 
+       path = $(this).data("loanpath")
+       alert('Aqui' + this + ": path "+path); 
    });
 });

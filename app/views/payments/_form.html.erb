@@ -1,0 +1,48 @@
+<%= form_with(model: [@loan, @payment], local: true) do |form| %>
+  <% if payment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(payment.errors.count, "error") %> prohibited this payment from being saved:</h2>
+
+      <ul>
+        <% payment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :loan_id %>
+    <%= @loan.code %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :amount %>
+    <%= form.text_field :amount, :value=> @loan.next_amount_payment.round(2), :class=>"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :payment_date %>
+    <%= form.date_select :payment_date,{}, {:class=>"form-control"} %>
+    <%= form.text_field :payment_date, :class=>"form-control datepicker" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :profit %>
+    <%= form.text_field :profit, :value=> @loan.recal_profit( @loan.next_amount_payment ).round(2), :class=>"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :payment_to_borrowed %>
+    <%= form.text_field :payment_to_borrowed, :value=> @loan.recal_payment_to_borroewd( @loan.next_amount_payment ).round(2), :class=>"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :status_id %>
+    <%= form.collection_select :status_id, Status.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

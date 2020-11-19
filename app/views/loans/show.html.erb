@@ -26,32 +26,7 @@
 <p class="mb-1">.</p>
 <small>cantidad en deuda $<%=@loan.balance%> finaliza el <%=@loan.start_date%></small>
 
-<div class="table-responsive">
-  <table class="table table-hover table-sm">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Date</th>
-      <th scope="col">Amount</th>
-      <th scope="col">Profit</th>
-      <th scope="col">Payment</th>
-      <th scope="col">Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @loan.payments.each_with_index do |payment,i| %>
-      <tr>
-        <th scope="row"><%= i+1 %> </th>
-        <td><%= payment.payment_date %></td>
-        <td><%= number_to_currency(payment.amount) %></td>
-        <td><%= number_to_currency(payment.profit) %></td>
-        <td><%= number_to_currency(payment.payment_to_borrowed) %></td>
-        <td><%= payment.status.name %></td>
-      </tr>
-     <% end %>
-    </tbody>
-  </table>
-</div>
+<%= render template: "payments/index" %>
 
 <%= link_to 'Edit', edit_admin_loan_path(@loan) %> |
 <%= link_to 'Back', admin_loans_path %>

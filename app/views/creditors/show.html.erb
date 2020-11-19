@@ -54,7 +54,7 @@
     </thead>
     <tbody>
     <% @loans.each do |loan| %>
-      <tr <%="class=table-danger" if loan.next_payment_date < Time.now %>>
+      <tr <%="class=table-danger" if loan.next_payment_date < Time.now %> data-loanpath="<%=loan_payments_path(loan)%>">
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
         <td><%= loan.user.complete_name %></td>
         <td><%= loan.loan_type.short_name %></td>

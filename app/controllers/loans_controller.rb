@@ -28,7 +28,7 @@ class LoansController < ApplicationController
     
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to admin_loan_path(@loan), notice: 'Loan was successfully created.' }
+        format.html { redirect_to loan_path(@loan), notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }

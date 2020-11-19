@@ -36,7 +36,28 @@ class Loan < ApplicationRecord
     if loan_type.is_profit_balane
       balance * loan_type.profit_by_payment / 100
     else
-      (amount_borrowed * loan_type.total_profit / 100) / loan_type.number_of_payments
+      (amount_borrowed * (loan_type.total_profit / 100 + 1)) / loan_type.number_of_payments
     end
+  end
+
+  def recal_profit(base_amount = nil)
+    return 0 unless loan_type
+    return 0 unless status.is_active?
+
+    _profit=0
+    if loan_type.is_profit_balane
+      _profit=balance * loan_type.profit_by_payment / 100
+    else
+      _profit=(amount_borrowed * loan_type.total_profit / 100) / loan_type.number_of_payments
+    end
+    return _profit if base_amount.nil? or base_amount > _profit
+    return nil
+  end
+
+  def recal_payment_to_borroewd(base_amount = nil)
+    return 0 unless loan_type
+    return 0 unless status.is_active?
+    _profit = recal_profit(base_amount)
+    base_amount - _profit
   end
 end
