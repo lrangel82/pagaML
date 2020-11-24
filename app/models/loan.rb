@@ -68,11 +68,11 @@ class Loan < ApplicationRecord
     return nil if loan_type.nil?
 
     if loan_type.is_profit_balane
-      months_to_add = payments.count
+      months_to_add = payments.count + 1
       days_to_add = loan_type.payment_frequency_days
     else
       months_to_add = 0
-      days_to_add = loan_type.payment_frequency_days * payments.count
+      days_to_add = loan_type.payment_frequency_days * (payments.count + 1)
     end
     next_payment_date = start_date + months_to_add.month
     next_payment_date = next_payment_date + days_to_add.day

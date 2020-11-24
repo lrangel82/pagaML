@@ -53,6 +53,8 @@ LoanType.create(id: 8, short_name: "8 Semanas 20%", description: "Pago 8 semanas
 
 LoanType.create(id: 9, short_name: "Eterno", description: "prestamo al olvido 0 ganancia", payment_frequency_days: 365, is_profit_balane: false, number_of_payments: 1, profit_by_payment: nil, total_profit: 0.00e2, late_fee: 0.0e2, late_fee_profit: 0.0)
 
+LoanType.create(id: 10, short_name: "16 Semanas 40%", description: "Pago semanal con 40% de interes total 10 por mes", payment_frequency_days: 7, is_profit_balane: false, number_of_payments: 16, profit_by_payment: 0.25e1, total_profit: 0.4e2, late_fee: 0.1e3, late_fee_profit: 0.0)
+
 ActiveRecord::Base.connection.execute("SELECT setval('loan_types_id_seq', (SELECT max(id) FROM loan_types));")
 
 #PRESTAMOS
