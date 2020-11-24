@@ -11,7 +11,7 @@ class Moneylender < ApplicationRecord
    def loans_paied
       @loans_paied ||= loan.where(status_id: [2,3]).count
    end
-   def loans_cosed
-      @loans_cosed ||= loan.where(status: [4,5]).count
+   def loans_closed
+      @loans_closed ||= loan.where(status_id: [4,5]).count
    end
 end

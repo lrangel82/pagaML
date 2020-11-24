@@ -6,19 +6,19 @@
   <span class="sr-only">Prestamos retrazados</span>
  </button>
 
- <button type="button" class="btn btn-success">
+ <button type="button" class="btn btn-primary">
   Al corriente <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
   <span class="sr-only">Prestamos al corriente</span>
  </button>
 
- <button type="button" class="btn btn-primary">
-  Al corriente <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
+ <button type="button" class="btn btn-success">
+  Pagados <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
   <span class="sr-only">Prestamos pagados</span>
  </button>
 
  <button type="button" class="btn btn-secondary">
-  Pagados <span class="badge badge-light"><%=@moneylender.loans_cosed%></span>
-  <span class="sr-only">Prestamos pagados</span>
+  Cerrados <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
+  <span class="sr-only">Prestamos Cerrados</span>
  </button>
  </div>
 
@@ -32,7 +32,7 @@
       Profit paid <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%>   
     </h5>
     <p class="card-text">CLABE:<%=@moneylender.clabe%>   acount number:<%=@moneylender.account_number%>.</p>
-    <a href="#" class="btn btn-primary">Add new Loan</a>
+    <a href="<%=new_loan_path%>" class="btn btn-primary">Add new Loan</a>
   </div>
 </div>
 
@@ -54,7 +54,10 @@
     </thead>
     <tbody>
     <% @loans.each do |loan| %>
-      <tr <%="class=table-danger" if loan.next_payment_date < Time.now %> data-loanpath="<%=loan_payments_path(loan)%>">
+      <tr <%="class=table-danger data-loanpath="+new_loan_payment_path(loan) if loan.delayed? %>
+          <%="class=table-success" if loan.paied? %>
+          <%="class=table-primary" if loan.ok? %>
+          <%="class=table-secondary" if loan.closed? %> >
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
         <td><%= loan.user.complete_name %></td>
         <td><%= loan.loan_type.short_name %></td>
@@ -70,3 +73,5 @@
     </tbody>
   </table>
 </div>
+
+<div id="dialog_addpayment" title="Add Payment"></div>

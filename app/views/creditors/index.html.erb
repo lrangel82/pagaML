@@ -32,23 +32,23 @@
        <% end %>
 
        <%if (moneylender.loans_ok > 0 ) %>
-       <button type="button" class="btn btn-success">
+       <button type="button" class="btn btn-primary">
         Al corriente <span class="badge badge-light"><%=moneylender.loans_ok%></span>
         <span class="sr-only">Prestamos al corriente</span>
        </button>
        <% end %>
 
        <%if (moneylender.loans_paied > 0 ) %>
-       <button type="button" class="btn btn-primary">
-        Al corriente <span class="badge badge-light"><%=moneylender.loans_paied%></span>
+       <button type="button" class="btn btn-success">
+        Pagados <span class="badge badge-light"><%=moneylender.loans_paied%></span>
         <span class="sr-only">Prestamos pagados</span>
        </button>
        <% end %>
 
-       <%if (moneylender.loans_cosed > 0 ) %>
+       <%if (moneylender.loans_closed > 0 ) %>
        <button type="button" class="btn btn-secondary">
-        Pagados <span class="badge badge-light"><%=moneylender.loans_cosed%></span>
-        <span class="sr-only">Prestamos pagados</span>
+        Cerrados <span class="badge badge-light"><%=moneylender.loans_closed%></span>
+        <span class="sr-only">Prestamos cerrados</span>
        </button>
        <% end %>
        </div>

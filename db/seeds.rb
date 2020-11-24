@@ -18,11 +18,11 @@ User.new(id: 1, email: "luisrangel@gmail.com", password: "mevale14", admin: true
 User.new(id: 2, email: "orozcomartina8@gmail.com", password: "mevale14", admin: true, name: "Martina", lastname:"Orozco").save!(:validate => false)
 
 
-User.new(id: 3, email: "foo1@foo.com", password: "foooo14", admin: false, name: "Tania", lastname:"").save!(:validate => false)
-User.new(id: 4, email: "foo2@foo.com", password: "foooo14", admin: false, name: "Angelica", lastname:"Karen amiga").save!(:validate => false)
-User.new(id: 5, email: "foo3@foo.com", password: "foooo14", admin: false, name: "Dr. Marisol", lastname:"").save!(:validate => false)
-User.new(id: 6, email: "foo4@foo.com", password: "foooo14", admin: false, name: "Elizabeth", lastname:"Lopez").save!(:validate => false)
-User.new(id: 7, email: "foo5@foo.com", password: "foooo14", admin: false, name: "Yuri", lastname:"").save!(:validate => false)
+#User.new(id: 3, email: "foo1@foo.com", password: "foooo14", admin: false, name: "Tania", lastname:"").save!(:validate => false)
+#User.new(id: 4, email: "foo2@foo.com", password: "foooo14", admin: false, name: "Angelica", lastname:"Karen amiga").save!(:validate => false)
+#User.new(id: 5, email: "foo3@foo.com", password: "foooo14", admin: false, name: "Dr. Marisol", lastname:"").save!(:validate => false)
+#User.new(id: 6, email: "foo4@foo.com", password: "foooo14", admin: false, name: "Elizabeth", lastname:"Lopez").save!(:validate => false)
+#User.new(id: 7, email: "foo5@foo.com", password: "foooo14", admin: false, name: "Yuri", lastname:"").save!(:validate => false)
 
 #[["email", "luisrangel@gmail.com"], ["encrypted_password", "$2a$12$UkYFBLzdmpoHYAlpDxtdl.VdtYJA/8PdNjoiTl3KlPGtutAUJO6q6"], ["created_at", "2020-10-13 05:01:35.253233"], ["updated_at", "2020-10-13 05:01:35.253233"]]
 
@@ -40,29 +40,37 @@ LoanType.create(id: 4, short_name: "12 Semanas 18%", description: "Pago semanal 
 
 LoanType.create(id: 5, short_name: "Mensual 15%", description: "Pago mensual sin limite de pagos 15%", payment_frequency_days: 30, is_profit_balane: true, number_of_payments: nil, profit_by_payment: 0.15e2, total_profit: nil, late_fee: 0.3e3, late_fee_profit: 0.5e1)
 
+LoanType.create(id: 6, short_name: "1 Semanas 5%", description: "Pago 1 semana con 5% de interes total", payment_frequency_days: 7, is_profit_balane: false, number_of_payments: 1, profit_by_payment: nil, total_profit: 0.05e2, late_fee: 0.01e2, late_fee_profit: 0.0)
+
+LoanType.create(id: 7, short_name: "4 Semanas 10%", description: "Pago 4 semanas con 10% de interes total", payment_frequency_days: 7, is_profit_balane: false, number_of_payments: 4, profit_by_payment: nil, total_profit: 0.10e2, late_fee: 0.10e2, late_fee_profit: 0.0)
+
+LoanType.create(id: 8, short_name: "8 Semanas 20%", description: "Pago 8 semanas con 20% de interes total", payment_frequency_days: 7, is_profit_balane: false, number_of_payments: 8, profit_by_payment: nil, total_profit: 0.20e2, late_fee: 0.10e2, late_fee_profit: 0.0)
+
+LoanType.create(id: 9, short_name: "Eterno", description: "prestamo al olvido 0 ganancia", payment_frequency_days: 365, is_profit_balane: false, number_of_payments: 1, profit_by_payment: nil, total_profit: 0.00e2, late_fee: 0.0e2, late_fee_profit: 0.0)
+
 
 #PRESTAMOS
-Loan.create(id: 29, moneylender_id: 1, status_id: 1, loan_type_id: 3, amount_borrowed: 2500, balance: 811, loan_date: "2020-08-13", start_date: "2020-08-13", next_payment_date: "2020-10-22", next_amount_payment: 0, user_id: 3)
+# Loan.create(id: 29, moneylender_id: 1, status_id: 1, loan_type_id: 3, amount_borrowed: 2500, balance: 811, loan_date: "2020-08-13", start_date: "2020-08-13", next_payment_date: "2020-10-22", next_amount_payment: 0, user_id: 3)
 
-Loan.create(id: 32, moneylender_id: 1, status_id: 1, loan_type_id: 3, amount_borrowed: 5000, balance: 2706, loan_date: "2020-08-22", start_date: "2020-08-22", next_payment_date: "2020-10-17", next_amount_payment: 0, user_id: 4)
+# Loan.create(id: 32, moneylender_id: 1, status_id: 1, loan_type_id: 3, amount_borrowed: 5000, balance: 2706, loan_date: "2020-08-22", start_date: "2020-08-22", next_payment_date: "2020-10-17", next_amount_payment: 0, user_id: 4)
 
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-08-22", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-08-30", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-08", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-14", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-20", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-27", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-05", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-11", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
-Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-18", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-08-22", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-08-30", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-08", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-14", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-20", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-09-27", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-05", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-11", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
+# Payment.create(loan_id: 29, amount: 271, payment_date: "2020-10-18", profit: 62.5, payment_to_borrowed: 208.5, status_id: 2)
 
 
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-08-31", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-08", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-14", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-20", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-28", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-10-06", profit: 125, payment_to_borrowed: 417, status_id: 2)
-Payment.create(loan_id: 32, amount: 542, payment_date: "2020-10-12", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-08-31", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-08", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-14", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-20", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-09-28", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-10-06", profit: 125, payment_to_borrowed: 417, status_id: 2)
+# Payment.create(loan_id: 32, amount: 542, payment_date: "2020-10-12", profit: 125, payment_to_borrowed: 417, status_id: 2)
 
-#Payment.create(id: integer, loan_id: integer, amount: decimal, payment_date: date, profit: decimal, payment_to_borrowed: decimal, status_id: integer, created_at: datetime, updated_at: datetime)
+# #Payment.create(id: integer, loan_id: integer, amount: decimal, payment_date: date, profit: decimal, payment_to_borrowed: decimal, status_id: integer, created_at: datetime, updated_at: datetime)

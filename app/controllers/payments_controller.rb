@@ -8,14 +8,18 @@ class PaymentsController < ApplicationController
     @payments = @loan.payments # Payment.all
   end
 
-  # GET /payments/1
-  # GET /payments/1.json
+  # GET loans/$loan_id/payments/1
+  # GET loans/$loan_id/payments/1.json
   def show
   end
 
-  # GET /payments/new
+  # GET loans/$loan_id/payments/new
   def new
     @payment = @loan.payments.build #Payment.new
+    respond_to do |format|
+      format.html { render "new" }
+      format.json { render partial: "form", formats: "html", locals: { payment: @payment } }
+    end
   end
 
   # GET /payments/1/edit
@@ -25,11 +29,14 @@ class PaymentsController < ApplicationController
   # POST /payments
   # POST /payments.json
   def create
+    Rails.logger.info("LARANGEL referrer:#{request.referrer}")
+
     @payment = @loan.payments.build(payment_params) #Payment.new(payment_params)
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to loan_payments_path(@loan), notice: 'Payment was successfully created.' }
+        @loan.recal
+        format.html { redirect_to request.referrer.include?(creditors_path) ? request.referrer : loan_payments_path(@loan), notice: 'Payment was successfully created.' }
         format.json { render :show, status: :created, location: @payment }
       else
         format.html { render :new }
@@ -43,6 +50,7 @@ class PaymentsController < ApplicationController
   def update
     respond_to do |format|
       if @payment.update(payment_params)
+        @loan.recal
         format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully updated.' }
         format.json { render :show, status: :ok, location: @payment }
       else
@@ -56,6 +64,7 @@ class PaymentsController < ApplicationController
   # DELETE /payments/1.json
   def destroy
     @payment.destroy
+    @loan.recal
     respond_to do |format|
       format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully destroyed.' }
       format.json { head :no_content }
