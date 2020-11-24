@@ -4,6 +4,7 @@ namespace :import do
     require "csv"
     csv_text = File.read(Rails.root.join("db", "prestamos.csv"))
     csv = CSV.parse(csv_text, :headers => true, :encoding => "ISO-8859-1")
+    Payment.destroy_all
     Loan.destroy_all
     i = 1
     csv.each do |row|
