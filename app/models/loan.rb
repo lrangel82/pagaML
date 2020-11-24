@@ -21,17 +21,21 @@ class Loan < ApplicationRecord
     self.next_amount_payment = recal_next_amount_payment
     self.balance             = balance
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
+    Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
     self.save
   end
 
   def balance
-    return nil if loan_type.nil?
+
+    return 0 if loan_type.nil?
+    return 0 if status_id > 1
 
     if loan_type.is_profit_balane
       amount_borrowed - payments.sum(:payment_to_borrowed)
     else
       (amount_borrowed * (loan_type.total_profit / 100 + 1)) - payments.sum(:amount)
     end
+    
   end
 
   def delayed?
@@ -45,6 +49,11 @@ class Loan < ApplicationRecord
   end
   def closed?
     status_id == 4 or status_id == 5
+  end
+
+  def days_left
+    return nil if status_id > 1
+    (next_payment_date - Date.today).to_i
   end
 
   def next_amount_payment

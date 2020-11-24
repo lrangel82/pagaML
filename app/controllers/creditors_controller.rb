@@ -9,9 +9,9 @@ class CreditorsController < ApplicationController
    end
 
    def show
-      Rails.logger.info "LARANGEL #{params}"
       @moneylender = Moneylender.find(params['id'])
-      @loans = Loan.joins(:moneylender).where(moneylender_id: params['id'])
+      @loans = Loan.joins(:moneylender).where(moneylender_id: params['id']).order(:id)
+      @loans.each { |l| l.recal }
    end
 
 private
@@ -19,10 +19,10 @@ private
       #return if user_signed_in?
       if ( current_user.admin? )
          @moneylenders = Moneylender.all
-         @loans = Loan.all
+         @loans = Loan.all.order(:id)
       else
          @moneylenders = Moneylender.where(user: current_user)
-         @loans = Loan.joins(:moneylender).where(moneylenders: { user: current_user })
+         @loans = Loan.joins(:moneylender).where(moneylenders: { user: current_user }).order(:id)
       end
       @loans_count ||= @loans.count
       @total_amount_borrowed ||= @loans.sum(:amount_borrowed)

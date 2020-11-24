@@ -1,4 +1,5 @@
 <%= javascript_pack_tag 'creditors' %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
 
 <div class="btn-group" role="group">
  <button type="button" class="btn btn-danger">
@@ -25,22 +26,30 @@
 <div class="card">
   <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
   <div class="card-body">
-    <h5 class="card-title">
-      Amount borrowed <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%>
-      Balance <%=number_to_currency(@moneylender.loan.sum(:balance))%>
-      Total next payment <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%>
-      Profit paid <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%>   
-    </h5>
-    <p class="card-text">CLABE:<%=@moneylender.clabe%>   acount number:<%=@moneylender.account_number%>.</p>
+    <div class="row card-title">
+      <h5 class="col-2">Amount borrowed</h5>
+      <h5 class="col-2"><%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
+      <h5 class="col-2">Balance</h5>
+      <h5 class="col-2"><%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
+      <h6 class="col-4">CLABE:<%=@moneylender.clabe%><h6>
+    </div>
+    <div class="row card-title">
+      <h6 class="col-2">Total next payment</h6>
+      <h6 class="col-2"><%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
+      <h6 class="col-2">Profit paid </h6>
+      <h6 class="col-2"><%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
+      <h6 class="col-4">Acount number:<%=@moneylender.account_number%><h6>
+    </div>
     <a href="<%=new_loan_path%>" class="btn btn-primary">Add new Loan</a>
   </div>
 </div>
 
 <div class="table-responsive">
-  <table class="table table-hover table-sm">
+  <table id="loanslisttable" class="table table-hover table-sm">
     <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">status</th>
       <th scope="col">User</th>
       <th scope="col">Loan type</th>
       <th scope="col">Borrowed</th>
@@ -48,26 +57,25 @@
       <th scope="col">Amount payment</th>
       <th scope="col">payments</th>
       <th scope="col">payment date</th>
-      <th scope="col">Start Date</th>
-      <th scope="col">End Date</th>
+      <th scope="col">Start/End</th>
     </tr>
     </thead>
     <tbody>
-    <% @loans.each do |loan| %>
+     <% @loans.each do |loan| %>
       <tr <%="class=table-danger data-loanpath="+new_loan_payment_path(loan) if loan.delayed? %>
           <%="class=table-success" if loan.paied? %>
           <%="class=table-primary" if loan.ok? %>
           <%="class=table-secondary" if loan.closed? %> >
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
+        <td><%= loan.status.name %></td>
         <td><%= loan.user.complete_name %></td>
         <td><%= loan.loan_type.short_name %></td>
         <td><%= number_to_currency(loan.amount_borrowed) %></td>
         <td><%= number_to_currency(loan.balance) %></td>
         <td><%= number_to_currency(loan.next_amount_payment) %></td>
         <td><%= loan.payments.count %></td>
-        <td><%= loan.next_payment_date %></td>
-        <td><%= loan.start_date %></td>
-        <td><%= loan.end_date %></td>
+        <td><%=loan.days_left%><br/><small><%= loan.next_payment_date.strftime("%m/%d") %></small></td>
+        <td><small><%= loan.start_date %><br/><%= loan.end_date %></small></td>
       </tr>
      <% end %>
     </tbody>
@@ -75,3 +83,26 @@
 </div>
 
 <div id="dialog_addpayment" title="Add Payment"></div>
+
+
+<!-- Button trigger modal -->
+<button id="launchModalBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+  Launch demo modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      
+    </div>
+  </div>
+</div>

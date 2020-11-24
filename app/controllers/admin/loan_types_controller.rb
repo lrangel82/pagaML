@@ -42,7 +42,7 @@ class Admin::LoanTypesController < ApplicationController
   def update
     respond_to do |format|
       if @loan_type.update(loan_type_params)
-        format.html { redirect_to admin_loan_types_path(@loan_type), notice: 'Loan type was successfully updated.' }
+        format.html { redirect_to admin_loan_type_path(@loan_type), notice: 'Loan type was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan_type }
       else
         format.html { render :edit }

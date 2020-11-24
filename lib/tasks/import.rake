@@ -13,7 +13,7 @@ namespace :import do
       l.id              = row["id"][2..-1].to_i
       l.moneylender_id  = row["quien"] == "M" ? 3 : 1
       l.status_id       = 1
-      l.status_id       = 2 if row["Resta"].to_i <= 0
+      l.status_id       = 2 if row["Pagado"][0..2] == "SI"
       l.loan_type_id = 9                                                                 #id: 9, short_name: "Eterno"
       l.loan_type_id = 3 if row["interes %"] == "30"  && row["semanas"] == "12"          #id: 3, short_name: "12 Semanas 30%",
       l.loan_type_id = 4 if row["interes %"] == "18"  && row["semanas"] == "12"          #id: 4, short_name: "12 Semanas 18%",
