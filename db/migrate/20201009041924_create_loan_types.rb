@@ -1,8 +1,8 @@
 class CreateLoanTypes < ActiveRecord::Migration[6.0]
   def change
     create_table :loan_types do |t|
-      t.string :short_name, limit: 50
-      t.string :description, limit: 500
+      t.text :short_name, limit: 50
+      t.text :description, limit: 500
       t.integer :payment_frequency_days
       t.boolean :is_profit_balane
       t.integer :number_of_payments

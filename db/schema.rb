@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2020_10_13_033247) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "extra_fees", force: :cascade do |t|
     t.integer "loan_id", null: false
     t.decimal "late_fee"
