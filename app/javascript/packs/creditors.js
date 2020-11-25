@@ -15,10 +15,18 @@ $(function(){
        //alert('Aqui' + this + ": path "+path); 
    });
 
+   
+
    var table = $('#loanslisttable').DataTable( {
          paging: false
         //orderCellsTop: true,
         //fixedHeader: true
     } );
+
+   $('#searchDelayed').click(function(){      table.search('Open delayed').draw();   });
+   $('#searchAware').click(function(){        table.search('Open aware').draw();   });
+   $('#searchPaied').click(function(){        table.search('Paid').draw();   });
+   $('#searchClosed').click(function(){       table.search('Close Cancel').draw();   });
+   
 
 });

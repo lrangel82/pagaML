@@ -22,3 +22,15 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+
+https://pagaml.herokuapp.com/
+
+
+$ heroku run rake db:seed import:loans import:payments --app pagaml 
+
+$ heroku run bash
+
+$ heroku run console
+
+$ heroku pg:psql gray
