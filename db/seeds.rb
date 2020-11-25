@@ -5,19 +5,27 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Payment.destroy_all
+Loan.destroy_all
+LoanType.destroy_all
+Moneylender.destroy_all
+User.destroy_all
 Status.destroy_all
-Status.create(name: "Open")
-Status.create(name: "Paid")
-Status.create(name: "Prepaid")
-Status.create(name: "Cancel")
-Status.create(name: "Close")
-Status.create(name: "Defaulter")
+
+ActiveRecord::Base.connection.execute("SELECT setval('statuses_id_seq', (SELECT max(id) FROM statuses));")
+
+Status.create(id: 1, name: "Open")
+Status.create(id: 2, name: "Paid")
+Status.create(id: 3, name: "Prepaid")
+Status.create(id: 4, name: "Cancel")
+Status.create(id: 5, name: "Close")
+Status.create(id: 6, name: "Default")
 
 ActiveRecord::Base.connection.execute("SELECT setval('statuses_id_seq', (SELECT max(id) FROM statuses));")
 
 #User.create(id: 1, email: "r_hermon@hotmail.com", created_at: "2020-10-10 12:42:08", updated_at: "2020-10-10 12:42:08", provider: "facebook", uid: "10158842071261774")
 #<User id: 1, email: "luisrangel@gmail.com", created_at: "2020-10-13 05:01:35", updated_at: "2020-10-13 05:01:35", provider: nil, uid: nil>
-User.destroy_all
+
 User.new(id: 1, email: "luisrangel@gmail.com", password: "mevale14", admin: true, name: "Luis", lastname:"Rangel").save!(:validate => false)
 User.new(id: 2, email: "orozcomartina8@gmail.com", password: "mevale14", admin: true, name: "Martina", lastname:"Orozco").save!(:validate => false)
 
@@ -29,7 +37,7 @@ ActiveRecord::Base.connection.execute("SELECT setval('users_id_seq', (SELECT max
 #User.new(id: 7, email: "foo5@foo.com", password: "foooo14", admin: false, name: "Yuri", lastname:"").save!(:validate => false)
 
 #[["email", "luisrangel@gmail.com"], ["encrypted_password", "$2a$12$UkYFBLzdmpoHYAlpDxtdl.VdtYJA/8PdNjoiTl3KlPGtutAUJO6q6"], ["created_at", "2020-10-13 05:01:35.253233"], ["updated_at", "2020-10-13 05:01:35.253233"]]
-Moneylender.destroy_all
+
 
 Moneylender.create(alias:"LuisBR", clabe:"123456789012345", account_number: 45, bank: "BANREGIO", user_id: 1)
 Moneylender.create(alias:"LuisBX", clabe:"123456789012345", account_number: 45, bank: "BANAMEX", user_id: 1)
@@ -38,7 +46,6 @@ Moneylender.create(alias:"Martina", clabe:"123456789012345", account_number: 45,
 ActiveRecord::Base.connection.execute("SELECT setval('moneylenders_id_seq', (SELECT max(id) FROM moneylenders));")
 
 
-LoanType.destroy_all
 
 LoanType.create(id: 1, short_name: "Mensual 10%", description: "Pago mensual sin limite de pagos 10%", payment_frequency_days: 30, is_profit_balane: true, number_of_payments: nil, profit_by_payment: 0.1e2, total_profit: nil, late_fee: 0.3e3, late_fee_profit: 0.5e1)
 
