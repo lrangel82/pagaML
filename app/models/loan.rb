@@ -22,7 +22,7 @@ class Loan < ApplicationRecord
     self.balance             = balance
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
     Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
-    self.save
+    self.save!
   end
 
   def balance

@@ -39,9 +39,9 @@ ActiveRecord::Base.connection.execute("SELECT setval('users_id_seq', (SELECT max
 #[["email", "luisrangel@gmail.com"], ["encrypted_password", "$2a$12$UkYFBLzdmpoHYAlpDxtdl.VdtYJA/8PdNjoiTl3KlPGtutAUJO6q6"], ["created_at", "2020-10-13 05:01:35.253233"], ["updated_at", "2020-10-13 05:01:35.253233"]]
 
 
-Moneylender.create(alias:"LuisBR", clabe:"123456789012345", account_number: 45, bank: "BANREGIO", user_id: 1)
-Moneylender.create(alias:"LuisBX", clabe:"123456789012345", account_number: 45, bank: "BANAMEX", user_id: 1)
-Moneylender.create(alias:"Martina", clabe:"123456789012345", account_number: 45, bank: "BANCOPEL", user_id: 2)
+Moneylender.create(id: 1,alias:"LuisBR", clabe:"123456789012345", account_number: 45, bank: "BANREGIO", user_id: 1)
+Moneylender.create(id: 2,alias:"LuisBX", clabe:"123456789012345", account_number: 45, bank: "BANAMEX", user_id: 1)
+Moneylender.create(id: 3,alias:"Martina", clabe:"123456789012345", account_number: 45, bank: "BANCOPEL", user_id: 2)
 
 ActiveRecord::Base.connection.execute("SELECT setval('moneylenders_id_seq', (SELECT max(id) FROM moneylenders));")
 
