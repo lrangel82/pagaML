@@ -27,18 +27,19 @@
   <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
   <div class="card-body">
     <div class="row card-title">
-      <h5 class="col-2">Amount borrowed</h5>
-      <h5 class="col-2"><%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
-      <h5 class="col-2">Balance</h5>
-      <h5 class="col-2"><%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
-      <h6 class="col-4">CLABE:<%=@moneylender.clabe%><h6>
+      <h5 class="col-sm">Amount borrowed <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
+      <h5 class="col-sm">Balance <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
+      <div class="col-sm">
+        CLABE:<%=@moneylender.clabe%>
+        <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
+    More &Hacek;</a>
+      </div>
+      
     </div>
-    <div class="row card-title">
-      <h6 class="col-2">Total next payment</h6>
-      <h6 class="col-2"><%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
-      <h6 class="col-2">Profit paid </h6>
-      <h6 class="col-2"><%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
-      <h6 class="col-4">Acount number:<%=@moneylender.account_number%><h6>
+    <div id="collapseCardTitle" class="row card-title collapse">
+      <h6 class="col-sm">Total next payment <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
+      <h6 class="col-sm">Profit paid <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
+      <h6 class="col-sm">Acount number:<%=@moneylender.account_number%><h6>
     </div>
     <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary">Add new Loan</a>
   </div>
