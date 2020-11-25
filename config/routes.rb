@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   resources :creditors, only: [:index, :show]
+  get "creditors/new_loan/:money_lender_id" => "creditors#new_loan"
   resources :loans do
     resources :payments
   end

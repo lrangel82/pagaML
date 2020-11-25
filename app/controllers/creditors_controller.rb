@@ -14,6 +14,15 @@ class CreditorsController < ApplicationController
       @loans.each { |l| l.recal }
    end
 
+   # GET /new_loan/$money_lender_id
+   def new_loan
+      render :index if params['money_lender_id'].nil?
+
+      @moneylender =  Moneylender.find( params['money_lender_id'] )
+      @loan =  @moneylender.loan.build
+      render template: "loans/new" , locals: { loan: @loan}
+   end
+
 private
    def init_creditors
       #return if user_signed_in?
