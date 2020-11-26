@@ -34,5 +34,6 @@ $ heroku run bash
 
 #the console
 $ heroku run jirb --app pagaml  
+$ heroku console --app pagaml  
 
 $ heroku pg:psql gray

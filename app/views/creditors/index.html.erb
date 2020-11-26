@@ -1,11 +1,16 @@
-<h1>Creditors</h1>
+<h1><%=t(:creditors)%></h1>
 
 
 <div class="alert alert-primary" role="alert">
-<h3>Amount borrowed: <%= number_to_currency(@total_amount_borrowed) %>  Balance: <%=number_to_currency(@total_balance)%></h3>
-   <span> # Prestamos otorgados: <%=@loans_count%> </span>
-   <span> Total proximo pago: <%=number_to_currency(@total_next_amount_payment)%><span>
-   <span> Ganancia pagada: <%=number_to_currency(@total_profit)%></span>
+   <div class="row">
+     <h3 class="col-lg"><%=t(:amount_borrowed)%>: <%= number_to_currency(@total_amount_borrowed) %></h3> 
+     <h3 class="col-lg"> <%=t(:balance)%>: <%=number_to_currency(@total_balance)%></h3>
+   </div>
+   <div class="row">
+     <span class="col-sm"> <%=t(:loans_granted)%>: <%=@loans_count%> </span>
+     <span class="col-sm"> <%=t(:next_total_payment)%>: <%=number_to_currency(@total_next_amount_payment)%></span>
+     <span class="col-sm"> <%=t(:profit_paid)%>: <%=number_to_currency(@total_profit)%></span>
+   </div>
 </div>
 
 
@@ -18,36 +23,36 @@
          <small><%=pluralize(moneylender.loan.size, 'prestamos')%></small>
        </div>
        <p class="mb-1">CLABE:<%=moneylender.clabe%>   acount number:<%=moneylender.account_number%></p>
-       <small>Amount borrowed <%=number_to_currency(moneylender.loan.sum(:amount_borrowed))%> </small>
-       <small>Balance <%=number_to_currency(moneylender.loan.sum(:balance))%> </small>
-       <small>Total next payment <%=number_to_currency(moneylender.loan.sum(&:next_amount_payment))%> </small>
-       <small>Profit paid <%=number_to_currency(moneylender.loan.sum{ |l| l.payments.sum(:profit) })%> </small>
+       <small><%=t(:amount_borrowed)%> <%=number_to_currency(moneylender.loan.sum(:amount_borrowed))%> </small>
+       <small><%=t(:balance)%> <%=number_to_currency(moneylender.loan.sum(:balance))%> </small>
+       <small><%=t(:next_total_payment)%> <%=number_to_currency(moneylender.loan.sum(&:next_amount_payment))%> </small>
+       <small><%=t(:profit_paid)%> <%=number_to_currency(moneylender.loan.sum{ |l| l.payments.sum(:profit) })%> </small>
 
        <div>
        <%if (moneylender.loans_delayed > 0 ) %>
        <button type="button" class="btn btn-danger">
-        Retrazados <span class="badge badge-light"><%=moneylender.loans_delayed%></span>
+        <%=t(:retrazados)%> <span class="badge badge-light"><%=moneylender.loans_delayed%></span>
         <span class="sr-only">Prestamos retrazados</span>
        </button>
        <% end %>
 
        <%if (moneylender.loans_ok > 0 ) %>
        <button type="button" class="btn btn-primary">
-        Al corriente <span class="badge badge-light"><%=moneylender.loans_ok%></span>
+        <%=t(:al_corriente)%> <span class="badge badge-light"><%=moneylender.loans_ok%></span>
         <span class="sr-only">Prestamos al corriente</span>
        </button>
        <% end %>
 
        <%if (moneylender.loans_paied > 0 ) %>
        <button type="button" class="btn btn-success">
-        Pagados <span class="badge badge-light"><%=moneylender.loans_paied%></span>
+        <%=t(:pagados)%> <span class="badge badge-light"><%=moneylender.loans_paied%></span>
         <span class="sr-only">Prestamos pagados</span>
        </button>
        <% end %>
 
        <%if (moneylender.loans_closed > 0 ) %>
        <button type="button" class="btn btn-secondary">
-        Cerrados <span class="badge badge-light"><%=moneylender.loans_closed%></span>
+        <%=t(:cerrados)%> <span class="badge badge-light"><%=moneylender.loans_closed%></span>
         <span class="sr-only">Prestamos cerrados</span>
        </button>
        <% end %>

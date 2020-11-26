@@ -3,22 +3,22 @@
 
 <div class="btn-group" role="group">
  <button id="searchDelayed" type="button" class="btn btn-danger">
-  Retrazados <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
+  <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
   <span class="sr-only">Prestamos retrazados</span>
  </button>
 
  <button id="searchAware" type="button" class="btn btn-primary">
-  Al corriente <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
+  <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
   <span class="sr-only">Prestamos al corriente</span>
  </button>
 
  <button id="searchPaied" type="button" class="btn btn-success">
-  Pagados <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
+  <%=t(:pagados)%> <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
   <span class="sr-only">Prestamos pagados</span>
  </button>
 
  <button id="searchClosed" type="button" class="btn btn-secondary">
-  Cerrados <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
+  <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
   <span class="sr-only">Prestamos Cerrados</span>
  </button>
  </div>
@@ -27,21 +27,21 @@
   <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
   <div class="card-body">
     <div class="row card-title">
-      <h5 class="col-sm">Amount borrowed <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
-      <h5 class="col-sm">Balance <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
+      <h5 class="col-sm"><%=t(:amount_borrowed)%> <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
+      <h5 class="col-sm"><%=t(:balance)%> <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
       <div class="col-sm">
         CLABE:<%=@moneylender.clabe%>
         <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
-    More &Hacek;</a>
+    <%=t(:more)%> &Hacek;</a>
       </div>
       
     </div>
     <div id="collapseCardTitle" class="row card-title collapse">
-      <h6 class="col-sm">Total next payment <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
-      <h6 class="col-sm">Profit paid <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
-      <h6 class="col-sm">Acount number:<%=@moneylender.account_number%><h6>
+      <h6 class="col-sm"><%=t(:next_total_payment)%>  <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
+      <h6 class="col-sm"><%=t(:profit_paid)%> <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
+      <h6 class="col-sm"><%=t(:account)%>:<%=@moneylender.account_number%><h6>
     </div>
-    <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary">Add new Loan</a>
+    <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary"><%=t(:add_new_loan)%></a>
   </div>
 </div>
 
