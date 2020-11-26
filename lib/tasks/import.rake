@@ -43,6 +43,7 @@ namespace :import do
       l.recal
       puts "#{l.inspect}  #{l.code}  for #{l.amount_borrowed} saved"
     end
+    ActiveRecord::Base.connection.execute("SELECT setval('loans_id_seq', (SELECT max(id) FROM loans));")
   end
 
   task payments: :environment do
@@ -64,6 +65,7 @@ namespace :import do
       p.loan.recal
       puts "Saved  #{p.inspect}"
     end
+    ActiveRecord::Base.connection.execute("SELECT setval('payments_id_seq', (SELECT max(id) FROM payments));")
   end
 
 end

@@ -1,32 +1,41 @@
 <p id="notice"><%= notice %></p>
 
 <div class="card">
-  <h5 class="card-header"><%=@loan.moneylender.alias%> banco: <%=@loan.moneylender.bank%> </h5>
-  <h5 class="mb-1">$<%=@loan.next_amount_payment%> a pagar el <%=@loan.next_payment_date%> </h5>
- 
-  <div class="row">
-    <div class="col"><strong>Moneylender:</strong><%= @loan.moneylender.alias %></div>
-    <div class="col"><strong>Status:</strong><%= @loan.status.name %></div>
-    <div class="col"><%= @loan.user.complete_name %></div>
-    <div class="col"><%= @loan.loan_type.short_name %></div>
-    <div class="col"><strong>Loan date:</strong><%= @loan.loan_date %></div>
+  <div class="card-header <%="bg-danger" if @loan.delayed? %>
+          <%="bg-success" if @loan.paied? %>
+          <%="bg-primary" if @loan.ok? %>
+          <%="bg-secondary" if @loan.closed? %>">
+          <%= link_to 'Edit Loan', edit_loan_path(@loan), class: 'btn btn-outline-dark float-right' %>
+          <h5><%=@loan.status_text%> <%=@loan.user.complete_name%> <%=number_to_currency(@loan.amount_borrowed)%></h5>
+          
   </div>
-  <div class="row">
-    <div class="col"><strong>Borrowed:</strong><%= number_to_currency(@loan.amount_borrowed) %></div>
-    <div class="col"><strong>Balance:</strong> <%= number_to_currency(@loan.balance) %></div>
-    <div class="col"><strong>Start date:</strong><%= @loan.start_date %></div>
-    <div class="col"><strong>End date:</strong><%= @loan.end_date %></div>
-    <div class="col"><strong><%=pluralize(@loan.payments.size, 'pago')%></strong></div>
+  <h5 class="mb-1">Next payment:<strong><%= number_to_currency(@loan.next_amount_payment) %></strong></h5>
+  <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
+    More &Hacek;</a>
+
+  <div id="collapseCardTitle" class="card-title collapse">
+    <div class="row">
+      <div class="col-sm">Type: <strong><%= @loan.loan_type.short_name %></strong></div>
+      <div class="col-sm">Payment date: <strong><%= @loan.next_payment_date.strftime("%A %m/%d") %></strong></div>
+      <div class="col-sm"><strong>Start:</strong><%= @loan.start_date %><br/><strong>End:</strong><%= @loan.end_date %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm"><strong>Money lender:</strong> <%= @loan.moneylender.alias %></div>
+      <div class="col-sm"><strong>Borrowed:</strong> <%= number_to_currency(@loan.amount_borrowed) %></div>
+      <div class="col-sm"><strong>Balance:</strong> <%= number_to_currency(@loan.balance) %></div>
+    </div>
+    <div class="row">
+      <div class="col-sm"><strong><%=pluralize(@loan.payments.size, 'pago')%></strong></div>
+      <div class="col-sm"><strong>Created date:</strong><%= @loan.loan_date %></div>
+      <div class="col-sm"><strong>Next payment date:</strong><%= @loan.next_payment_date %></div>
+    </div>
   </div>
-  <div class="row">
-    <div class="col"><strong>Next payment:</strong><%= number_to_currency(@loan.next_amount_payment) %></div>
-    <div class="col"><strong>Next payment date:</strong><%= @loan.next_payment_date %></div> 
-  </div>
+  
 </div>
+<%= link_to 'Delete Loan', [@loan], method: :delete, data: { confirm: 'Are you sure to delete this loan?' }, class: 'btn btn-outline-danger float-right' %>
 <p class="mb-1">.</p>
 <small>cantidad en deuda $<%=@loan.balance%> finaliza el <%=@loan.start_date%></small>
 
 <%= render template: "payments/index" %>
 
-<%= link_to 'Edit', edit_admin_loan_path(@loan) %> |
-<%= link_to 'Back', admin_loans_path %>
+<%= link_to 'Back', creditor_path(@loan.moneylender_id), class: "btn btn-secondary btn-lg" %>

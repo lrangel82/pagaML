@@ -39,16 +39,22 @@ class Loan < ApplicationRecord
   end
 
   def delayed?
-    next_payment_date < Time.now && status_id == 1
+    next_payment_date < Date.today && status_id == 1
   end
   def paied?
     balance <= 0 && (status_id == 2 or status_id == 3)
   end
   def ok?
-    next_payment_date > Time.now && status_id == 1
+    next_payment_date >= Date.today && status_id == 1
   end
   def closed?
     status_id == 4 or status_id == 5
+  end
+
+  def status_text
+    return status.name + " delayed" if delayed?
+    return status.name + " aware" if ok?
+    status.name
   end
 
   def days_left
@@ -118,4 +124,6 @@ class Loan < ApplicationRecord
     _profit = recal_profit(base_amount)
     base_amount - _profit
   end
+
+
 end

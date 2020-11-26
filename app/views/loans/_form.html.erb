@@ -1,4 +1,4 @@
-<%= form_with(model: @loan, url: loans_path, local: true) do |form| %>
+<%= form_with(model: @loan, local: true) do |form| %>
   <% if loan.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(loan.errors.count, "error") %> prohibited this loan from being saved:</h2>
@@ -36,7 +36,7 @@
 
     <div class="form-group col-4">
       <%= form.label :user_id %>
-      <%= form.collection_select :user_id, User.order(:id), :id, :email, {include_blank: false}, {:class=>"form-control"} %>
+      <%= form.collection_select :user_id, User.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
 
     
@@ -46,13 +46,13 @@
     <div class="form-group col-4">
       <%= form.label :loan_date %>
       <% form.date_select :loan_date %>
-      <%= form.text_field :loan_date, :value=> Date.today, :class=>"form-control datepicker" %>
+      <%= form.text_field :loan_date, :class=>"form-control datepicker" %>
     </div>
 
     <div class="form-group col-4">
       <%= form.label :start_date %>
       <% form.date_select :start_date %>
-      <%= form.text_field :start_date, :value=> Date.today, :class=>"form-control datepicker" %>
+      <%= form.text_field :start_date, :class=>"form-control datepicker" %>
     </div>
 
   </div>
@@ -64,3 +64,5 @@
     <%= form.submit nil, class: 'btn btn-success' %>
   </div>
 <% end %>
+
+<%= javascript_pack_tag 'defaults' %>

@@ -5,13 +5,17 @@ require("custom/jquery.dataTables")
 $(function(){
    
    $('#loanslisttable tr').click (function() {
-       f = $(this).data("loanpath") + '.json'
-       $.get( f , function(data) {
-         //alert("response:" + data)
-         $('#exampleModalCenter div.modal-body').html(data);
-         $('#launchModalBtn').click();
-         //$('#exampleModalCenter').modal('show')
-       } , "text");
+       f = $(this).data("dialogpath")
+       if( f ){
+          f = f + '.json'
+          $.get( f , function(data) {
+            $('#exampleModalCenter div.modal-body').html(data);
+            $('#launchModalBtn').click();
+          } , "text");
+       }else{
+          f = $(this).data("loanpath")
+          document.location = f;
+       }
        //alert('Aqui' + this + ": path "+path); 
    });
 

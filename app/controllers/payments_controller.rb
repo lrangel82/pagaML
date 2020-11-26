@@ -16,9 +16,13 @@ class PaymentsController < ApplicationController
   # GET loans/$loan_id/payments/new
   def new
     @payment = @loan.payments.build #Payment.new
+    @payment.payment_date = Date.today
+    @payment.amount = @loan.next_amount_payment.round(2)
+    @payment.profit = @loan.recal_profit( @loan.next_amount_payment ).round(2)
+    @payment.payment_to_borrowed = @loan.recal_payment_to_borroewd( @loan.next_amount_payment ).round(2)
     respond_to do |format|
       format.html { render "new" }
-      format.json { render partial: "form", formats: "html", locals: { payment: @payment } }
+      format.json { render partial: "form", formats: "html", locals: { payment: @payment , backpath: "#"} }
     end
   end
 

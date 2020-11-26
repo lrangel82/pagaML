@@ -1,5 +1,3 @@
 <h1>Editing Payment</h1>
 
-<%= render 'form', payment: @payment %>
-
-<%= link_to 'Back', loan_path(@loan) %>
+<%= render partial: 'form', locals:{ payment: @payment, backpath: loan_path(@loan)} %>

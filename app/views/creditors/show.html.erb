@@ -63,10 +63,10 @@
     </thead>
     <tbody>
      <% @loans.each do |loan| %>
-      <tr <%="class=table-danger data-loanpath="+new_loan_payment_path(loan) if loan.delayed? %>
+      <tr <%="class=table-danger data-dialogpath="+new_loan_payment_path(loan) if loan.delayed? %>
           <%="class=table-success" if loan.paied? %>
           <%="class=table-primary" if loan.ok? %>
-          <%="class=table-secondary" if loan.closed? %> >
+          <%="class=table-secondary" if loan.closed? %> data-loanpath="<%=loan_path(loan)%>">
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
         <td><%= loan.status.name %><br/><small>
           <%="delayed" if loan.delayed? %>
@@ -86,11 +86,10 @@
   </table>
 </div>
 
-<div id="dialog_addpayment" title="Add Payment"></div>
-
+<%= link_to 'Back', creditors_path, class: "btn btn-secondary btn-lg" %>
 
 <!-- Button trigger modal -->
-<button id="launchModalBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+<button id="launchModalBtn" type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
   Launch demo modal
 </button>
 <!-- Modal -->

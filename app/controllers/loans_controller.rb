@@ -26,9 +26,11 @@ class LoansController < ApplicationController
   def create
     @loan = Loan.new(loan_params)
     
+
+
     respond_to do |format|
-      if @loan.save
-        format.html { redirect_to loan_path(@loan), notice: 'Loan was successfully created.' }
+      if @loan.save!
+        format.html { redirect_to creditor_path(@loan.moneylender_id), notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class LoansController < ApplicationController
   def update
     respond_to do |format|
       if @loan.update(loan_params)
-        format.html { redirect_to admin_loan_path(@loan), notice: 'Loan was successfully updated.' }
+        format.html { redirect_to creditor_path(@loan.moneylender_id), notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else
         format.html { render :edit }
@@ -54,9 +56,10 @@ class LoansController < ApplicationController
   # DELETE /loans/1
   # DELETE /loans/1.json
   def destroy
+    moneylender_id = @loan.moneylender_id
     @loan.destroy
     respond_to do |format|
-      format.html { redirect_to admin_loans_url, notice: 'Loan was successfully destroyed.' }
+      format.html { redirect_to creditor_path(moneylender_id), notice: 'Loan was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
