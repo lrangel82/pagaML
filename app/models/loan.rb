@@ -6,6 +6,9 @@ class Loan < ApplicationRecord
   has_many :extra_fees
   has_many :payments
 
+  validates :start_date, presence: true
+  validates :loan_date, presence: true
+
   include ActionView::Helpers::NumberHelper
 
   def name
