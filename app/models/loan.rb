@@ -94,7 +94,7 @@ class Loan < ApplicationRecord
       months_to_add = 0
       days_to_add = loan_type.payment_frequency_days * (payments.count + 1)
     end
-    next_payment_date = start_date + months_to_add
+    next_payment_date = start_date + months_to_add.month
     next_payment_date = next_payment_date + days_to_add.day
   end
 
