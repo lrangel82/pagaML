@@ -8,6 +8,7 @@ class Loan < ApplicationRecord
 
   validates :start_date, presence: true
   validates :loan_date, presence: true
+  validates :amount_borrowed, presence: true
 
   include ActionView::Helpers::NumberHelper
 
@@ -24,7 +25,7 @@ class Loan < ApplicationRecord
     self.next_amount_payment = recal_next_amount_payment
     self.balance             = balance
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
-    Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
+    #Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
     self.save!
   end
 
@@ -55,9 +56,10 @@ class Loan < ApplicationRecord
   end
 
   def status_text
-    return status.name + " delayed" if delayed?
-    return status.name + " aware" if ok?
-    status.name
+    tmp = I18n.t(status.name.downcase)
+    return tmp+ " "+ I18n.t(:delayed) if delayed?
+    return tmp+ " "+ I18n.t(:aware) if ok?
+    tmp
   end
 
   def days_left

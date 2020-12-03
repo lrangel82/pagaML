@@ -20,7 +20,10 @@ class CreditorsController < ApplicationController
 
       @moneylender =  Moneylender.find( params['money_lender_id'] )
       @loan =  @moneylender.loan.build
-      render template: "loans/new" , locals: { loan: @loan}
+      #@new_user = { add_new_user: "false", name: nil, lastnme: nil, email: nil }
+      @new_user = User.new
+      @add_new_user = false
+      render template: "loans/new" , locals: { loan: @loan }
    end
 
 private

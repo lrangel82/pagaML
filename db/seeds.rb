@@ -26,8 +26,9 @@ ActiveRecord::Base.connection.execute("SELECT setval('statuses_id_seq', (SELECT 
 #User.create(id: 1, email: "r_hermon@hotmail.com", created_at: "2020-10-10 12:42:08", updated_at: "2020-10-10 12:42:08", provider: "facebook", uid: "10158842071261774")
 #<User id: 1, email: "luisrangel@gmail.com", created_at: "2020-10-13 05:01:35", updated_at: "2020-10-13 05:01:35", provider: nil, uid: nil>
 
-User.new(id: 1, email: "luisrangel@gmail.com", password: "mevale14", admin: true, name: "Luis", lastname:"Rangel").save!(:validate => false)
+User.new(id: 1, email: "luisrangel@gmail.com", password: "mevale14", admin: false, name: "Luis", lastname:"Rangel").save!(:validate => false)
 User.new(id: 2, email: "orozcomartina8@gmail.com", password: "mevale14", admin: true, name: "Martina", lastname:"Orozco").save!(:validate => false)
+User.new(id: 3, email: "pepetoro@gmail.com", password: "mevale14", admin: true, name: "Pepe", lastname:"Toro").save!(:validate => false)
 
 ActiveRecord::Base.connection.execute("SELECT setval('users_id_seq', (SELECT max(id) FROM users));")
 #User.new(id: 3, email: "foo1@foo.com", password: "foooo14", admin: false, name: "Tania", lastname:"").save!(:validate => false)
@@ -39,7 +40,7 @@ ActiveRecord::Base.connection.execute("SELECT setval('users_id_seq', (SELECT max
 #[["email", "luisrangel@gmail.com"], ["encrypted_password", "$2a$12$UkYFBLzdmpoHYAlpDxtdl.VdtYJA/8PdNjoiTl3KlPGtutAUJO6q6"], ["created_at", "2020-10-13 05:01:35.253233"], ["updated_at", "2020-10-13 05:01:35.253233"]]
 
 
-Moneylender.create(id: 1,alias:"LuisBR", clabe:"123456789012345", account_number: 45, bank: "BANREGIO", user_id: 1)
+Moneylender.create(id: 1,alias:"Pepe BR", clabe:"123456789012345", account_number: 45, bank: "BANREGIO", user_id: 3)
 Moneylender.create(id: 2,alias:"LuisBX", clabe:"123456789012345", account_number: 45, bank: "BANAMEX", user_id: 1)
 Moneylender.create(id: 3,alias:"Martina", clabe:"123456789012345", account_number: 45, bank: "BANCOPEL", user_id: 2)
 

@@ -6,7 +6,7 @@ class Moneylender < ApplicationRecord
       @loans_delayed ||= loan.where( "next_payment_date < ? and status_id=1", Time.now).count
    end
    def loans_ok
-      @loans_ok ||= loan.where( "next_payment_date > ? and status_id=1", Time.now).count
+      @loans_ok ||= loan.where( "next_payment_date >= ? and status_id=1", Time.now).count
    end
    def loans_paied
       @loans_paied ||= loan.where(status_id: [2,3]).count

@@ -23,7 +23,6 @@
 
     <div class="form-group col-md">
       <%= form.label :payment_date %>
-      <% form.date_select :payment_date,{}, {:class=>"form-control"} %>
       <%= form.text_field :payment_date, :class=>"form-control datepicker" %>
     </div>
   </div>
@@ -31,7 +30,7 @@
   <div class="row">
     <div class="form-group col-md">
       <%= form.label :profit %>
-      <%= form.text_field :profit, :class=>"form-control-sm" %>
+      <%= form.text_field :profit, :class=>"form-control-sm form-control-plaintext" %>
     </div>
 
     <div class="form-group  col-md">
@@ -48,7 +47,8 @@
 
   <div class="modal-footer">
     <!--button href="<%=backpath %>" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button-->
-    <%= link_to 'Cancel', backpath, class: "btn btn-secondary", data: { dismiss: "modal"} %>
-    <%= form.submit nil, class: 'btn btn-success' %>
+    <%= link_to t('payment.cancel'), backpath, class: "btn btn-secondary", data: { dismiss: "modal"} %>
+    <%= form.submit t('payment.add_payment'), class: 'btn btn-success' %>
   </div>
 <% end %>
+<%= javascript_pack_tag 'defaults' %>

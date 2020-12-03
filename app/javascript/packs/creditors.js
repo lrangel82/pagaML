@@ -1,4 +1,4 @@
-//require("jquery-ui")
+require("jquery-ui")
 require("custom/jquery.dataTables")
 
 
@@ -8,10 +8,13 @@ $(function(){
        f = $(this).data("dialogpath")
        if( f ){
           f = f + '.json'
-          $.get( f , function(data) {
-            $('#exampleModalCenter div.modal-body').html(data);
+          //$.get( f , function(data) {
+          //  $('#exampleModalCenter div.modal-body').innerHTML(data);
+          //  $('#launchModalBtn').click();
+          //} , "text");
+          $('#exampleModalCenter div.modal-body').load(f, function(){
             $('#launchModalBtn').click();
-          } , "text");
+          });
        }else{
           f = $(this).data("loanpath")
           document.location = f;
@@ -19,6 +22,7 @@ $(function(){
        //alert('Aqui' + this + ": path "+path); 
    });
 
+   $('.datepicker').datepicker({dateFormat: "yy-mm-dd"});
    
 
    var table = $('#loanslisttable').DataTable( {
@@ -27,10 +31,6 @@ $(function(){
         //fixedHeader: true
     } );
 
-   $('#searchDelayed').click(function(){      table.search('Open delayed').draw();   });
-   $('#searchAware').click(function(){        table.search('Open aware').draw();   });
-   $('#searchPaied').click(function(){        table.search('Paid').draw();   });
-   $('#searchClosed').click(function(){       table.search('Close Cancel').draw();   });
-   
+   $('.searchloantable').click(function(){    table.search($(this).data("searchtext")).draw();  });
 
 });

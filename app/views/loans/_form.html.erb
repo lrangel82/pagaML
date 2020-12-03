@@ -1,10 +1,13 @@
 <%= form_with(model: @loan, local: true) do |form| %>
-  <% if loan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(loan.errors.count, "error") %> prohibited this loan from being saved:</h2>
+  <% if loan.errors.any? || new_user.errors.any? %>
+    <div id="error_explanation" class="alert alert-warning" role="alert">
+      <h2><%= pluralize(loan.errors.count + new_user.errors.count, "error") %> </h2>
 
       <ul>
         <% loan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        <% new_user.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -29,29 +32,46 @@
   </div>
 
   <div class="row">
+
     <div class="form-group col-4">
       <%= form.label :loan_type_id %>
       <%= form.collection_select :loan_type_id, LoanType.order(:short_name), :id, :short_name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
-
-    <div class="form-group col-4">
+    <div id="collapseListUser" class="form-group col-4 collapse multicollapseNewUser <%='show' if @add_new_user !='true'%>">
       <%= form.label :user_id %>
       <%= form.collection_select :user_id, User.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
+  </div>
+  <button id="btn_add_new_user_in_loan" class="float-right btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
+    New User &Hacek;</button>
 
-    
+  <div id="collapseNewUser" class="card  collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
+      <h5 class="card-header">New User</h5>
+      <div class="row card-body">
+        <%=hidden_field(:add, :new_user, value: @add_new_user) %>
+        <div class="form-group col-4">
+          <%= label  :new_user, :name %>
+          <%= text_field :new_user, :name, :class=>"form-control" %>
+        </div>
+        <div class="form-group col-4">
+          <%= label  :new_user,:lastname %>
+          <%= text_field :new_user,:lastname, :class=>"form-control" %>
+        </div>
+        <div class="form-group col-4">
+          <%= label  :new_user,:email %>
+          <%= email_field :new_user,:email, :class=>"form-control" %>
+        </div>
+      </div>
   </div>
 
   <div class="row">
     <div class="form-group col-4">
       <%= form.label :loan_date %>
-      <% form.date_select :loan_date %>
       <%= form.text_field :loan_date, :class=>"form-control datepicker" %>
     </div>
 
     <div class="form-group col-4">
       <%= form.label :start_date %>
-      <% form.date_select :start_date %>
       <%= form.text_field :start_date, :class=>"form-control datepicker" %>
     </div>
 

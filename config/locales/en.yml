@@ -63,3 +63,64 @@ en:
 
   search: "Search"
 
+  #Status
+  open: "Open"
+  paid: "Paid"
+  prepaid: "Prepaid"
+  cancel: "Cancel"
+  close: "Close"
+  default: "Default"
+
+  delayed: "retrazado"
+  aware: "al corriente"
+
+  buttons:
+    back: "Back"
+
+  payment:
+    add_payment: "Add payment"
+    edit: "Editar"
+    destroy_payment: "Eliminar pago"
+    cancel: "Cancel"
+    table:
+      date: "Fecha"
+      amount: "Cantidad"
+      profit: "Profit"
+      payment: "Payment"
+      status: "Status"
+
+  loan:
+    next_payment:      "Next payment"
+    type:              "Type"
+    payment_date:      "Payment date"
+    start:             "Start"
+    end:               "End"
+    money_lender:      "Money lender"
+    borrowed:          "Borrowed"
+    balance:           "Balance"
+    created_date:      "Created date"
+    next_payment_date: "Next payment date"
+    edit_loan:         "Edit Loan"
+    delete_loan:       "Delete Loan"
+
+  loan_table:
+    status: "Status"
+    amount_payment: "Amount payment"
+    user: "User"
+    loan_type: "Loan type"
+    borrowed: "Borrowed"
+    balance: "Balance"
+    payments: "Payments"
+    payment_date: "Payment date"
+    start_end: "Start/End"
+
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Record invalid"
+      models:
+          user:
+            attributes:
+              email:
+                taken: "Email was taken before, type a new one"

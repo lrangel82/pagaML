@@ -14,7 +14,11 @@ class LoansController < ApplicationController
 
   # GET /loans/new
   def new
-    @loan = Loan.new
+    #/////////////////////////////////////////////////////////
+    #THIS IS NOT USED look into creditors_controller#new_loan
+    #/////////////////////////////////////////////////////////
+    #@loan = Loan.new
+    #@new_user='papa con capsu'
   end
 
   # GET /loans/1/edit
@@ -24,12 +28,27 @@ class LoansController < ApplicationController
   # POST /loans
   # POST /loans.json
   def create
-    @loan = Loan.new(loan_params)
+    param_newloan = loan_params
+    Rails.logger.info "LARANGEL: params: #{param_newloan.inspect}"
+    @loan = Loan.new(param_newloan[:loan])
+    @new_user = User.new(param_newloan[:new_user]);
+    @add_new_user = param_newloan[:add][:new_user]
+    if ( param_newloan[:add].has_key?(:new_user)  && param_newloan[:add][:new_user] == "true" )
+      #We need to create a new user
+      @new_user.password = "mevale14"
+      unless ( @new_user.save )
+        respond_to do |format|
+          format.html { render :new }
+          format.json { render json: @new_user.errors, status: :unprocessable_entity }
+        end
+        return
+      end
+
+      @loan.user_id = @new_user.id
+    end
     
-
-
     respond_to do |format|
-      if @loan.save!
+      if @loan.save
         format.html { redirect_to creditor_path(@loan.moneylender_id), notice: 'Loan was successfully created.' }
         format.json { render :show, status: :created, location: @loan }
       else
@@ -43,7 +62,7 @@ class LoansController < ApplicationController
   # PATCH/PUT /loans/1.json
   def update
     respond_to do |format|
-      if @loan.update(loan_params)
+      if @loan.update(loan_params[:loan])
         format.html { redirect_to creditor_path(@loan.moneylender_id), notice: 'Loan was successfully updated.' }
         format.json { render :show, status: :ok, location: @loan }
       else
@@ -72,6 +91,6 @@ class LoansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def loan_params
-      params.require(:loan).permit(:moneylender_id, :status_id, :loan_type_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment,:user_id)
+      params.permit(loan: [ :moneylender_id, :status_id, :loan_type_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment,:user_id ], new_user:[ :name, :lastname, :email ], add: [:new_user]  )
     end
 end

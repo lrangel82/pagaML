@@ -2,22 +2,22 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
 
 <div class="btn-group" role="group">
- <button id="searchDelayed" type="button" class="btn btn-danger">
+ <button id="searchDelayed" type="button" class="btn btn-danger searchloantable" data-searchtext="<%=t(:open)+' '+t(:delayed)%>">
   <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
   <span class="sr-only">Prestamos retrazados</span>
  </button>
 
- <button id="searchAware" type="button" class="btn btn-primary">
+ <button id="searchAware" type="button" class="btn btn-primary searchloantable" data-searchtext="<%=t(:open)+' '+t(:aware)%>">
   <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
   <span class="sr-only">Prestamos al corriente</span>
  </button>
 
- <button id="searchPaied" type="button" class="btn btn-success">
+ <button id="searchPaied" type="button" class="btn btn-success searchloantable" data-searchtext="<%=t(:paid)%>">
   <%=t(:pagados)%> <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
   <span class="sr-only">Prestamos pagados</span>
  </button>
 
- <button id="searchClosed" type="button" class="btn btn-secondary">
+ <button id="searchClosed" type="button" class="btn btn-secondary searchloantable" data-searchtext="<%=t(:close)%>">
   <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
   <span class="sr-only">Prestamos Cerrados</span>
  </button>
@@ -50,15 +50,15 @@
     <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">status</th>
-      <th scope="col">User</th>
-      <th scope="col">Loan type</th>
-      <th scope="col">Borrowed</th>
-      <th scope="col">Balance</th>
-      <th scope="col">Amount payment</th>
-      <th scope="col">payments</th>
-      <th scope="col">payment date</th>
-      <th scope="col">Start/End</th>
+      <th scope="col"><%=t('loan_table.status')%></th>
+      <th scope="col"><%=t('loan_table.amount_payment')%></th>
+      <th scope="col"><%=t('loan_table.user')%></th>
+      <th scope="col"><%=t('loan_table.loan_type')%></th>
+      <th scope="col"><%=t('loan_table.borrowed')%></th>
+      <th scope="col"><%=t('loan_table.balance')%></th>
+      <th scope="col"><%=t('loan_table.payments')%></th>
+      <th scope="col"><%=t('loan_table.payment_date')%></th>
+      <th scope="col"><%=t('loan_table.start_end')%></th>
     </tr>
     </thead>
     <tbody>
@@ -68,15 +68,15 @@
           <%="class=table-primary" if loan.ok? %>
           <%="class=table-secondary" if loan.closed? %> data-loanpath="<%=loan_path(loan)%>">
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
-        <td><%= loan.status.name %><br/><small>
-          <%="delayed" if loan.delayed? %>
-          <%="aware" if loan.ok? %> 
+        <td><%= t(loan.status.name.downcase) %><br/><small>
+          <%=t(:delayed) if loan.delayed? %>
+          <%=t(:aware) if loan.ok? %> 
           </small></td>
+        <td><%= number_to_currency(loan.next_amount_payment) %></td>
         <td><%= loan.user.complete_name %></td>
         <td><%= loan.loan_type.short_name %></td>
         <td><%= number_to_currency(loan.amount_borrowed) %></td>
         <td><%= number_to_currency(loan.balance) %></td>
-        <td><%= number_to_currency(loan.next_amount_payment) %></td>
         <td><%= loan.payments.count %></td>
         <td><%=loan.days_left%><br/><small><%= loan.next_payment_date.strftime("%m/%d") %></small></td>
         <td><small><%= loan.start_date %><br/><%= loan.end_date %></small></td>
@@ -97,7 +97,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><%=t('payment.add_payment')%></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

@@ -63,3 +63,82 @@ es:
   add_new_loan: "Nuevo Prestamo"
 
   search: "Buscar"
+
+  #Status
+  open: "Activo"
+  paid: "Pagado"
+  prepaid: "Prepagado"
+  cancel: "Cancelado"
+  close: "Cerrado"
+  default: "Default"
+
+  delayed: "retrazado"
+  aware: "al corriente"
+
+  buttons:
+    back: "Atras"
+
+  payment:
+    add_payment: "Agregar abono"
+    edit: "Editar"
+    destroy_payment: "Eliminar pago"
+    cancel: "Cancelar"
+    table:
+      date: "Fecha"
+      amount: "Cantidad"
+      profit: "Interes"
+      payment: "Abono"
+      status: "Estado"
+
+  loan:
+    next_payment:      "Siguiente pago"
+    type:              "Tipo deuda"
+    payment_date:      "Fecha de pago"
+    start:             "Inicia"
+    end:               "Finaliza"
+    money_lender:      "Quien presta"
+    borrowed:          "Monto prestado"
+    balance:           "Deuda actual"
+    created_date:      "Fecha creado"
+    next_payment_date: "Siguiente fecha de pago"
+    edit_loan:         "Editar Prestamo"
+    delete_loan:       "Elimina Prestamo"
+
+  loan_table:
+    status: "Estado"
+    amount_payment: "Monto Pago"
+    user: "Usuario"
+    loan_type: "Tipo prestamo"
+    borrowed: "Prestado"
+    balance: "Deuda"
+    payments: "Pagos"
+    payment_date: "Fecha de pago"
+    start_end: "Ini/Fin"
+
+  helpers:
+    label:
+      payment:
+        amount: "Cantidad"
+        payment_date: "Fecha"
+        profit: "Interes"
+        payment_to_borrowed: "Abono a capital"
+        status_id: "Estado"
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Registro invalido"
+      models:
+        loan:
+          attributes:
+            start_date:
+              blank: "debe ingresar una fecha valida"
+            loan_date:
+              blank: "debe ingresar una fecha valida"
+            amount_borrowed:
+              blank: "debe ingresar una fecha valida"
+              
+        user:
+          attributes:
+            email:
+              taken: "El correo ya existe favor de escoger uno nuevo"
