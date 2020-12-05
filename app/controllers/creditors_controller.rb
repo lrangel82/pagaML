@@ -1,5 +1,5 @@
 class CreditorsController < ApplicationController
-   #before_action :authenticate_admin!
+   before_action :authenticate_admin!
 
    #GET creditors/index
    def index

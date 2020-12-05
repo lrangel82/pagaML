@@ -2,13 +2,30 @@
 <% if(@loans.size > 0) %>
    <div class="list-group">
    <% @loans.each do |loan| %>
-      <a href="#" class="list-group-item list-group-item-action">
+      <a href="<%=loan_path(loan)%>" class="list-group-item list-group-item-action text-white <%="bg-danger" if loan.delayed? %>
+          <%="bg-success" if loan.paied? %>
+          <%="bg-primary" if loan.ok? %>
+          <%="bg-secondary" if loan.closed? %>">
        <div class="d-flex w-100 justify-content-between">
-         <h5 class="mb-1">$<%=loan.next_amount_payment%> a pagar el <%=loan.next_payment_date%> </h5>
+         <h5 class="mb-1"><%= number_to_currency(loan.next_amount_payment) %> a pagar el <%=loan.next_payment_date%> </h5>
          <small><%=pluralize(loan.payments.size, 'pago')%></small>
        </div>
-       <p class="mb-1">Todo va en orden, cualquier cosa aqui ira ocmo si fuera un mensaje o vacio.</p>
-       <small>cantidad en deuda $<%=loan.balance%> finaliza el <%=loan.start_date%></small>
+       <p class="mb-1">El total de prestamo fue de <%= number_to_currency(loan.amount_borrowed) %> realizado el <%= loan.start_date.strftime("%y/%m/%d") %>, le debe a <b><%= loan.moneylender.alias %></b>.</p>
+       <p>
+         Deposito en <b><%= loan.moneylender.bank %></b> CLABE: <b><%= loan.moneylender.clabe %></b> numero de cuenta: <%=loan.moneylender.account_number%> 
+       </p>
+       <p class="d-flex w-100 justify-content-between">
+         <% if loan.status_id != 2 %>  
+           Finaliza el <%=loan.end_date.strftime("%y/%m/%d")%>
+           <small> 
+            <%="Retrazado" if loan.delayed?%>
+            <%="Pago en" unless loan.delayed?%> 
+            <%=pluralize(loan.days_left, 'dia')%>
+           </small>
+         <% else %>
+            <%=loan.status_text%>
+         <% end %>
+       </p>
      </a>
    <% end %>
    </div>

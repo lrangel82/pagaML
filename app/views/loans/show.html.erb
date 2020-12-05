@@ -5,7 +5,7 @@
           <%="bg-success" if @loan.paied? %>
           <%="bg-primary" if @loan.ok? %>
           <%="bg-secondary" if @loan.closed? %>">
-          <%= link_to t('loan.edit_loan'), edit_loan_path(@loan), class: 'btn btn-outline-dark float-right' %>
+          <%= link_to t('loan.edit_loan'), edit_loan_path(@loan), class: 'btn btn-outline-dark float-right' if @can_user_edit%>
           <h5><%=@loan.status_text%> <%=@loan.user.complete_name%> <%=number_to_currency(@loan.amount_borrowed)%></h5>
           
   </div>
@@ -32,8 +32,12 @@
   </div>
   
 </div>
-<%= link_to t('loan.delete_loan'), [@loan], method: :delete, data: { confirm: 'Are you sure to delete this loan?' }, class: 'btn btn-outline-danger float-right' %>
+<%= link_to t('loan.delete_loan'), [@loan], method: :delete, data: { confirm: 'Are you sure to delete this loan?' }, class: 'btn btn-outline-danger float-right' if @can_user_edit %>
 
 <%= render template: "payments/index" %>
 
-<%= link_to t('buttons.back'), creditor_path(@loan.moneylender_id), class: "btn btn-secondary btn-lg" %>
+<% if @can_user_edit %>
+  <%= link_to t('buttons.back'), creditor_path(@loan.moneylender_id), class: "btn btn-secondary btn-lg" %>
+<% else %>
+  <%= link_to t('buttons.back'), '/', class: "btn btn-secondary btn-lg" %>
+<% end %>

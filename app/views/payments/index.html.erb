@@ -3,7 +3,7 @@
 <h3>Payments for <%=@loan.code%></h3>
 
 <% if @loan.status_id == 1 %>
-<%= link_to t('payment.add_payment'), new_loan_payment_path(@loan), class: "btn btn-primary"  %>
+<%= link_to t('payment.add_payment'), new_loan_payment_path(@loan), class: "btn btn-primary"  if @can_user_edit%>
 <% end %>
 
 <div class="table-responsive">
@@ -28,8 +28,8 @@
         <td><%= number_to_currency(payment.profit) %></td>
         <td><%= number_to_currency(payment.payment_to_borrowed) %></td>
         <td><%= payment.status.name %></td>
-        <td><%= link_to t('payment.edit'), edit_loan_payment_path(@loan,payment) %></td>
-        <td><%= link_to t('payment.destroy_payment'), [@loan, payment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t('payment.edit'), edit_loan_payment_path(@loan,payment)   if @can_user_edit%></td>
+        <td><%= link_to t('payment.destroy_payment'), [@loan, payment], method: :delete, data: { confirm: 'Are you sure?' }   if @can_user_edit %></td>
       </tr>
      <% end %>
     </tbody>

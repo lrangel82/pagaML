@@ -1,4 +1,5 @@
 class LoansController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_loan, only: [:show, :edit, :update, :destroy]
 
   # GET /loans
@@ -23,13 +24,16 @@ class LoansController < ApplicationController
 
   # GET /loans/1/edit
   def edit
+    render :show unless @can_user_edit
   end
 
   # POST /loans
   # POST /loans.json
   def create
+    render :show unless @can_user_edit
+
     param_newloan = loan_params
-    Rails.logger.info "LARANGEL: params: #{param_newloan.inspect}"
+    #Rails.logger.info "LARANGEL: params: #{param_newloan.inspect}"
     @loan = Loan.new(param_newloan[:loan])
     @new_user = User.new(param_newloan[:new_user]);
     @add_new_user = param_newloan[:add][:new_user]
@@ -61,6 +65,8 @@ class LoansController < ApplicationController
   # PATCH/PUT /loans/1
   # PATCH/PUT /loans/1.json
   def update
+    render :show unless @can_user_edit
+
     respond_to do |format|
       if @loan.update(loan_params[:loan])
         format.html { redirect_to creditor_path(@loan.moneylender_id), notice: 'Loan was successfully updated.' }
@@ -75,6 +81,8 @@ class LoansController < ApplicationController
   # DELETE /loans/1
   # DELETE /loans/1.json
   def destroy
+    render :show unless @can_user_edit
+    
     moneylender_id = @loan.moneylender_id
     @loan.destroy
     respond_to do |format|
@@ -87,6 +95,7 @@ class LoansController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_loan
       @loan = Loan.find(params[:id])
+      @can_user_edit = current_user.admin? || current_user.id == @loan.moneylender_id
     end
 
     # Only allow a list of trusted parameters through.

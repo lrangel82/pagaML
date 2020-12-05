@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
    def home
-      @loans = Loan.where("user_id = ? AND status_id = ?", current_user.id, 1) #Open loans
+      @loans = Loan.where("user_id = ?", current_user.id) #Open loans
    end
 end

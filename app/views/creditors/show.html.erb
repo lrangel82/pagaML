@@ -79,7 +79,7 @@
         <td><%= number_to_currency(loan.balance) %></td>
         <td><%= loan.payments.count %></td>
         <td><%=loan.days_left%><br/><small><%= loan.next_payment_date.strftime("%m/%d") %></small></td>
-        <td><small><%= loan.start_date %><br/><%= loan.end_date %></small></td>
+        <td><small><%= loan.start_date.strftime("%y/%m/%d") %><br/><%= loan.end_date.strftime("%y/%m/%d") unless loan.end_date.nil? %></small></td>
       </tr>
      <% end %>
     </tbody>

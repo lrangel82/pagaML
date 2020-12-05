@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :get_laon
   before_action :set_payment, only: [:show, :edit, :update, :destroy]
 
