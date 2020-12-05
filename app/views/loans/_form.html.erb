@@ -27,7 +27,7 @@
 
     <div class="form-group col-4">
       <%= form.label :amount_borrowed %>
-      <%= form.text_field :amount_borrowed, :class=>"form-control" %>
+      <%= form.number_field :amount_borrowed, :class=>"form-control" %>
     </div>
   </div>
 
@@ -43,10 +43,10 @@
     </div>
   </div>
   <button id="btn_add_new_user_in_loan" class="float-right btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
-    New User &Hacek;</button>
+    <%=t('loan.new_user')%> &#x02C5;</button>
 
   <div id="collapseNewUser" class="card  collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
-      <h5 class="card-header">New User</h5>
+      <h5 class="card-header"><%=t('loan.new_user')%></h5>
       <div class="row card-body">
         <%=hidden_field(:add, :new_user, value: @add_new_user) %>
         <div class="form-group col-4">
@@ -67,12 +67,12 @@
   <div class="row">
     <div class="form-group col-4">
       <%= form.label :loan_date %>
-      <%= form.text_field :loan_date, :class=>"form-control datepicker" %>
+      <%= form.text_field :loan_date, :class=>"form-control datepicker", :autocomplete => "off" %>
     </div>
 
     <div class="form-group col-4">
       <%= form.label :start_date %>
-      <%= form.text_field :start_date, :class=>"form-control datepicker" %>
+      <%= form.text_field :start_date, :class=>"form-control datepicker", :autocomplete => "off" %>
     </div>
 
   </div>

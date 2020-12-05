@@ -102,6 +102,7 @@ en:
     next_payment_date: "Next payment date"
     edit_loan:         "Edit Loan"
     delete_loan:       "Delete Loan"
+    new_user:          "New User"
 
   loan_table:
     status: "Status"

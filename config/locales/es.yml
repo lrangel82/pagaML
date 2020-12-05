@@ -103,6 +103,7 @@ es:
     next_payment_date: "Siguiente fecha de pago"
     edit_loan:         "Editar Prestamo"
     delete_loan:       "Elimina Prestamo"
+    new_user:          "Nuevo Usuario"
 
   loan_table:
     status: "Estado"
@@ -123,6 +124,15 @@ es:
         profit: "Interes"
         payment_to_borrowed: "Abono a capital"
         status_id: "Estado"
+      loan:
+        moneylender: "Prestador"
+        status_id: "Estado"
+        amount_borrowed: "Monto prestamo"
+        loan_type_id: "Tipo prestamo"
+        user_id: "A quien se presta"
+        loan_date: "Fecha del prestamo"
+        start_date: "Cuando inicia el prestamo?"
+
 
   activerecord:
     errors:

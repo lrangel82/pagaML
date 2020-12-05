@@ -4,10 +4,14 @@ $( document ).ready(function(){
    $('.datepicker').datepicker({dateFormat: "yy-mm-dd"});
    
    $('#btn_add_new_user_in_loan').click(function(){ 
-      if( $('#add_new_user').val() == "true" )
+      if( $('#add_new_user').val() == "true" ){
          $('#add_new_user').val("false");
-      else
+         $(this).text($(this).data('tmptxt'));
+      }else{
          $('#add_new_user').val("true");
+         $(this).data('tmptxt', $(this).text() );
+         $(this).text('\u02C4');
+      }
    });
    
    //Auto calculate
