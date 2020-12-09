@@ -1,111 +1,24 @@
 <%= javascript_pack_tag 'creditors' %>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
+<%= render partial: "resume" %>
 
-<div class="btn-group" role="group">
- <button id="searchDelayed" type="button" class="btn btn-danger searchloantable" data-searchtext="<%=t(:open)+' '+t(:delayed)%>">
-  <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
-  <span class="sr-only">Prestamos retrazados</span>
- </button>
+</br>
 
- <button id="searchAware" type="button" class="btn btn-primary searchloantable" data-searchtext="<%=t(:open)+' '+t(:aware)%>">
-  <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
-  <span class="sr-only">Prestamos al corriente</span>
- </button>
-
- <button id="searchPaied" type="button" class="btn btn-success searchloantable" data-searchtext="<%=t(:paid)%>">
-  <%=t(:pagados)%> <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
-  <span class="sr-only">Prestamos pagados</span>
- </button>
-
- <button id="searchClosed" type="button" class="btn btn-secondary searchloantable" data-searchtext="<%=t(:close)%>">
-  <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
-  <span class="sr-only">Prestamos Cerrados</span>
- </button>
- </div>
-
-<div class="card">
-  <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
-  <div class="card-body">
-    <div class="row card-title">
-      <h5 class="col-sm"><%=t(:amount_borrowed)%> <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
-      <h5 class="col-sm"><%=t(:balance)%> <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
-      <div class="col-sm">
-        CLABE:<%=@moneylender.clabe%>
-        <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
-    <%=t(:more)%> &Hacek;</a>
+<% @users.each_with_index do |user, index| %>
+  <% if index%6 == 0 && index>0 %></div><% end %>
+  <% if index%6 == 0 %><div class="row g-5"><% end %>
+      <div class="user_loans_item col-xs-4 col-md-3 col-lg-2 col-xl" data-user="<%=user.id%>" data-lender="<%=@loans.first.moneylender_id%>">
+        <div class="p-3 border text-white
+          <%="bg-danger"  if user.delayed? %>
+          <%="bg-success" if user.paied? %>
+          <%="bg-primary" if user.ok? %>">
+          <b><%= user.complete_name %></b><br/>
+          <small><%= pluralize(user.loans.count, 'prestamo')  %></small>
+          <div class="loans_detail row g-5">
+          </div>
+        </div>
       </div>
-      
-    </div>
-    <div id="collapseCardTitle" class="row card-title collapse">
-      <h6 class="col-sm"><%=t(:next_total_payment)%>  <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
-      <h6 class="col-sm"><%=t(:profit_paid)%> <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
-      <h6 class="col-sm"><%=t(:account)%>:<%=@moneylender.account_number%><h6>
-    </div>
-    <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary"><%=t(:add_new_loan)%></a>
+  
+<% end %>
   </div>
-</div>
 
-<div class="table-responsive">
-  <table id="loanslisttable" class="table table-hover table-sm">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col"><%=t('loan_table.status')%></th>
-      <th scope="col"><%=t('loan_table.amount_payment')%></th>
-      <th scope="col"><%=t('loan_table.user')%></th>
-      <th scope="col"><%=t('loan_table.loan_type')%></th>
-      <th scope="col"><%=t('loan_table.borrowed')%></th>
-      <th scope="col"><%=t('loan_table.balance')%></th>
-      <th scope="col"><%=t('loan_table.payments')%></th>
-      <th scope="col"><%=t('loan_table.payment_date')%></th>
-      <th scope="col"><%=t('loan_table.start_end')%></th>
-    </tr>
-    </thead>
-    <tbody>
-     <% @loans.each do |loan| %>
-      <tr <%="class=table-danger data-dialogpath="+new_loan_payment_path(loan) if loan.delayed? %>
-          <%="class=table-success" if loan.paied? %>
-          <%="class=table-primary" if loan.ok? %>
-          <%="class=table-secondary" if loan.closed? %> data-loanpath="<%=loan_path(loan)%>">
-        <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
-        <td><%= t(loan.status.name.downcase) %><br/><small>
-          <%=t(:delayed) if loan.delayed? %>
-          <%=t(:aware) if loan.ok? %> 
-          </small></td>
-        <td><%= number_to_currency(loan.next_amount_payment) %></td>
-        <td><%= loan.user.complete_name %></td>
-        <td><%= loan.loan_type.short_name %></td>
-        <td><%= number_to_currency(loan.amount_borrowed) %></td>
-        <td><%= number_to_currency(loan.balance) %></td>
-        <td><%= loan.payments.count %></td>
-        <td><%=loan.days_left%><br/><small><%= loan.next_payment_date.strftime("%m/%d") %></small></td>
-        <td><small><%= loan.start_date.strftime("%y/%m/%d") %><br/><%= loan.end_date.strftime("%y/%m/%d") unless loan.end_date.nil? %></small></td>
-      </tr>
-     <% end %>
-    </tbody>
-  </table>
-</div>
-
-<%= link_to 'Back', creditors_path, class: "btn btn-secondary btn-lg" %>
-
-<!-- Button trigger modal -->
-<button id="launchModalBtn" type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button>
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"><%=t('payment.add_payment')%></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      
-    </div>
-  </div>
-</div>
+<%= render partial: "modal" %>

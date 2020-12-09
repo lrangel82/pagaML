@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
       return true
    end
 
+   def after_sign_in_path_for(resource)
+     if current_user.admin?
+        creditors_path
+     else
+        user_path(current_user) # your path
+     end
+   end
+
    def switch_locale(&action)
      Rails.logger.info "LARANGEL  Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
      locale = extract_locale_from_accept_language_header

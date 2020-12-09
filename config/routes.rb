@@ -11,8 +11,11 @@ Rails.application.routes.draw do
     resources :loan_types
   end
 
-  resources :creditors, only: [:index, :show]
+  
   get "creditors/new_loan/:money_lender_id" => "creditors#new_loan"
+  get "creditors/list_all" => "creditors#list_all"
+  get "creditors/:moneylender_id/user_loans/:user_id" => "creditors#user_loans"
+  resources :creditors, only: [:index, :show]
   resources :loans do
     resources :payments
   end

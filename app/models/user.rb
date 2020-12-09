@@ -27,6 +27,21 @@ class User < ApplicationRecord
     (name + ' ' + lastname).strip
   end
 
+  def ok?
+    loans.each { |l| return false unless l.ok? }
+    return true
+  end
+
+  def delayed?
+    loans.each { |l| return true if l.delayed? }
+    return false
+  end
+
+  def paied?
+    loans.each { |l| return false unless l.paied? }
+    return true
+  end
+
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
