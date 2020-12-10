@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
    end
 
    def switch_locale(&action)
-     Rails.logger.info "LARANGEL  Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
+     #Rails.logger.info "LARANGEL  Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
      locale = extract_locale_from_accept_language_header
-     Rails.logger.info "LARANGEL  Locale set to '#{locale}'"
+     #Rails.logger.info "LARANGEL  Locale set to '#{locale}'"
      I18n.with_locale(locale, &action)
   end
 

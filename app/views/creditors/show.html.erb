@@ -1,24 +1,33 @@
-<%= javascript_pack_tag 'creditors' %>
+<%= javascript_pack_tag 'creditors', 'data-turbolinks-track': 'reload' %>
+
+ <a id="searchDelayed" href="<%=creditor_path(session[:money_lender_id], filter: "delayed")%>" type="button" class="filterbtn btn btn-outline-danger btn-sm " data-searchtext="<%=t(:open)+' '+t(:delayed)%>" data-remote="true">
+  <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
+  <span class="sr-only">Prestamos retrazados</span>
+ </a>
+
+ <a id="searchAware" href="<%=creditor_path(session[:money_lender_id], filter: "aware")%>" type="button" class="filterbtn btn btn-outline-primary btn-sm " data-searchtext="<%=t(:open)+' '+t(:aware)%>" data-remote="true">
+  <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
+  <span class="sr-only">Prestamos al corriente</span>
+ </a>
+
+ <a id="searchPaied" href="<%=creditor_path(session[:money_lender_id], filter: "paied")%>" type="button" class="filterbtn btn btn-outline-success btn-sm " data-searchtext="<%=t(:paid)%>" data-remote="true">
+  <%=t(:pagados)%> <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
+  <span class="sr-only">Prestamos pagados</span>
+ </a>
+
+ <a id="searchClosed" href="<%=creditor_path(session[:money_lender_id], filter: "close")%>" type="button" class="filterbtn btn btn-outline-secondary btn-sm " data-searchtext="<%=t(:close)%>" data-remote="true">
+  <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
+  <span class="sr-only">Prestamos Cerrados</span>
+ </a>
+
 <%= render partial: "resume" %>
 
 </br>
 
-<% @users.each_with_index do |user, index| %>
-  <% if index%6 == 0 && index>0 %></div><% end %>
-  <% if index%6 == 0 %><div class="row g-5"><% end %>
-      <div class="user_loans_item col-xs-4 col-md-3 col-lg-2 col-xl" data-user="<%=user.id%>" data-lender="<%=@loans.first.moneylender_id%>">
-        <div class="p-3 border text-white
-          <%="bg-danger"  if user.delayed? %>
-          <%="bg-success" if user.paied? %>
-          <%="bg-primary" if user.ok? %>">
-          <b><%= user.complete_name %></b><br/>
-          <small><%= pluralize(user.loans.count, 'prestamo')  %></small>
-          <div class="loans_detail row g-5">
-          </div>
-        </div>
-      </div>
-  
-<% end %>
-  </div>
+<div id="user_container_loans">
+
+  <%= render partial: "grid_users", locals: { users: @users } %>
+
+</div>
 
 <%= render partial: "modal" %>

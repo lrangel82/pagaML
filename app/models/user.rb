@@ -27,19 +27,23 @@ class User < ApplicationRecord
     (name + ' ' + lastname).strip
   end
 
-  def ok?
-    loans.each { |l| return false unless l.ok? }
+  def ok?(money_lender_id)
+    loans.where(moneylender_id: money_lender_id).each { |l| return false unless l.ok? }
     return true
   end
 
-  def delayed?
-    loans.each { |l| return true if l.delayed? }
+  def delayed?(money_lender_id)
+    loans.where(moneylender_id: money_lender_id).each { |l| return true if l.delayed? }
     return false
   end
 
-  def paied?
-    loans.each { |l| return false unless l.paied? }
+  def paied?(money_lender_id)
+    loans.where(moneylender_id: money_lender_id).each { |l| return false unless l.paied? }
     return true
+  end
+  def closed?(money_lender_id)
+    loans.where(moneylender_id: money_lender_id).each { |l| return true if l.closed? }
+    return false
   end
 
   def self.new_with_session(params, session)

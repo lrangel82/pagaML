@@ -1,0 +1,17 @@
+<% @users.each_with_index do |user, index| %>
+  <% if index%6 == 0 && index>0 %></div><% end %>
+  <% if index%6 == 0 %><div class="row g-5"><% end %>
+      <div class="user_loans_item col-xs-4 col-md-3 col-lg-2 col-xl" data-user="<%=user.id%>" data-lender="<%=session[:money_lender_id]%>">
+        <div class="p-3 border 
+          <%="bg-danger  text-white" if user.delayed?(session[:money_lender_id]) %>
+          <%="bg-success text-white" if user.paied?(session[:money_lender_id]) %>
+          <%="bg-primary text-white" if user.ok?(session[:money_lender_id]) %>">
+          <b><%= user.complete_name %></b><br/>
+          <small><%= pluralize(user.loans.where( moneylender_id: session[:money_lender_id]).count, 'prestamo')  %> <b>&#x02C5;</b></small>
+          <div class="loans_detail row g-5">
+          </div>
+        </div>
+      </div>
+  
+<% end %>
+  </div>

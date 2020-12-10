@@ -34,20 +34,47 @@ class CreditorsController < ApplicationController
       if @moneylender.user != current_user && !current_user.admin?
          session[:money_lender_id] = nil
          session[:render_view_loans] = nil
+         session[:filter_loan] = nil
          render :index
          return
       end
       session[:money_lender_id] = @moneylender.id
-      session[:render_view_loans] = params['render_view_loans']  if params['render_view_loans'].nil?
+      session[:render_view_loans] = params['render_view_loans']  unless params['render_view_loans'].nil?
+      session[:filter_loan] = params['filter'] if !params['filter'].nil? && params['filter'] != session[:filter_loan]
 
       @loans = Loan.joins(:moneylender).where(moneylender_id: params['id']).order(:id)
       @loans.each { |l| l.recal if l.updated_at.day != Date.today.day }
 
+      case session[:filter_loan]
+         when "delayed"
+            @loans = @loans.where("next_payment_date < ? and status_id=1", Time.now)
+            @users = User.joins(:loans).where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id')
+         when "aware"
+            @loans = @loans.where("next_payment_date >= ? and status_id=1", Time.now)
+            @users = User.joins(:loans).where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id')
+         when "paied"
+            @loans = @loans.where(status_id: [2,3])
+            @users = User.joins(:loans).where(:loans => { 
+                        status_id: [2,3], moneylender_id: params['id'] 
+                     }).group('users.id')
+         when "close"
+            @loans = @loans.where(status_id: [4,5])
+            @users = User.joins(:loans).where(:loans => { 
+                        status_id: [4,5], moneylender_id: params['id'] 
+                     }).group('users.id')
+         else
+            @users = User.joins(:loans).where(:loans => { 
+                        moneylender_id: params['id'] 
+                     }).group('users.id')
+      end
+
       if !session[:render_view_loans].nil? && session[:render_view_loans] == "table"
          render partial: "show_table"
       else
-         @users = User.joins(:loans).where(:loans => { moneylender_id: params['id'] }).group('users.id')
-         render "show"
+         respond_to do |format|
+            format.js {render "creditors" }
+            format.html { render "show" }
+         end
       end
    end
 

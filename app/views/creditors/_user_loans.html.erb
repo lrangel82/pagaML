@@ -3,10 +3,14 @@
       <div class="p-2 btn-light show_detail_loan" data-loanpath="<%=loan_path(loan)%>">
       <%= number_to_currency(loan.amount_borrowed) %>
       <%= t(loan.status_text) %><br>
+      <% if loan.delayed? %>
+         <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=new_loan_payment_path(loan)%>">Abono</a>
+      <% end %>
       <% unless loan.paied? %>
-      <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=new_loan_payment_path(loan)%>">Abono</a>
       Abono de: <%= number_to_currency(loan.next_amount_payment) %><br/>
       <%= pluralize(loan.payments.count, 'pago') %>
+      <% end %>
+      <% if loan.delayed? %>
       Retrazado <%=pluralize(loan.days_left,'dia')%>
       <% end %>
       </div>
