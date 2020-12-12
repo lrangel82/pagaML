@@ -68,13 +68,25 @@ class CreditorsController < ApplicationController
                      }).group('users.id')
       end
 
-      if !session[:render_view_loans].nil? && session[:render_view_loans] == "table"
-         render partial: "show_table"
-      else
-         respond_to do |format|
-            format.js {render "creditors" }
-            format.html { render "show" }
-         end
+      Rails.logger.info "LARANGEL [:render_view_loans]:#{session[:render_view_loans]}"
+      Rails.logger.info "LARANGEL users:#{@users.size}"
+      Rails.logger.info "LARANGEL loans:#{@loans.size}"
+
+      respond_to do |format|
+         @render_view_loans = session[:render_view_loans] == "table" ? "table" : "users"
+         format.js {render "show_loans" }
+         format.html { render "show" }
+      end
+
+   end
+
+   # GET /creditors/:moneylender_id/only_buttons
+   def only_buttons
+      return if params['moneylender_id'].nil?
+      @moneylender = Moneylender.find(params['moneylender_id'])
+      respond_to do |format|
+           format.html { render partial: "buttons_filter" }
+           format.json { render partial: "buttons_filter", formats: "html", locals: { moneylender: @moneylender} }
       end
    end
 
@@ -87,6 +99,8 @@ class CreditorsController < ApplicationController
       #@new_user = { add_new_user: "false", name: nil, lastnme: nil, email: nil }
       @new_user = User.new
       @add_new_user = false
+      @loan.loan_date = Date.today
+      @loan.start_date = Date.today
       render template: "loans/new" , locals: { loan: @loan }
    end
 

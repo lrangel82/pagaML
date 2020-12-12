@@ -67,6 +67,10 @@ class Loan < ApplicationRecord
     (next_payment_date - Date.today).to_i
   end
 
+  def last_payment_date
+    @last_payment_date ||= payments.maximum(:payment_date)
+  end
+
   def next_amount_payment
     @next_amount_payment ||= recal_next_amount_payment
   end

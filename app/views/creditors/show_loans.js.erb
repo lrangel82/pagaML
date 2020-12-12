@@ -1,0 +1,2 @@
+//Load the loans
+$('#container_loans').html("<%= j (render partial:'loans_' + @render_view_loans, locals: { users: @users, loans: @loans } ) %>")

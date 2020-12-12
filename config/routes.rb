@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   
   get "creditors/new_loan/:money_lender_id" => "creditors#new_loan"
   get "creditors/list_all" => "creditors#list_all"
+  get "creditors/:moneylender_id/only_buttons" => "creditors#only_buttons"
   get "creditors/:moneylender_id/user_loans/:user_id" => "creditors#user_loans"
   resources :creditors, only: [:index, :show]
   resources :loans do

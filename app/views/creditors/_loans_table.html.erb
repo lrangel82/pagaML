@@ -1,0 +1,46 @@
+<div class="table-responsive">
+  <table id="loanslisttable" class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col"><%=t('loan_table.status')%></th>
+      <th scope="col"><%=t('loan_table.amount_payment')%></th>
+      <th scope="col"><%=t('loan_table.user')%></th>
+      <th scope="col"><%=t('loan_table.loan_type')%></th>
+      <th scope="col"><%=t('loan_table.borrowed')%></th>
+      <th scope="col"><%=t('loan_table.balance')%></th>
+      <th scope="col"><%=t('loan_table.payments')%></th>
+      <th scope="col"><%=t('loan_table.payment_date')%></th>
+      <th scope="col"><%=t('loan_table.last_payment')%></th>
+    </tr>
+    </thead>
+    <tbody>
+     <% @loans.each do |loan| %>
+      <% if loan.delayed? -%>
+      <tr class="add_payment table-danger" data-dialogpath="<%=new_loan_payment_path(loan) %>" >
+      <% elsif loan.paied? -%>
+      <tr class="show_detail_loan table-success" data-loanpath="<%=loan_path(loan) %>" >
+      <% elsif loan.ok? -%>
+      <tr class="show_detail_loan table-primary" data-loanpath="<%=loan_path(loan) %>" >
+      <% elsif loan.closed? -%>
+      <tr class="show_detail_loan table-secondary" data-loanpath="<%=loan_path(loan) %>" >
+      <% end -%>
+      
+        <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>
+        <td><%= t(loan.status.name.downcase) %><br/><small>
+          <%=t(:delayed) if loan.delayed? %>
+          <%=t(:aware) if loan.ok? %> 
+          </small></td>
+        <td><%= number_to_currency(loan.next_amount_payment) %></td>
+        <td><%= loan.user.complete_name %></td>
+        <td><%= loan.loan_type.short_name %></td>
+        <td><%= number_to_currency(loan.amount_borrowed) %></td>
+        <td><%= number_to_currency(loan.balance) %></td>
+        <td><%= loan.payments.count %></td>
+        <td><%=loan.days_left%><br/><small><%= loan.next_payment_date.strftime("%m/%d") %></small></td>
+        <td><small><%= loan.last_payment_date.strftime("%y/%m/%d") unless loan.last_payment_date.nil? %></small></td>
+      </tr>
+     <% end %>
+    </tbody>
+  </table>
+</div>

@@ -41,7 +41,8 @@ class PaymentsController < ApplicationController
     respond_to do |format|
       if @payment.save
         @loan.recal
-        format.html { redirect_to request.referrer.include?(creditors_path) ? request.referrer : loan_payments_path(@loan), notice: 'Payment was successfully created.' }
+        format.js   { render "dialog_from_creditors" } if request.referrer.include?(creditors_path)
+        format.html { redirect_to loan_payments_path(@loan), notice: 'Payment was successfully created.' }
         format.json { render :show, status: :created, location: @payment }
       else
         format.html { render :new }

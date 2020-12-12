@@ -1,32 +1,19 @@
 <%= javascript_pack_tag 'creditors', 'data-turbolinks-track': 'reload' %>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.22/datatables.min.css"/>
 
- <a id="searchDelayed" href="<%=creditor_path(session[:money_lender_id], filter: "delayed")%>" type="button" class="filterbtn btn btn-outline-danger btn-sm " data-searchtext="<%=t(:open)+' '+t(:delayed)%>" data-remote="true">
-  <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
-  <span class="sr-only">Prestamos retrazados</span>
- </a>
+<div id="container_buttons">
+   <%= render partial: "buttons_filter" %>
+</div>
 
- <a id="searchAware" href="<%=creditor_path(session[:money_lender_id], filter: "aware")%>" type="button" class="filterbtn btn btn-outline-primary btn-sm " data-searchtext="<%=t(:open)+' '+t(:aware)%>" data-remote="true">
-  <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
-  <span class="sr-only">Prestamos al corriente</span>
- </a>
-
- <a id="searchPaied" href="<%=creditor_path(session[:money_lender_id], filter: "paied")%>" type="button" class="filterbtn btn btn-outline-success btn-sm " data-searchtext="<%=t(:paid)%>" data-remote="true">
-  <%=t(:pagados)%> <span class="badge badge-light"><%=@moneylender.loans_paied%></span>
-  <span class="sr-only">Prestamos pagados</span>
- </a>
-
- <a id="searchClosed" href="<%=creditor_path(session[:money_lender_id], filter: "close")%>" type="button" class="filterbtn btn btn-outline-secondary btn-sm " data-searchtext="<%=t(:close)%>" data-remote="true">
-  <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
-  <span class="sr-only">Prestamos Cerrados</span>
- </a>
-
-<%= render partial: "resume" %>
+<div id="container_resume">
+   <%= render partial: "resume" %>
+</div>
 
 </br>
 
-<div id="user_container_loans">
+<div id="container_loans">
 
-  <%= render partial: "grid_users", locals: { users: @users } %>
+  <%= render partial: "loans_" + @render_view_loans, locals: { users: @users, loans: @loans } %>
 
 </div>
 

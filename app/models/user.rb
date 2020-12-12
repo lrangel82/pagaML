@@ -29,6 +29,7 @@ class User < ApplicationRecord
 
   def ok?(money_lender_id)
     loans.where(moneylender_id: money_lender_id).each { |l| return false unless l.ok? }
+    #loans.where("next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, money_lender_id )
     return true
   end
 

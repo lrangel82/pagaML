@@ -15,17 +15,17 @@
   <% end %>
 
   <div class="row">
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12">
       <%= form.label :moneylender_id %>
       <%= form.collection_select :moneylender_id, Moneylender.order(:alias), :id, :alias, {include_blank: false}, {:class=>"form-control"} %>
     </div>
 
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12">
       <%= form.label :status_id %>
       <%= form.collection_select :status_id, Status.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
 
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12">
       <%= form.label :amount_borrowed %>
       <%= form.number_field :amount_borrowed, :class=>"form-control" %>
     </div>
@@ -33,31 +33,34 @@
 
   <div class="row">
 
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12 ">
       <%= form.label :loan_type_id %>
       <%= form.collection_select :loan_type_id, LoanType.order(:short_name), :id, :short_name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
-    <div id="collapseListUser" class="form-group col-4 collapse multicollapseNewUser <%='show' if @add_new_user !='true'%>">
+    <div id="collapseListUser" class="form-group col-md-4 col-sm-8 collapse multicollapseNewUser <%='show' if @add_new_user !='true'%>">
       <%= form.label :user_id %>
       <%= form.collection_select :user_id, User.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
-  </div>
-  <button id="btn_add_new_user_in_loan" class="float-right btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
+    <div class="form-group col-md-4 col-sm-4 ">
+      <button id="btn_add_new_user_in_loan" class="float-right btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
     <%=t('loan.new_user')%> &#x02C5;</button>
+    </div>
+  </div>
+  
 
-  <div id="collapseNewUser" class="card  collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
+  <div id="collapseNewUser" class="card collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
       <h5 class="card-header"><%=t('loan.new_user')%></h5>
       <div class="row card-body">
         <%=hidden_field(:add, :new_user, value: @add_new_user) %>
-        <div class="form-group col-4">
+        <div class="form-group col-md-4 col-sm-6">
           <%= label  :new_user, :name %>
           <%= text_field :new_user, :name, :class=>"form-control" %>
         </div>
-        <div class="form-group col-4">
+        <div class="form-group col-md-4 col-sm-6">
           <%= label  :new_user,:lastname %>
           <%= text_field :new_user,:lastname, :class=>"form-control" %>
         </div>
-        <div class="form-group col-4">
+        <div class="form-group col-md-4 col-sm-12">
           <%= label  :new_user,:email %>
           <%= email_field :new_user,:email, :class=>"form-control" %>
         </div>
@@ -65,12 +68,12 @@
   </div>
 
   <div class="row">
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12">
       <%= form.label :loan_date %>
       <%= form.text_field :loan_date, :class=>"form-control datepicker", :autocomplete => "off" %>
     </div>
 
-    <div class="form-group col-4">
+    <div class="form-group col-md-4 col-sm-12">
       <%= form.label :start_date %>
       <%= form.text_field :start_date, :class=>"form-control datepicker", :autocomplete => "off" %>
     </div>
