@@ -10,6 +10,8 @@ class Loan < ApplicationRecord
   validates :loan_date, presence: true
   validates :amount_borrowed, presence: true
 
+  before_save :recalculation
+
   include ActionView::Helpers::NumberHelper
 
   def name
@@ -20,13 +22,13 @@ class Loan < ApplicationRecord
     'ML'+ id.to_s.rjust(4, "0")
   end
 
-  def recal
+  def recalculation
     self.next_payment_date   = recal_next_payment_date
     self.next_amount_payment = recal_next_amount_payment
     self.balance             = balance
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
     #Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
-    self.save!
+    #self.save!
   end
 
   def balance

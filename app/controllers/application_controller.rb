@@ -10,8 +10,10 @@ class ApplicationController < ActionController::Base
    def after_sign_in_path_for(resource)
      if current_user.admin?
         creditors_path
+     elsif current_user.moneylender.any?
+        creditors_path(current_user.moneylender.first.id) # your path
      else
-        user_path(current_user) # your path
+        root_path
      end
    end
 

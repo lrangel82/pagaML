@@ -22,3 +22,7 @@
   <%=t(:cerrados)%> <span class="badge badge-light"><%=@moneylender.loans_closed%></span>
   <span class="sr-only">Prestamos Cerrados</span>
  </a>
+ <a id="searchClosed" href="<%=creditor_path(session[:money_lender_id], filter: "all")%>" type="button" class="filterbtn btn btn-outline-secondary btn-sm " data-searchtext="<%=t(:todos)%>" data-remote="true">
+  <%=t(:todos)%> <span class="badge badge-light"><%=@moneylender.loan.count%></span>
+  <span class="sr-only">Todos</span>
+ </a>

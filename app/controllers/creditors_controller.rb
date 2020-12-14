@@ -43,7 +43,12 @@ class CreditorsController < ApplicationController
       session[:filter_loan] = params['filter'] if !params['filter'].nil? && params['filter'] != session[:filter_loan]
 
       @loans = Loan.joins(:moneylender).where(moneylender_id: params['id']).order(:id)
-      @loans.each { |l| l.recal if l.updated_at.day != Date.today.day }
+      @loans.each { |l| 
+            if l.updated_at.day != Date.today.day 
+               l.recalculation
+               l.save!
+            end 
+         }
 
       case session[:filter_loan]
          when "delayed"

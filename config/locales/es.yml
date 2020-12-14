@@ -57,6 +57,7 @@ es:
   al_corriente: "Al corriente"
   pagados: "Pagados"
   cerrados: "Cerrados"
+  todos: "Todos"
 
   more: "mas"
   account: "Numero de cuenta"
