@@ -40,7 +40,7 @@ class PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.save
-        @loan.recal
+        @loan.save!
         format.js   { render "dialog_from_creditors" } if request.referrer.include?(creditors_path)
         format.html { redirect_to loan_payments_path(@loan), notice: 'Payment was successfully created.' }
         format.json { render :show, status: :created, location: @payment }
@@ -56,7 +56,7 @@ class PaymentsController < ApplicationController
   def update
     respond_to do |format|
       if @payment.update(payment_params)
-        @loan.recal
+        @loan.save!
         format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully updated.' }
         format.json { render :show, status: :ok, location: @payment }
       else
@@ -70,7 +70,7 @@ class PaymentsController < ApplicationController
   # DELETE /payments/1.json
   def destroy
     @payment.destroy
-    @loan.recal
+    @loan.save!
     respond_to do |format|
       format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully destroyed.' }
       format.json { head :no_content }

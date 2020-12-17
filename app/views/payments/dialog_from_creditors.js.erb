@@ -3,18 +3,14 @@ $('#modalAddPayment').modal('hide');
 
 //Reload the details if they exists
 if($('.user_loans_item.col-12').length == 1){
+  $('#container_buttons').load("<%=creditor_path(session[:money_lender_id])%>/only_buttons");
+  $('.user_loans_item.col-12').removeClass("col-12").click();
+  setTimeout(function(){
+    if( $('.user_loans_item.col-12 .add_payment').length ==0 ){
+      //if(table_loans) table_loans.destroy(true);
+      //$.getScript("<%=creditor_path(session[:money_lender_id], filter: 'delayed')%>");
+      document.getElementById("searchDelayed").click();
+    }
+  },1000);
 
-  //$('.user_loans_item.col-12').removeClass("col-12").click();
-
-   if ( $('.user_loans_item.col-12').removeClass("col-12").click().find(".add_payment").length == 0 ){
-      //alert($('.user_loans_item.col-12').find(".add_payment"));
-      //Reload listado
-      $('#searchDelayed').click();
-      /*$.get('<%=creditor_path(session[:money_lender_id])%>',function(data){ 
-            eval(data);
-            init_events_for_creditors(); 
-        }, "script");*/
-      //Reload botones
-      $('#container_buttons').load("<%=creditor_path(session[:money_lender_id])%>/only_buttons")
-   }
 }
