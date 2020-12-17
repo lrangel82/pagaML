@@ -1,5 +1,5 @@
 <%= form_with(model: @loan, local: true) do |form| %>
-  <% if loan.errors.any? || new_user.errors.any? %>
+  <% if loan.errors.any? || ( !new_user.nil? && new_user.errors.any? ) %>
     <div id="error_explanation" class="alert alert-warning" role="alert">
       <h2><%= pluralize(loan.errors.count + new_user.errors.count, "error") %> </h2>
 

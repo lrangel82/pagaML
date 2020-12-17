@@ -20,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-    <% @loan.payments.each_with_index do |payment,i| %>
+    <% @loan.payments.order('id').each_with_index do |payment,i| %>
       <tr>
         <th scope="row"><%= i+1 %> </th>
         <td><%= payment.payment_date %></td>

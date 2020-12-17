@@ -1,21 +1,27 @@
 <div class="card">
-  <h5 class="card-header"><%=@moneylender.alias%> banco: <%=@moneylender.bank%> <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span></h5>
-  <div class="card-body">
-    <div class="row card-title">
+  <div class="card-header" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
+    <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary float-right btn-sm"><%=t(:add_new_loan)%></a>
+    <h5>
+        <%=@moneylender.alias%>:<%=@moneylender.bank%> 
+        <span class="badge badge-light"><%=pluralize(@moneylender.loan.size, 'prestamos')%></span>
+    </h5>
+    <div class="float-right"><b>&#x02C5;</b></div>
+    <h4><%=t(:balance)%> <%=number_to_currency(@moneylender.loan.sum(:balance))%></h4>
+  </div>
+  <div id="collapseCardTitle" class="card-body collapse">
+    <div class="row">
       <h5 class="col-sm"><%=t(:amount_borrowed)%> <%=number_to_currency(@moneylender.loan.sum(:amount_borrowed))%></h5>
       <h5 class="col-sm"><%=t(:balance)%> <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
       <div class="col-sm">
         CLABE:<%=@moneylender.clabe%>
         <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
-    <%=t(:more)%> &Hacek;</a>
+        <%=t(:more)%> &Hacek;</a>
       </div>
       
-    </div>
-    <div id="collapseCardTitle" class="row card-title collapse">
       <h6 class="col-sm"><%=t(:next_total_payment)%>  <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
       <h6 class="col-sm"><%=t(:profit_paid)%> <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
       <h6 class="col-sm"><%=t(:account)%>:<%=@moneylender.account_number%></h6>
     </div>
-    <a href="/creditors/new_loan/<%=@moneylender.id%>" class="btn btn-primary"><%=t(:add_new_loan)%></a>
+    
   </div>
 </div>

@@ -53,24 +53,24 @@ class CreditorsController < ApplicationController
       case session[:filter_loan]
          when "delayed"
             @loans = @loans.where("next_payment_date < ? and status_id=1", Time.now)
-            @users = User.joins(:loans).where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id')
+            @users = User.joins(:loans).where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
          when "aware"
             @loans = @loans.where("next_payment_date >= ? and status_id=1", Time.now)
-            @users = User.joins(:loans).where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id')
+            @users = User.joins(:loans).where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
          when "paied"
             @loans = @loans.where(status_id: [2,3])
             @users = User.joins(:loans).where(:loans => { 
                         status_id: [2,3], moneylender_id: params['id'] 
-                     }).group('users.id')
+                     }).group('users.id').order('users.name')
          when "close"
             @loans = @loans.where(status_id: [4,5])
             @users = User.joins(:loans).where(:loans => { 
                         status_id: [4,5], moneylender_id: params['id'] 
-                     }).group('users.id')
+                     }).group('users.id').order('users.name')
          else
             @users = User.joins(:loans).where(:loans => { 
                         moneylender_id: params['id'] 
-                     }).group('users.id')
+                     }).group('users.id').order('users.name')
       end
 
       Rails.logger.info "LARANGEL [:render_view_loans]:#{session[:render_view_loans]}"

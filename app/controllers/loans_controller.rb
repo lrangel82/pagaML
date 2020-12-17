@@ -25,6 +25,7 @@ class LoansController < ApplicationController
   # GET /loans/1/edit
   def edit
     render :show unless @can_user_edit
+    @new_user = User.new()
   end
 
   # POST /loans

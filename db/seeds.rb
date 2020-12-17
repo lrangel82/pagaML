@@ -13,6 +13,7 @@ User.destroy_all
 Status.destroy_all
 
 ActiveRecord::Base.connection.execute("SELECT setval('statuses_id_seq', (SELECT max(id) FROM statuses));")
+ActiveRecord::Base.connection.execute("SELECT setval('payments_id_seq', (SELECT max(id) FROM payments));")
 
 Status.create(id: 1, name: "Open")
 Status.create(id: 2, name: "Paid")

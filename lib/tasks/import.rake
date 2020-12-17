@@ -29,8 +29,8 @@ namespace :import do
       l.balance         = row["Resta"].sub(/,/, '.').to_f
       l.loan_date       = row["FechaIni"]
       l.start_date      = row["FechaIni"]
-      u = User.find_by(name: row["persona"].strip)
-      if u.nil?
+      u = User.where('lower(name) = ?', row["persona"].strip.downcase ).first
+      if u.nil? 
          u = User.new
          u.name     = row["persona"].strip
          u.email    = "foo" + i.to_s + "@foo.com"
@@ -40,7 +40,7 @@ namespace :import do
          puts "user: #{u.inspect}"
       end
       l.user_id         = u.id
-      l.recal
+      l.save!
       puts "#{l.inspect}  #{l.code}  for #{l.amount_borrowed} saved"
     end
     ActiveRecord::Base.connection.execute("SELECT setval('loans_id_seq', (SELECT max(id) FROM loans));")
@@ -62,7 +62,7 @@ namespace :import do
       p.payment_to_borrowed  = row["Capital"].sub(/,/, '.').to_f
       p.status_id       = 2
       p.save
-      p.loan.recal
+      p.loan.save!
       puts "Saved  #{p.inspect}"
     end
     ActiveRecord::Base.connection.execute("SELECT setval('payments_id_seq', (SELECT max(id) FROM payments));")
