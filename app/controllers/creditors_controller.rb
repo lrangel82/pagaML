@@ -1,11 +1,12 @@
 class CreditorsController < ApplicationController
-   before_action :authenticate_admin!
+   before_action :authenticate_user!
 
    #GET creditors/index
    def index
       if !session[:money_lender_id].nil? && session[:money_lender_id] > 0
          redirect_to creditor_path(session[:money_lender_id])
       else
+         Rails.logger.info "LARANGEL to list all"
          redirect_to :action => "list_all"
       end
    end
@@ -15,15 +16,16 @@ class CreditorsController < ApplicationController
          @moneylenders = Moneylender.all
          @loans = Loan.all.order(:id)
       else
-         @moneylenders = Moneylender.where(user: current_user)
-         @loans = Loan.joins(:moneylender).where(moneylenders: { user: current_user }).order(:id)
+         Rails.logger.info "LARANGEL to get data moneylender"
+         @moneylenders = Moneylender.where(user_id: current_user.id)
+         @loans = Loan.joins(:moneylender).where(moneylenders: { user_id: current_user.id }).order(:id)
       end
       @loans_count ||= @loans.count
       @total_amount_borrowed ||= @loans.sum(:amount_borrowed)
       @total_balance ||= @loans.sum(:balance)
       @total_next_amount_payment = @loans.sum(&:next_amount_payment)
       @total_profit ||= @loans.sum{ |l| l.payments.sum(:profit) }
-
+      Rails.logger.info "LARANGEL render index"
       render "creditors/index"
    end
 
