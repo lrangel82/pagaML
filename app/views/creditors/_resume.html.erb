@@ -14,8 +14,6 @@
       <h5 class="col-sm"><%=t(:balance)%> <%=number_to_currency(@moneylender.loan.sum(:balance))%></h5>
       <div class="col-sm">
         CLABE:<%=@moneylender.clabe%>
-        <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
-        <%=t(:more)%> &Hacek;</a>
       </div>
       
       <h6 class="col-sm"><%=t(:next_total_payment)%>  <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>

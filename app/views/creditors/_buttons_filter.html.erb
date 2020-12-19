@@ -1,3 +1,4 @@
+<a href="<%=creditors_path%>/list_all" class="btn btn-info btn-sm ">Ver todas las cuentas</a>
 <div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group" aria-label="Vistas">
     <a href="<%=creditor_path(session[:money_lender_id], render_view_loans: "users")%>" type="button" class="filterbtn btn btn-sm btn-light <%="active" if @render_view_loans=="users" %>" data-remote="true"><input type="radio" name="options_view" id="option1" autocomplete="off" <%="checked" if @render_view_loans=="users" %>>Usr</a>
     <a href="<%=creditor_path(session[:money_lender_id], render_view_loans: "table")%>" type="button" class="filterbtn btn btn-sm btn-light <%="active" if @render_view_loans=="table" %>" data-remote="true"><input type="radio" name="options_view" id="option2" autocomplete="off" <%="checked" if @render_view_loans=="table" %>>Lista</a>
