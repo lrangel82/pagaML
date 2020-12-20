@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :statuses
     resources :moneylenders
     resources :loan_types
+    resources :users
   end
 
   

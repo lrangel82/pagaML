@@ -1,4 +1,4 @@
-class Admin::MoneylendersController < ApplicationController
+class Admin::MoneylendersController < AdminController
   before_action :set_moneylender, only: [:show, :edit, :update, :destroy]
 
   # GET /moneylenders

@@ -1,4 +1,4 @@
-class Admin::PaymentsController < ApplicationController
+class Admin::PaymentsController < AdminController
   before_action :set_payment, only: [:show, :edit, :update, :destroy]
 
   # GET /payments

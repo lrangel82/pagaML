@@ -1,10 +1,26 @@
 <h1>Admin#index</h1>
 <p>Find me in app/views/admin/index.html.erb</p>
 
-
-<%= link_to 'Loans', admin_loans_path %>
-<%= link_to 'Payments', admin_payments_path %>
-<%= link_to 'Moneylenders', admin_moneylenders_path %>
-<%= link_to 'Loan types', admin_loan_types_path %>
-<%= link_to 'Statuses', admin_statuses_path %>
-<%= link_to 'Extra fees', admin_extra_fees_path %>
+<div class="row g-5">
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Loans', admin_loans_path, class: "" %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Payments', admin_payments_path %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Moneylenders', admin_moneylenders_path %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Loan types', admin_loan_types_path %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Statuses', admin_statuses_path %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Extra fees', admin_extra_fees_path %></span>
+   </div>
+   <div class="col-md-3 text-center">
+      <span class="p-3 btn btn-light "><%= link_to 'Users', admin_users_path %></span>
+   </div>
+</div>

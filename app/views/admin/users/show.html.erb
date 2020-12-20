@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @user.id %>
+</p>
+
+<p>
+  <strong>email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>admin:</strong>
+  <%= @user.admin %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @user.name %>
+</p>
+
+<p>
+  <strong>Last Name:</strong>
+  <%= @user.lastname %>
+</p>
+
+<p>
+  <strong>Provider:</strong>
+  <%= @user.provider %>
+</p>
+
+<p>
+  <strong>Provide UID:</strong>
+  <%= @user.uid %>
+</p>
+
+<p>
+  <strong>created_at:</strong>
+  <%= @user.created_at %>
+</p>
+
+<p>
+  <strong>updated_at:</strong>
+  <%= @user.updated_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_admin_user_path(@user) %> |
+<%= link_to 'Back', admin_users_path %>

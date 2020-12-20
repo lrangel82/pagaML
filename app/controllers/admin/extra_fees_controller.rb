@@ -1,4 +1,4 @@
-class Admin::ExtraFeesController < ApplicationController
+class Admin::ExtraFeesController < AdminController
   before_action :set_extra_fee, only: [:show, :edit, :update, :destroy]
 
   # GET /extra_fees
