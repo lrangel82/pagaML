@@ -9,7 +9,10 @@
           <h5><%=@loan.status_text%> <%=@loan.user.complete_name%> <%=number_to_currency(@loan.amount_borrowed)%></h5>
           
   </div>
-  <h5 class="mb-1"><%=t('loan.next_payment')%>:<strong><%= number_to_currency(@loan.next_amount_payment) %></strong></h5>
+  <div class="row">
+    <h5 class="col-sm-6"><%=t('loan.next_payment')%>:<strong><%= number_to_currency(@loan.next_amount_payment) %></strong></h5>
+    <h5 class="col-sm-6"><%=t('loan.balance')%>:<strong><%= number_to_currency(@loan.balance) %></strong></h5>
+  </div>
   <a class="float-right badge badge-light" data-toggle="collapse" href="#collapseCardTitle" role="button" aria-expanded="false" aria-controls="collapseCardTitle">
     <%=t(:more)%> &Hacek;</a>
 
