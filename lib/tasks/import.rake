@@ -1,5 +1,5 @@
 namespace :import do
-  desc "TODO"
+  desc "TODO a import from cvs files"
   task loans: :environment do
     require "csv"
     csv_text = File.read(Rails.root.join("db", "prestamos.csv"))
@@ -57,7 +57,7 @@ namespace :import do
       p = Payment.new
       p.loan_id              = row["id"][2..-1].to_i
       p.amount               = row["monto"].sub(/,/, '.').to_f
-      p.payment_date         = row["fecha_pago"]
+      p.payment_date         = Date.strptime(row["fecha_pago"],"%d/%m/%Y")
       p.profit               = row["Interes"].sub(/,/, '.').to_f
       p.payment_to_borrowed  = row["Capital"].sub(/,/, '.').to_f
       p.status_id       = 2
