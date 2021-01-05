@@ -3,7 +3,7 @@ namespace :export do
 
   task loans: :environment do
     require "csv"
-    csv_text = "#{Rails.root.join("db", "prestamos_export.csv")}"
+    csv_text = "#{Rails.root.join("public", "prestamos_export.csv")}"
     headers = ["id", "persona", "monto", "interes %", "semanas", "FechaIni", "Fecha Fin", "ProximoPago","Es Pago Mensual?", "Pago Semanal / Mensual", "Ganancia","quien", "\#Pagos","Monto Pagado","Resta","Dias Vencido","Pagado","NOTAS"]
 
     CSV.open(csv_text, 'w', write_headers: true, headers: headers) do
@@ -36,7 +36,7 @@ namespace :export do
 
   task payments: :environment do
     require "csv"
-    csv_text = "#{Rails.root.join("db", "abonoss_export.csv")}"
+    csv_text = "#{Rails.root.join("public", "abonoss_export.csv")}"
     headers = ["id", "nombre", "fecha_pago", "monto", "EsPagoMensual", "Interes","Capital"]
 
     CSV.open(csv_text, 'w', write_headers: true, headers: headers) do
