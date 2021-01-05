@@ -24,3 +24,10 @@ require("jquery-ui")
 // const imagePath = (name) => images(name, true)
 
 //import('styles/application.css')
+$(document).on("turbolinks:click", function(){
+  $("#overlay").show();
+});
+
+$(document).on("turbolinks:load", function(){
+  $("#overlay").hide();
+});
