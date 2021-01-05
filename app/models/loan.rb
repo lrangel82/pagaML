@@ -32,6 +32,34 @@ class Loan < ApplicationRecord
     #self.save!
   end
 
+  def self.to_csv
+    require "csv"
+      headers = ["id", "persona", "monto", "interes %", "semanas", "FechaIni", "Fecha Fin", "ProximoPago","Es Pago Mensual?", "Pago Semanal / Mensual", "Ganancia","quien", "\#Pagos","Monto Pagado","Resta","Dias Vencido","Pagado","NOTAS"]
+      CSV.generate(write_headers: true, headers: headers) do |writer|
+         all.order(:id).each do |loan|
+            writer <<  [
+            loan.code,
+            loan.user.complete_name,
+            loan.amount_borrowed,
+            loan.loan_type.is_profit_balane ? loan.loan_type.profit_by_payment * 100 : loan.loan_type.total_profit * 100,
+            loan.loan_type.number_of_payments,
+            loan.start_date.strftime("%Y/%m/%d"),
+            loan.end_date.nil? ? "" : loan.end_date.strftime("%Y/%m/%d"),
+            loan.next_payment_date.nil? ? "" : loan.next_payment_date.strftime("%Y/%m/%d"),
+            loan.loan_type.is_profit_balane ? 1 : nil,
+            loan.next_amount_payment,
+            loan.amount_borrowed * (loan.loan_type.is_profit_balane ? loan.loan_type.profit_by_payment : loan.loan_type.total_profit),
+            loan.moneylender.user.name[0],
+            loan.payments.count,
+            loan.payments.sum(:amount),
+            loan.balance,
+            loan.days_left,
+            loan.paied? ? "SI"+loan.moneylender.user.name[0] : loan.moneylender.user.name[0]
+         ]
+         end
+      end
+  end
+
   def balance
 
     return 0 if loan_type.nil?

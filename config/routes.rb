@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   
   namespace :admin do
     get 'index', as: "index"
+    get 'export_payments', as: "export_payments"
+    get 'export_loans', as: "export_loans"
     resources :extra_fees
     resources :payments
     resources :loans
