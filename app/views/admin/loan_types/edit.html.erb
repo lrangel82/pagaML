@@ -1,6 +1,10 @@
 <h1>Editing Loan Type</h1>
 
-<%= render 'form', loan_type: @loan_type %>
+<%= render 'form', loan_type: @loan_type, action:"update" %>
 
-<%= link_to 'Show', admin_loan_types_path(@loan_type) %> |
-<%= link_to 'Back', admin_loan_types_path %>
+
+
+
+
+<%= link_to 'Show', admin_loan_type_path(@loan_type) %> |
+<%= link_to 'Back', admin_loan_type_path %>

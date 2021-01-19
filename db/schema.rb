@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_033247) do
+ActiveRecord::Schema.define(version: 2021_01_07_074329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2020_10_13_033247) do
     t.index ["moneylender_id"], name: "index_loans_on_moneylender_id"
     t.index ["status_id"], name: "index_loans_on_status_id"
     t.index ["user_id"], name: "index_loans_on_user_id"
+  end
+
+  create_table "moneylender_users", force: :cascade do |t|
+    t.bigint "moneylender_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["moneylender_id"], name: "index_moneylender_users_on_moneylender_id"
+    t.index ["user_id"], name: "index_moneylender_users_on_user_id"
   end
 
   create_table "moneylenders", force: :cascade do |t|
@@ -124,6 +133,8 @@ ActiveRecord::Schema.define(version: 2020_10_13_033247) do
   add_foreign_key "loans", "moneylenders"
   add_foreign_key "loans", "statuses"
   add_foreign_key "loans", "users"
+  add_foreign_key "moneylender_users", "moneylenders"
+  add_foreign_key "moneylender_users", "users"
   add_foreign_key "moneylenders", "users"
   add_foreign_key "payments", "loans"
   add_foreign_key "payments", "statuses"

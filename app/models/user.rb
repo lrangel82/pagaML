@@ -20,7 +20,8 @@ class User < ApplicationRecord
   end
 
   def monylender?
-    moneylender.size > 0
+    #moneylender.size > 0
+    Moneylender.where(user_id: id ).size > 0
   end
 
   def complete_name

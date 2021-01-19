@@ -8,6 +8,7 @@
 Payment.destroy_all
 Loan.destroy_all
 LoanType.destroy_all
+MoneylenderUser.destroy_all
 Moneylender.destroy_all
 User.destroy_all
 Status.destroy_all

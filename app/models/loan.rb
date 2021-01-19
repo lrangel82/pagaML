@@ -3,8 +3,8 @@ class Loan < ApplicationRecord
   belongs_to :status
   belongs_to :loan_type
   belongs_to :user
-  has_many :extra_fees
-  has_many :payments
+  has_many :extra_fees, dependent: :destroy
+  has_many :payments, dependent: :destroy
 
   validates :start_date, presence: true
   validates :loan_date, presence: true

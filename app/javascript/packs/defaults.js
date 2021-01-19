@@ -13,6 +13,12 @@ $( document ).ready(function(){
          $(this).text('\u02C4');
       }
    });
+
+   $('#search_users').autocomplete({
+      source: "users.json",
+      minLength: 2,
+      select: function(event,ui){ alert('aqui busqueda');}
+   });
    
    //Auto calculate
    $('#payment_amount').change(function(){

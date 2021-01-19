@@ -11,7 +11,16 @@ namespace :import do
       i = i + 1
       l = Loan.new
       l.id              = row["id"][2..-1].to_i
-      l.moneylender_id  = row["quien"] == "M" ? 3 : 1
+      case row["quien"]
+      when "M"
+        l.moneylender_id = 3
+      when "P"
+        l.moneylender_id = 1
+      when "L"
+        l.moneylender_id = 2
+      else
+        l.moneylender_id = 1
+      end
       l.status_id       = 1
       l.status_id       = 2 if row["Pagado"][0..1] == "SI"
       l.loan_type_id = 9                                                                 #id: 9, short_name: "Eterno"
@@ -57,7 +66,7 @@ namespace :import do
       p = Payment.new
       p.loan_id              = row["id"][2..-1].to_i
       p.amount               = row["monto"].sub(/,/, '.').to_f
-      p.payment_date         = Date.strptime(row["fecha_pago"],"%d/%m/%Y")
+      p.payment_date         = row["fecha_pago"] #Date.strptime(row["fecha_pago"],"%d/%M/%Y")
       p.profit               = row["Interes"].sub(/,/, '.').to_f
       p.payment_to_borrowed  = row["Capital"].sub(/,/, '.').to_f
       p.status_id       = 2
