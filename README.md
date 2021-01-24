@@ -36,4 +36,7 @@ $ heroku run bash
 $ heroku run jirb --app pagaml  
 $ heroku console --app pagaml  
 
-$ heroku pg:psql gray
+$ heroku pg:psql --app pagaml
+
+#BACKUP DB pull:push
+$ heroku pg:pull pagaml::DATABASE mylocaldb --app pagaml

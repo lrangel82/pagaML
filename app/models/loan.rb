@@ -154,7 +154,7 @@ class Loan < ApplicationRecord
     else
       _profit=(amount_borrowed * loan_type.total_profit / 100) / loan_type.number_of_payments
     end
-    return _profit if base_amount.nil? or base_amount > _profit
+    return _profit if base_amount.nil? or base_amount >= _profit
     return nil
   end
 
