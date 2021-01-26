@@ -10,9 +10,11 @@
       Abono de: <%= number_to_currency(loan.next_amount_payment) %>
       Resta: <%= number_to_currency(loan.balance) %><br/>
       <%= pluralize(loan.payments.count, 'pago') %>
-      <% end %>
       <% if loan.delayed? %>
-      Retrazado <%=pluralize(loan.days_left,'dia')%>
+         Retrazo <%=pluralize(loan.days_left * -1,'dia')%>
+      <% else %>
+         Faltan <%=pluralize(loan.days_left,'dia')%>
+      <% end %>
       <% end %>
       </div>
    </div>

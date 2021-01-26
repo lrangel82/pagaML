@@ -36,6 +36,13 @@
        </button>
        <% end %>
 
+       <%if (moneylender.loans_coming > 0 ) %>
+       <button type="button" class="btn btn-warning">
+        <%=t(:proximos)%> <span class="badge badge-light"><%=moneylender.loans_coming%></span>
+        <span class="sr-only">Prestamos proximos</span>
+       </button>
+       <% end %>
+
        <%if (moneylender.loans_ok > 0 ) %>
        <button type="button" class="btn btn-primary">
         <%=t(:al_corriente)%> <span class="badge badge-light"><%=moneylender.loans_ok%></span>

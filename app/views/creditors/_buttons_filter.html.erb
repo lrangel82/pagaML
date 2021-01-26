@@ -9,6 +9,11 @@
   <span class="sr-only">Prestamos retrazados</span>
  </a>
 
+ <a id="searchDelayed" href="<%=creditor_path(session[:money_lender_id], filter: "coming")%>" type="button" class="filterbtn btn btn-outline-warning btn-sm " data-searchtext="<%=t(:open)+' '+t(:coming)%>" data-remote="true">
+  <%=t(:proximo)%> <span class="badge badge-light"><%=@moneylender.loans_coming%></span>
+  <span class="sr-only">Prestamos proximos</span>
+ </a>
+
  <a id="searchAware" href="<%=creditor_path(session[:money_lender_id], filter: "aware")%>" type="button" class="filterbtn btn btn-outline-primary btn-sm " data-searchtext="<%=t(:open)+' '+t(:aware)%>" data-remote="true">
   <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
   <span class="sr-only">Prestamos al corriente</span>

@@ -33,6 +33,10 @@ class User < ApplicationRecord
     #loans.where("next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, money_lender_id )
     return true
   end
+  def coming?(money_lender_id)
+    loans.where(moneylender_id: money_lender_id, status_id: 1).each { |l| return true if l.coming? }
+    return false
+  end
 
   def delayed?(money_lender_id)
     loans.where(moneylender_id: money_lender_id).each { |l| return true if l.delayed? }

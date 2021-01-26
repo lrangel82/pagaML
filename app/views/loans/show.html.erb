@@ -4,6 +4,7 @@
   <div class="card-header <%="bg-danger" if @loan.delayed? %>
           <%="bg-success" if @loan.paied? %>
           <%="bg-primary" if @loan.ok? %>
+          <%="bg-warning" if @loan.coming? %>
           <%="bg-secondary" if @loan.closed? %>">
           <%= link_to t('loan.edit_loan'), edit_loan_path(@loan), class: 'btn btn-outline-dark float-right' if @can_user_edit%>
           <h5><%=@loan.status_text%> <%=@loan.user.complete_name%> <%=number_to_currency(@loan.amount_borrowed)%></h5>

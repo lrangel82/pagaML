@@ -54,6 +54,9 @@ class CreditorsController < ApplicationController
          when "delayed"
             @loans = @loans.where("next_payment_date < ? and status_id=1", Time.now)
             @users = User.joins(:loans).where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
+         when "coming"
+            @loans = @loans.where("next_payment_date <= ? and next_payment_date > ? and status_id=1", Time.now + 2.day, Time.now)
+            @users = User.joins(:loans).where("loans.next_payment_date <= ? and next_payment_date > ? and loans.status_id=1 and loans.moneylender_id=?",Time.now + 2.day, Time.now, params['id'] ).group('users.id').order('users.name')
          when "aware"
             @loans = @loans.where("next_payment_date >= ? and status_id=1", Time.now)
             @users = User.joins(:loans).where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')

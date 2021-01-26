@@ -74,13 +74,16 @@ class Loan < ApplicationRecord
   end
 
   def delayed?
-    next_payment_date < Date.today && status_id == 1
+    next_payment_date <= Date.today && status_id == 1
   end
   def paied?
     balance <= 0 && (status_id == 2 or status_id == 3)
   end
+  def coming?
+    Date.today >= (next_payment_date - 2.day) && Date.today < next_payment_date  && status_id == 1
+  end
   def ok?
-    next_payment_date >= Date.today && status_id == 1
+    Date.today < (next_payment_date - 2.day)  && status_id == 1
   end
   def closed?
     status_id == 4 or status_id == 5
