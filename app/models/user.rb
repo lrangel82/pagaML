@@ -52,6 +52,10 @@ class User < ApplicationRecord
     return false
   end
 
+  def self.search(term)
+    where("name ILIKE ? or email ILIKE ?", "%#{term}%", "%#{term}%")
+  end
+
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]

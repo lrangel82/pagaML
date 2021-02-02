@@ -15,9 +15,20 @@ $( document ).ready(function(){
    });
 
    $('#search_users').autocomplete({
-      source: "users.json",
+      source: "/client/search.json",
       minLength: 2,
-      select: function(event,ui){ alert('aqui busqueda');}
+      response: function(event,ui){
+         if( ui.content.length == 0){
+            $('#search_users').addClass('is-invalid');
+            $('#loan_user_id').val('');
+         }
+      },
+      select: function(event,ui){
+         $('#loan_user_id').val( ui.item.id ); 
+         $('#search_users').removeClass('is-invalid');
+         //alert('Value: '+ui.item.value);
+         //alert('Id: '+ui.item.id);
+      }
    });
    
    //Auto calculate
