@@ -5,18 +5,23 @@
       <a href="<%=loan_path(loan)%>" class="list-group-item list-group-item-action text-white <%="bg-danger" if loan.delayed? %>
           <%="bg-success" if loan.paied? %>
           <%="bg-primary" if loan.ok? %>
+          <%="bg-warning" if loan.coming? %>
           <%="bg-secondary" if loan.closed? %>">
        <div class="d-flex w-100 justify-content-between">
-         <h5 class="mb-1"><%= number_to_currency(loan.next_amount_payment) %> a pagar el <%=loan.next_payment_date%> </h5>
+         <h3 class="mb-1">Debe <%= number_to_currency(loan.balance) %></h3>
          <small><%=pluralize(loan.payments.size, 'pago')%></small>
        </div>
+       <% if !loan.paied? %>
+          <h5>Siguiente pago es de <%= number_to_currency(loan.next_amount_payment) %> 
+            a pagar el <%=loan.next_payment_date%> </h5>
+       <% end %>
        <p class="mb-1">El total de prestamo fue de <%= number_to_currency(loan.amount_borrowed) %> realizado el <%= loan.start_date.strftime("%y/%m/%d") %>, le debe a <b><%= loan.moneylender.alias %></b>.</p>
        <p>
          Deposito en <b><%= loan.moneylender.bank %></b> CLABE: <b><%= loan.moneylender.clabe %></b> numero de cuenta: <%=loan.moneylender.account_number%> 
        </p>
        <p class="d-flex w-100 justify-content-between">
-         <% if loan.status_id != 2 %>  
-           Finaliza el <%=loan.end_date.strftime("%y/%m/%d")%>
+         <% if ! loan.paied?  %>  
+           Finaliza el <%= loan.end_date.nil? ? "(pago mensual)" : loan.end_date.strftime("%y/%m/%d")  %>
            <small> 
             <%="Retrazado" if loan.delayed?%>
             <%="Pago en" unless loan.delayed?%> 

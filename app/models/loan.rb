@@ -12,6 +12,12 @@ class Loan < ApplicationRecord
 
   before_save :recalculation
 
+  scope :delayed, -> { where( "next_payment_date <= ? and status_id = ?", Date.today, 1) }
+  scope :paied, -> { where({balance: -Float::INFINITY..0, status_id: [2,3] }) }
+  scope :coming, -> { where({next_payment_date: (Date.today + 1.day)..(Date.today + 2.day), status_id: 1} ) }
+  scope :ok, -> { where({next_payment_date: (Date.today + 3.day)..Date::Infinity.new , status_id: 1} )}
+  scope :closed, -> { where(status_id: [4,5]) }
+
   include ActionView::Helpers::NumberHelper
 
   def name
@@ -50,7 +56,7 @@ class Loan < ApplicationRecord
             loan.next_amount_payment,
             loan.amount_borrowed * (loan.loan_type.is_profit_balane ? loan.loan_type.profit_by_payment : loan.loan_type.total_profit),
             loan.moneylender.user.name[0],
-            loan.payments.count,
+            loan.payments.paied.count,
             loan.payments.sum(:amount),
             loan.balance,
             loan.days_left,
@@ -66,9 +72,9 @@ class Loan < ApplicationRecord
     return 0 if status_id > 1
 
     if loan_type.is_profit_balane
-      amount_borrowed - payments.sum(:payment_to_borrowed)
+      amount_borrowed - payments.parents.sum(:payment_to_borrowed)
     else
-      (amount_borrowed * (loan_type.total_profit / 100 + 1)) - payments.sum(:amount)
+      (amount_borrowed * (loan_type.total_profit / 100 + 1)) - payments.parents.sum(:amount)
     end
     
   end
@@ -126,11 +132,11 @@ class Loan < ApplicationRecord
     return nil if loan_type.nil?
 
     if loan_type.is_profit_balane
-      months_to_add = payments.count + 1
+      months_to_add = payments.paied.count 
       days_to_add = loan_type.payment_frequency_days
     else
       months_to_add = 0
-      days_to_add = loan_type.payment_frequency_days * (payments.count + 1)
+      days_to_add = loan_type.payment_frequency_days * (payments.paied.count + 1)
     end
     next_payment_date = start_date + months_to_add.month
     next_payment_date = next_payment_date + days_to_add.day
@@ -158,6 +164,7 @@ class Loan < ApplicationRecord
       _profit=(amount_borrowed * loan_type.total_profit / 100) / loan_type.number_of_payments
     end
     return _profit if base_amount.nil? or base_amount >= _profit
+    return base_amount if !base_amount.nil? && base_amount < _profit
     return nil
   end
 

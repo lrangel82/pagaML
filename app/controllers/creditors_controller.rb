@@ -16,7 +16,7 @@ class CreditorsController < ApplicationController
          @loans = Loan.all.order(:id)
       else
          @moneylenders = Moneylender.where(user_id: current_user.id)
-         @loans = Loan.joins(:moneylender).where(moneylenders: { user_id: current_user.id }).order(:id)
+         @loans =  Loan.joins(:moneylender).where(moneylenders: { user_id: current_user.id }).order(:id)
       end
       @loans_count ||= @loans.count
       @total_amount_borrowed ||= @loans.sum(:amount_borrowed)
@@ -34,7 +34,8 @@ class CreditorsController < ApplicationController
          session[:money_lender_id] = nil
          session[:render_view_loans] = nil
          session[:filter_loan] = nil
-         render :index
+         #render :index
+         redirect_to :action => "list_all"
          return
       end
       
@@ -43,42 +44,37 @@ class CreditorsController < ApplicationController
       session[:filter_loan] = params['filter'] if !params['filter'].nil? && params['filter'] != session[:filter_loan]
 
       @loans = Loan.joins(:moneylender).where(moneylender_id: params['id']).order(:id)
-      @loans.each { |l| 
-            if l.updated_at.day != Date.today.day 
-               l.recalculation
-               l.save!
-            end 
-         }
+      # @loans.each { |l| 
+      #       if l.updated_at.day != Date.today.day 
+      #          l.recalculation
+      #          l.save!
+      #       end 
+      #    }
 
       case session[:filter_loan]
          when "delayed"
-            @loans = @loans.where("next_payment_date < ? and status_id=1", Time.now)
-            @users = User.joins(:loans).where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
+            @loans = @moneylender.loan.delayed #.where("next_payment_date < ? and status_id=1", Time.now)
+            @users = User.joins(:loans).merge(@loans).group('users.id') #  .where("loans.next_payment_date < ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
          when "coming"
-            @loans = @loans.where("next_payment_date <= ? and next_payment_date > ? and status_id=1", Time.now + 2.day, Time.now)
-            @users = User.joins(:loans).where("loans.next_payment_date <= ? and next_payment_date > ? and loans.status_id=1 and loans.moneylender_id=?",Time.now + 2.day, Time.now, params['id'] ).group('users.id').order('users.name')
+            @loans = @moneylender.loan.coming #.where("next_payment_date <= ? and next_payment_date > ? and status_id=1", Time.now + 2.day, Time.now)
+            @users = User.joins(:loans).merge(@loans).group('users.id') #.where("loans.next_payment_date <= ? and next_payment_date > ? and loans.status_id=1 and loans.moneylender_id=?",Time.now + 2.day, Time.now, params['id'] ).group('users.id').order('users.name')
          when "aware"
-            @loans = @loans.where("next_payment_date >= ? and status_id=1", Time.now)
-            @users = User.joins(:loans).where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
+            @loans = @moneylender.loan.ok #where("next_payment_date >= ? and status_id=1", Time.now)
+            @users = User.joins(:loans).merge(@loans).group('users.id') #.where("loans.next_payment_date >= ? and loans.status_id=1 and loans.moneylender_id=?",Time.now, params['id'] ).group('users.id').order('users.name')
          when "paied"
-            @loans = @loans.where(status_id: [2,3])
-            @users = User.joins(:loans).where(:loans => { 
-                        status_id: [2,3], moneylender_id: params['id'] 
-                     }).group('users.id').order('users.name')
+            @loans = @moneylender.loan.paied #where(status_id: [2,3])
+            @users = User.joins(:loans).merge(@loans).group('users.id') # .where(:loans => { status_id: [2,3], moneylender_id: params['id'] }).group('users.id').order('users.name')
          when "close"
-            @loans = @loans.where(status_id: [4,5])
-            @users = User.joins(:loans).where(:loans => { 
-                        status_id: [4,5], moneylender_id: params['id'] 
-                     }).group('users.id').order('users.name')
+            @loans = @moneylender.loan.closed #.where(status_id: [4,5])
+            @users = User.joins(:loans).merge(@loans).group('users.id') #.where(:loans => { status_id: [4,5], moneylender_id: params['id']  }).group('users.id').order('users.name')
          else
-            @users = User.joins(:loans).where(:loans => { 
-                        moneylender_id: params['id'] 
-                     }).group('users.id').order('users.name')
+            @loans = @moneylender.loan
+            @users = User.joins(:loans).merge(@loans).group('users.id') #.where(:loans => { moneylender_id: params['id'] }).group('users.id').order('users.name')
       end
 
-      Rails.logger.info "LARANGEL [:render_view_loans]:#{session[:render_view_loans]}"
-      Rails.logger.info "LARANGEL users:#{@users.size}"
-      Rails.logger.info "LARANGEL loans:#{@loans.size}"
+      #Rails.logger.info "LARANGEL [:render_view_loans]:#{session[:render_view_loans]}"
+      #Rails.logger.info "LARANGEL users:#{@users.size}"
+      #Rails.logger.info "LARANGEL loans:#{@loans.size}"
 
       respond_to do |format|
          @render_view_loans = session[:render_view_loans] == "table" ? "table" : "users"

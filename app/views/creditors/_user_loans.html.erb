@@ -4,12 +4,16 @@
       <%= number_to_currency(loan.amount_borrowed) %>
       <%= t(loan.status_text) %><br>
       <% if loan.delayed? %>
+         <% if loan.payments.parents.count > 0 && !loan.payments.parents.last.is_complete? %>
+         <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=loan_new_subpayment_path(loan,loan.payments.parents.last.id)%>">Completar Abono</a>
+         <% else %>
          <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=new_loan_payment_path(loan)%>">Abono</a>
+         <% end %>
       <% end %>
       <% unless loan.paied? %>
       Abono de: <%= number_to_currency(loan.next_amount_payment) %>
       Resta: <%= number_to_currency(loan.balance) %><br/>
-      <%= pluralize(loan.payments.count, 'pago') %>
+      <%= pluralize(loan.payments.paied.count, 'pago') %>
       <% if loan.delayed? %>
          Retrazo <%=pluralize(loan.days_left * -1,'dia')%>
       <% else %>

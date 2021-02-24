@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :creditors, only: [:index, :show]
   resources :loans do
     resources :payments
+    get "payments/new/:parent_id" => "payments#new", as: "new_subpayment"
   end
 
   namespace :client do

@@ -14,7 +14,7 @@
   <% end %>
 
   <h3><%= @loan.code %> <%= @loan.user.complete_name%></h3>
-
+  <%= form.hidden_field :parent_id %>
   <div class="row">
     <div class="form-group col-md">
       <%= form.label :amount %>

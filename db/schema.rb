@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_07_074329) do
+ActiveRecord::Schema.define(version: 2021_02_24_071233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,9 @@ ActiveRecord::Schema.define(version: 2021_01_07_074329) do
     t.integer "status_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "parent_id"
     t.index ["loan_id"], name: "index_payments_on_loan_id"
+    t.index ["parent_id"], name: "index_payments_on_parent_id"
     t.index ["status_id"], name: "index_payments_on_status_id"
   end
 
@@ -137,5 +139,6 @@ ActiveRecord::Schema.define(version: 2021_01_07_074329) do
   add_foreign_key "moneylender_users", "users"
   add_foreign_key "moneylenders", "users"
   add_foreign_key "payments", "loans"
+  add_foreign_key "payments", "payments", column: "parent_id"
   add_foreign_key "payments", "statuses"
 end
