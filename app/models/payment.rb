@@ -37,7 +37,7 @@ class Payment < ApplicationRecord
 
   def is_complete?
     return nil unless parent_id.nil?
-    self.amount >= loan.next_amount_payment
+    self.amount >= loan.next_amount_payment.round(2)
   end
 
   private
