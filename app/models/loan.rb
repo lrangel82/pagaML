@@ -1,7 +1,7 @@
 class Loan < ApplicationRecord
   belongs_to :moneylender
   belongs_to :status
-  belongs_to :loan_type
+  belongs_to :loan_type, optional: true
   belongs_to :user
   has_many :extra_fees, dependent: :destroy
   has_many :payments, dependent: :destroy
@@ -47,14 +47,14 @@ class Loan < ApplicationRecord
             loan.code,
             loan.user.complete_name,
             loan.amount_borrowed,
-            loan.loan_type.is_profit_balane ? loan.loan_type.profit_by_payment * 100 : loan.loan_type.total_profit * 100,
-            loan.loan_type.number_of_payments,
+            loan.is_profit_balane ? loan.profit_by_payment * 100 : loan.total_profit * 100,
+            loan.number_of_payments,
             loan.start_date.strftime("%Y/%m/%d"),
             loan.end_date.nil? ? "" : loan.end_date.strftime("%Y/%m/%d"),
             loan.next_payment_date.nil? ? "" : loan.next_payment_date.strftime("%Y/%m/%d"),
-            loan.loan_type.is_profit_balane ? 1 : nil,
+            loan.is_profit_balane ? 1 : nil,
             loan.next_amount_payment,
-            loan.amount_borrowed * (loan.loan_type.is_profit_balane ? loan.loan_type.profit_by_payment : loan.loan_type.total_profit),
+            loan.amount_borrowed * (loan.is_profit_balane ? loan.profit_by_payment : loan.total_profit),
             loan.moneylender.user.name[0],
             loan.payments.paied.count,
             loan.payments.sum(:amount),
@@ -68,15 +68,18 @@ class Loan < ApplicationRecord
 
   def balance
 
-    return 0 if loan_type.nil?
     return 0 if status_id > 1
 
-    if loan_type.is_profit_balane
+    if is_profit_balane
       amount_borrowed - payments.parents.sum(:payment_to_borrowed)
     else
-      (amount_borrowed * (loan_type.total_profit / 100 + 1)) - payments.parents.sum(:amount)
+      (amount_borrowed * (total_profit / 100 + 1)) - payments.parents.sum(:amount)
     end
     
+  end
+
+  def total_profit
+    profit_by_payment * number_of_payments
   end
 
   def delayed?
@@ -120,48 +123,47 @@ class Loan < ApplicationRecord
   end
 
   def end_date
-    return nil if loan_type.is_profit_balane 
-    return nil if loan_type.number_of_payments <= 0
+    return nil if is_profit_balane 
+    return nil if number_of_payments <= 0
 
-    days_to_add = (loan_type.number_of_payments * loan_type.payment_frequency_days)
-    days_to_add += extra_fees.sum(:days_added) if extra_fees.count > 0
+    days_to_add = (number_of_payments * payment_frequency_days)
+    #days_to_add += extra_fees.sum(:days_added) if extra_fees.count > 0
     enddate = start_date + days_to_add.day
   end
 
   def recal_next_payment_date
-    return nil if loan_type.nil?
-
-    if loan_type.is_profit_balane
-      months_to_add = payments.paied.count 
-      days_to_add = loan_type.payment_frequency_days
-    else
+   
+    #if is_profit_balane
+    #  months_to_add = payments.paied.count 
+    #  days_to_add = payment_frequency_days
+    #else
       months_to_add = 0
-      days_to_add = loan_type.payment_frequency_days * (payments.paied.count + 1)
-    end
+      days_to_add = payment_frequency_days * (payments.paied.count + 1)
+    #end
     next_payment_date = start_date + months_to_add.month
     next_payment_date = next_payment_date + days_to_add.day
   end
 
   def recal_next_amount_payment
-    return 0 unless loan_type
+    #return 0 unless loan_type
     return 0 unless status.is_active?
 
-    if loan_type.is_profit_balane
-      balance * loan_type.profit_by_payment / 100
+    if is_profit_balane
+      balance * profit_by_payment / 100
     else
-      (amount_borrowed * (loan_type.total_profit / 100 + 1)) / loan_type.number_of_payments
+      amount_borrowed * (total_profit / 100  + 1) / number_of_payments
     end
   end
 
   def recal_profit(base_amount = nil)
-    return 0 unless loan_type
+    #return 0 unless loan_type
     return 0 unless status.is_active?
 
     _profit=0
-    if loan_type.is_profit_balane
-      _profit=balance * loan_type.profit_by_payment / 100
+    if is_profit_balane
+      _profit= balance * profit_by_payment / 100
     else
-      _profit=(amount_borrowed * loan_type.total_profit / 100) / loan_type.number_of_payments
+      _profit= amount_borrowed * profit_by_payment / 100
     end
     return _profit if base_amount.nil? or base_amount >= _profit
     return base_amount if !base_amount.nil? && base_amount < _profit
@@ -169,7 +171,7 @@ class Loan < ApplicationRecord
   end
 
   def recal_payment_to_borroewd(base_amount = nil)
-    return 0 unless loan_type
+    #return 0 unless loan_type
     return 0 unless status.is_active?
     _profit = recal_profit(base_amount)
     base_amount - _profit

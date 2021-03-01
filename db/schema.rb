@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_071233) do
+ActiveRecord::Schema.define(version: 2021_03_01_090721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2021_02_24_071233) do
   create_table "loans", force: :cascade do |t|
     t.integer "moneylender_id", null: false
     t.integer "status_id", null: false
-    t.integer "loan_type_id", null: false
+    t.integer "loan_type_id"
     t.decimal "amount_borrowed"
     t.decimal "balance"
     t.date "loan_date"
@@ -57,6 +57,12 @@ ActiveRecord::Schema.define(version: 2021_02_24_071233) do
     t.string "clabe", limit: 16
     t.integer "account_number"
     t.string "bank"
+    t.integer "payment_frequency_days"
+    t.boolean "is_profit_balane"
+    t.integer "number_of_payments"
+    t.decimal "profit_by_payment"
+    t.decimal "total_profit"
+    t.text "description"
     t.index ["loan_type_id"], name: "index_loans_on_loan_type_id"
     t.index ["moneylender_id"], name: "index_loans_on_moneylender_id"
     t.index ["status_id"], name: "index_loans_on_status_id"

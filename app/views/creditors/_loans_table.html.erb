@@ -33,7 +33,7 @@
           </small></td>
         <td><%= number_to_currency(loan.next_amount_payment) %></td>
         <td><%= loan.user.complete_name %></td>
-        <td><%= loan.loan_type.short_name %></td>
+        <td><%= loan.description %></td>
         <td><%= number_to_currency(loan.amount_borrowed) %></td>
         <td><%= number_to_currency(loan.balance) %></td>
         <td><%= loan.payments.count %></td>

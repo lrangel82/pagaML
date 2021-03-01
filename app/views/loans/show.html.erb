@@ -18,20 +18,26 @@
     <%=t(:more)%> &Hacek;</a>
 
   <div id="collapseCardTitle" class="card-title collapse">
-    <div class="row">
-      <div class="col-sm"><%=t('loan.type')%>: <strong><%= @loan.loan_type.short_name %></strong></div>
-      <div class="col-sm"><%=t('loan.payment_date')%>: <strong><%= @loan.next_payment_date.strftime("%A %m/%d") %></strong></div>
-      <div class="col-sm"><strong><%=t('loan.start')%>:</strong><%= @loan.start_date %><br/><strong><%=t('loan.end')%>:</strong><%= @loan.end_date %></div>
+    <div class="row card-body">
+      <div class="col-md-9 col-sm-12"><%=t('loan.type')%>: <strong><%= @loan.description %></strong></div>
+
+      <div class="col-md-1 col-sm-4"><%=t('loan.frecuency')%>: <strong><%= @loan.payment_frequency_days %></strong></div>
+      <div class="col-md-1 col-sm-4"><%=t('loan.num_pays')%>: <strong><%= @loan.number_of_payments %></strong></div>
+      <div class="col-md-1 col-sm-4"><%=t('loan.profit')%>: <strong><%= @loan.profit_by_payment %>%</strong></div>
+
+      <div class="col-md-4 col-sm-12"><%=t('loan.payment_date')%>: <strong><%= @loan.next_payment_date %></strong></div>
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.start')%>:</strong><%= @loan.start_date %><br/><strong><%=t('loan.end')%>:</strong><%= @loan.end_date %></div>
+    </div>
+    <div class="row card-body">
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.money_lender')%>:</strong> <%= @loan.moneylender.alias %></div>
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.borrowed')%>:</strong> <%= number_to_currency(@loan.amount_borrowed) %></div>
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.balance')%>:</strong> <%= number_to_currency(@loan.balance) %></div>
+      <div class="col-md-4 col-sm-12"><strong><%=pluralize(@loan.payments.size, 'pago')%></strong></div>
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.created_date')%>:</strong><%= @loan.loan_date %></div>
+      <div class="col-md-4 col-sm-12"><strong><%=t('loan.next_payment_date')%>:</strong><%= @loan.next_payment_date %></div>
     </div>
     <div class="row">
-      <div class="col-sm"><strong><%=t('loan.money_lender')%>:</strong> <%= @loan.moneylender.alias %></div>
-      <div class="col-sm"><strong><%=t('loan.borrowed')%>:</strong> <%= number_to_currency(@loan.amount_borrowed) %></div>
-      <div class="col-sm"><strong><%=t('loan.balance')%>:</strong> <%= number_to_currency(@loan.balance) %></div>
-    </div>
-    <div class="row">
-      <div class="col-sm"><strong><%=pluralize(@loan.payments.size, 'pago')%></strong></div>
-      <div class="col-sm"><strong><%=t('loan.created_date')%>:</strong><%= @loan.loan_date %></div>
-      <div class="col-sm"><strong><%=t('loan.next_payment_date')%>:</strong><%= @loan.next_payment_date %></div>
+      
     </div>
   </div>
   

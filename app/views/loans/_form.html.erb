@@ -1,14 +1,16 @@
 <%= form_with(model: @loan, local: true) do |form| %>
   <% if loan.errors.any? || ( !new_user.nil? && new_user.errors.any? ) %>
     <div id="error_explanation" class="alert alert-warning" role="alert">
-      <h2><%= pluralize(loan.errors.count + new_user.errors.count, "error") %> </h2>
+      <h2><%= pluralize(loan.errors.count + (!new_user.nil? ? new_user.errors.count : 0), "error") %> </h2>
 
       <ul>
         <% loan.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
-        <% new_user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <% if !new_user.nil? %>
+          <% new_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
         <% end %>
       </ul>
     </div>
@@ -36,31 +38,50 @@
     </div>
   </div>
 
-  <!--div class="row">
-    search_users: <input id="search_users" class="form-control">
-  </div-->
+  <div class="card" >
+    <div class="row card-body">
+      <div class="form-group col-2">
+          <%= form.label :is_profit_balane %>
+          <%= form.check_box :is_profit_balane, :class=>"form-control" %>
+      </div>
+      <div class="form-group col-10">
+        <%= form.label :description %>
+        <%= form.text_field :description, :class=>"form-control" %>
+      </div>
+   
+      <div class="form-group col-md-3 col-sm-6">
+        <%= form.label :payment_frequency_days %>
+        <%= form.number_field :payment_frequency_days, :class=>"form-control" %>
+      </div>
+      <div class="form-group col-md-3 col-sm-6">
+        <%= form.label :number_of_payments %>
+        <%= form.number_field :number_of_payments, :class=>"form-control" %>
+      </div>
 
-  <div class="row">
-
-    <div class="form-group col-md-4 col-sm-12 ">
-      <%= form.label :loan_type_id %>
-      <%= form.collection_select :loan_type_id, LoanType.order(:short_name), :id, :short_name, {include_blank: false}, {:class=>"form-control"} %>
-    </div>
-    <div id="collapseListUser" class="form-group col-md-4 col-sm-4 collapse multicollapseNewUser <%='show' if @add_new_user !='true'%>">
-      <%= form.label :user_id %>
-      <%= form.hidden_field :user_id %>
-      <input id="search_users" class="form-control" placeholder="Buscar cliente....">
-      <!--%= form.collection_select :user_id, User.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %-->
-    </div>
-    <div class="form-group col-md-4 col-sm-4 ">
-      <button id="btn_add_new_user_in_loan" class="float-right btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
-    <%=t('loan.new_user')%> &#x02C5;</button>
+      <div class="form-group col-md-3 col-sm-6">
+        <%= form.label :profit_by_payment %>
+        <%= form.text_field :profit_by_payment, :class=>"form-control" %>
+      </div>
+      
     </div>
   </div>
-  
+  <br/>
+  <div class="card" >
+    <h5 class="card-header"><%= form.label :user_id%></h5>
 
-  <div id="collapseNewUser" class="card collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
-      <h5 class="card-header"><%=t('loan.new_user')%></h5>
+    <div class="row card-body form-inline">
+      <div id="collapseListUser" class="form-group col-md-9 col-sm-6 collapse multicollapseNewUser <%='show' if @add_new_user !='true'%>">
+        
+        <%= form.hidden_field :user_id %>
+        <input id="search_users" class="form-control" placeholder="Buscar cliente....">
+      </div>
+      <div class="form-group col-md-3 col-sm-6 ">
+        <button id="btn_add_new_user_in_loan" class="btn btn-light" type="button" data-target=".multicollapseNewUser" data-toggle="collapse" aria-expanded="false" aria-controls="collapseNewUser collapseListUser">
+      <%=t('loan.new_user')%> &#x02C5;</button>
+      </div>
+    </div>
+
+    <div id="collapseNewUser" class=" collapse multicollapseNewUser <%='show' if @add_new_user =='true'%>">
       <div class="row card-body">
         <%=hidden_field(:add, :new_user, value: @add_new_user) %>
         <div class="form-group col-md-4 col-sm-6">
@@ -76,7 +97,11 @@
           <%= email_field :new_user,:email, :class=>"form-control" %>
         </div>
       </div>
+    </div>
+
   </div>
+
+  
 
   <div class="row">
     <div class="form-group col-md-4 col-sm-12">

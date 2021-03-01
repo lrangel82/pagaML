@@ -103,6 +103,6 @@ class LoansController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def loan_params
-      params.permit(loan: [ :moneylender_id, :status_id, :loan_type_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment,:user_id ], new_user:[ :name, :lastname, :email ], add: [:new_user]  )
+      params.permit(loan: [ :moneylender_id, :status_id, :amount_borrowed, :balance, :loan_date, :start_date, :next_payment_date, :next_amount_payment,:user_id,:payment_frequency_days,:is_profit_balane,:number_of_payments,:profit_by_payment,:description ], new_user:[ :name, :lastname, :email ], add: [:new_user]  )
     end
 end
