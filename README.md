@@ -41,3 +41,13 @@ $ heroku pg:psql --app pagaml
 
 #BACKUP DB pull:push
 $ heroku pg:pull pagaml::DATABASE mylocaldb --app pagaml
+```sh
+#Create
+heroku pg:backups:capture --app pagaml
+
+#Download
+heroku pg:backups:url b001 --app pagaml
+
+#Restore
+heroku pg:backups:restore b001 DATABASE_URL --app pagaml
+```

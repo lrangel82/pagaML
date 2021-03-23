@@ -1,7 +1,11 @@
+<%= link_to t(:buttons_previous), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek - 1 ), class: "btn btn-secondary btn-lg" %>
 
 <%=t(:del)%> <%=@week_start.strftime("%y/%m/%d")%> <%=t(:a)%> <%=@week_end.strftime("%y/%m/%d")%>
-</br>
 
+
+<%= link_to t(:buttons_next), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek + 1 ), class: "btn btn-secondary btn-lg" %>
+
+</br>
 <%=t(:a_pagar)%>: <%=number_to_currency(@total_a_pagar)%>
 <%=t(:pagado)%>: <%=number_to_currency(@total_pagado)%>
 
