@@ -123,10 +123,10 @@ class CreditorsController < ApplicationController
       @week_end   = Date.commercial( pparams['year'].to_i, pparams['week'].to_i, 7 )
       @moneylender = Moneylender.find(pparams['moneylender_id'])
       @loans = @moneylender.loan.where( "start_date <= ? and end_date >= ? and loans.status_id = 1", @week_start, @week_end )
-      @payments_week = Payment.joins(:loan).merge(@loans).where( "payment_date >= ? and payment_date <= ? and parent_id = null", @week_start, @week_end )
+      @payments_week = Payment.parents.joins(:loan).merge(@loans).where( "payment_date >= ? and payment_date <= ?", @week_start, @week_end )
       
       @total_a_pagar = @loans.sum(:next_amount_payment)
-      @total_pagado  = @payments_week.parents.sum(:payment_to_borrowed)
+      @total_pagado  = @payments_week.sum(:payment_to_borrowed)
 
       respond_to do |format|
          #format.js {render template: "show_loans" }
