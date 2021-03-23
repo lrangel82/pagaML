@@ -15,7 +15,7 @@
       <% if @payments_week.exists?( loan_id: loan.id ) %>
       PAGADO
       <% else %>
-      FALSO
+      DEUDA
       <% end %>
       <b><%= loan.user.complete_name %></b> <small>(<%= number_to_currency(loan.amount_borrowed) %>)</small>
       <%= t(loan.status_text) %><br>
