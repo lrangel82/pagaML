@@ -32,6 +32,7 @@ class Loan < ApplicationRecord
     self.next_payment_date   = recal_next_payment_date
     self.next_amount_payment = recal_next_amount_payment
     self.balance             = balance
+    self.end_date            = recal_end_date
     self.status_id = 1 if ( self.balance > 0 && status_id == 2) #PAGADO to OPEN
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
     #Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
@@ -65,6 +66,11 @@ class Loan < ApplicationRecord
          end
       end
   end
+
+  # def generate_due
+  #   return if status_id > 1
+  #   payments.all
+  # end
 
   def balance
 
@@ -122,13 +128,17 @@ class Loan < ApplicationRecord
     @next_payment_date ||= recal_next_payment_date
   end
 
-  def end_date
+  # def end_date
+  #   @end_date ||= recal_end_date
+  # end
+
+  def recal_end_date
     return nil if is_profit_balane 
     return nil if number_of_payments <= 0
 
     days_to_add = (number_of_payments * payment_frequency_days)
     #days_to_add += extra_fees.sum(:days_added) if extra_fees.count > 0
-    enddate = start_date + days_to_add.day
+    start_date + days_to_add.day
   end
 
   def recal_next_payment_date

@@ -29,6 +29,7 @@ https://pagaml.herokuapp.com/
 
 $ heroku login
 $ heroku run rake db:seed import:loans import:payments --app pagaml 
+$ heroku run rake db:migrate --app pagaml 
 
 $ heroku run bash
 

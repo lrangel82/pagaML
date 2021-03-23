@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_090721) do
+ActiveRecord::Schema.define(version: 2021_03_22_075218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_03_01_090721) do
     t.decimal "profit_by_payment"
     t.decimal "total_profit"
     t.text "description"
+    t.date "end_date"
     t.index ["loan_type_id"], name: "index_loans_on_loan_type_id"
     t.index ["moneylender_id"], name: "index_loans_on_moneylender_id"
     t.index ["status_id"], name: "index_loans_on_status_id"

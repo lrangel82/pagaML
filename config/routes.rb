@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "creditors/list_all" => "creditors#list_all"
   get "creditors/:moneylender_id/only_buttons" => "creditors#only_buttons"
   get "creditors/:moneylender_id/user_loans/:user_id" => "creditors#user_loans"
+  get "creditors/:moneylender_id/weekly_payments/:year/:week" => "creditors#weekly_payments"
   resources :creditors, only: [:index, :show]
   resources :loans do
     resources :payments
