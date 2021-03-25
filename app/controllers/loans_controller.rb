@@ -20,11 +20,14 @@ class LoansController < ApplicationController
     #/////////////////////////////////////////////////////////
     #@loan = Loan.new
     #@new_user='papa con capsu'
+    @loan_types = LoanTypes.all
+    Rails.logger.info "//////////////LARANGEL #{@loan_types.inspect}"
   end
 
   # GET /loans/1/edit
   def edit
     render :show unless @can_user_edit
+    @loan_types = LoanTypes.all
     @new_user = User.new()
   end
 

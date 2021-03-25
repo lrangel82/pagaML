@@ -105,6 +105,8 @@ class CreditorsController < ApplicationController
       @add_new_user = false
       @loan.loan_date = Date.today
       @loan.start_date = Date.today
+      @loan_types = LoanType.all
+      Rails.logger.info "//////////////LARANGEL #{@loan_types.inspect}"
       render template: "loans/new" , locals: { loan: @loan }
    end
 

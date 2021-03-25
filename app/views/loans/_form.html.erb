@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'loans', 'data-turbolinks-track': 'reload' %>
+
 <%= form_with(model: @loan, local: true) do |form| %>
   <% if loan.errors.any? || ( !new_user.nil? && new_user.errors.any? ) %>
     <div id="error_explanation" class="alert alert-warning" role="alert">
@@ -27,7 +29,7 @@
       <% end %>
     </div>
 
-    <div class="form-group col-md-4 col-sm-12">
+    <div class="form-group col-md-4 col-sm-12 d-none">
       <%= form.label :status_id %>
       <%= form.collection_select :status_id, Status.order(:id), :id, :name, {include_blank: false}, {:class=>"form-control"} %>
     </div>
@@ -38,7 +40,27 @@
     </div>
   </div>
 
-  <div class="card" >
+  <div class="d-flex" style="overflow: auto;">
+    <% @loan_types.order('description').each do |type| %>
+      <div class="p-2">
+      <a id="ltype" role="button" aria-pressed="true" class="select_type btn btn-outline-primary btn-sm" 
+      data-typeid="<%=type.id%>"
+      data-description="<%=type.description%>"
+      data-is_profit_balane="<%=type.is_profit_balane%>"
+      data-payment_frequency_days="<%=type.payment_frequency_days%>"
+      data-number_of_payments="<%=type.number_of_payments%>"
+      data-profit_by_payment="<%=type.profit_by_payment%>"
+      ><%= type.short_name %></a>
+      </div>
+    <% end %>
+  </div>
+  
+  <small>
+  <a class="card-header" data-toggle="collapse" href="#collapseDetallePrestamo" role="button" aria-expanded="false" aria-controls="collapseDetallePrestamo">
+    Detalle del prestamo
+  </a></small>
+  
+  <div id="collapseDetallePrestamo" class="card collapse">
     <div class="row card-body">
       <div class="form-group col-2">
           <%= form.label :is_profit_balane %>
@@ -65,7 +87,14 @@
       
     </div>
   </div>
+  
   <br/>
+  <div class="row">
+    <div class="col-6 text-right">Cada pago de:</div>
+    <div class="col-6"><h3 class="monto_pago">-</h3></div>
+  </div>
+  <br/>
+
   <div class="card" >
     <h5 class="card-header"><%= form.label :user_id%></h5>
 

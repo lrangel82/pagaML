@@ -43,9 +43,6 @@
           <li class="nav-item">
             <%= link_to t(:creditors), creditors_path, :class => 'nav-link'%>
           </li>
-          <li class="nav-item">
-            <%= link_to t(:payments), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: current_user.id, year: Date.today.year, week: Date.today.cweek), :class => 'nav-link'%>
-          </li>
           <% end %>
           
         </ul>

@@ -50,4 +50,12 @@ heroku pg:backups:url b001 --app pagaml
 
 #Restore
 heroku pg:backups:restore b001 DATABASE_URL --app pagaml
+
+
+
+#Sownload a backup
+heroku pg:backups:capture --app pagaml
+heroku pg:backups:download --app pagaml
+#pg_restore --verbose --clean --no-acl --no-owner -h localhost -U myuser -d mydb latest.dump
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U larangel -d pagaml_development latest.dump
 ```

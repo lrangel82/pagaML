@@ -23,3 +23,4 @@
     
   </div>
 </div>
+<%= link_to t(:pagos_semanales), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: Date.today.year, week: Date.today.cweek), :class => 'btn btn-outline-primary btn-sm'%>

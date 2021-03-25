@@ -1,7 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :loan
   belongs_to :status
-  has_many :children, class_name: "Payment", foreign_key: "parent_id"
+  has_many :children, class_name: "Payment", foreign_key: "parent_id", :dependent => :destroy
   belongs_to :parent, class_name: "Payment", optional: true
 
   validates :amount,:payment_date,:profit,:payment_to_borrowed,:status_id, presence: true
