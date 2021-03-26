@@ -1,7 +1,6 @@
 class Loan < ApplicationRecord
   belongs_to :moneylender
   belongs_to :status
-  belongs_to :loan_type, optional: true
   belongs_to :user
   has_many :extra_fees, dependent: :destroy
   has_many :payments, dependent: :destroy
@@ -29,13 +28,14 @@ class Loan < ApplicationRecord
   end
 
   def recalculation
+    self.balance             = recal_balance
     self.next_payment_date   = recal_next_payment_date
     self.next_amount_payment = recal_next_amount_payment
-    self.balance             = balance
     self.end_date            = recal_end_date
     self.status_id = 1 if ( self.balance > 0 && status_id == 2) #PAGADO to OPEN
     self.status_id = 2 if ( self.balance <= 0 && status_id == 1) #PAGADO
-    #Rails.logger.info "LARANGEL RECAL: #{self.code} balance:#{self.balance}"
+    Rails.logger.info "///////////LARANGEL RECAL: #{self.code} balance:#{self.balance}"
+
     #self.save!
   end
 
@@ -72,14 +72,14 @@ class Loan < ApplicationRecord
   #   payments.all
   # end
 
-  def balance
+  def recal_balance(without_payment_id=0)
 
     return 0 if status_id > 1
 
     if is_profit_balane
-      amount_borrowed - payments.parents.sum(:payment_to_borrowed)
+      amount_borrowed - payments.parents.where("id != ?",without_payment_id).sum(:payment_to_borrowed)
     else
-      (amount_borrowed * (total_profit / 100 + 1)) - payments.parents.sum(:amount)
+      (amount_borrowed * (total_profit / 100 + 1)) - payments.parents.where("id != ?",without_payment_id).sum(:amount)
     end
     
   end
@@ -165,13 +165,13 @@ class Loan < ApplicationRecord
     end
   end
 
-  def recal_profit(base_amount = nil)
+  def recal_profit(base_amount = nil, without_payment_id=0)
     #return 0 unless loan_type
     return 0 unless status.is_active?
 
     _profit=0
     if is_profit_balane
-      _profit= balance * profit_by_payment / 100
+      _profit= recal_balance(without_payment_id) * profit_by_payment / 100
     else
       _profit= amount_borrowed * profit_by_payment / 100
     end

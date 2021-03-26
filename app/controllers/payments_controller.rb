@@ -19,23 +19,28 @@ class PaymentsController < ApplicationController
     @payment = @loan.payments.build #Payment.new
     @payment.parent_id = params[:parent_id]
     @payment.payment_date = Date.today
+    @autocalculate = true
     if @payment.parent_id.nil?
-      @payment.amount = @loan.next_amount_payment.round(2)
-      @payment.profit = @loan.recal_profit(  @payment.amount ).round(2)
-      @payment.payment_to_borrowed = @loan.recal_payment_to_borroewd(  @payment.amount ).round(2)
+      
+        @payment.amount = @loan.next_amount_payment.round(2)
+        @payment.profit = @loan.recal_profit(  @payment.amount ).round(2)
+        @payment.payment_to_borrowed = @loan.recal_payment_to_borroewd(  @payment.amount ).round(2)
+      
     else
+      @autocalculate = false
       @payment.amount = @loan.next_amount_payment.round(2) - Payment.find(@payment.parent_id).amount
       @payment.profit = 0
       @payment.payment_to_borrowed = 0
     end
     respond_to do |format|
       format.html { render "new" }
-      format.json { render partial: "form", formats: "html", locals: { payment: @payment , backpath: "#"} }
+      format.json { render partial: "form", formats: "html", locals: { payment: @payment , backpath: "#", autocalculate: @autocalculate} }
     end
   end
 
   # GET /payments/1/edit
   def edit
+    @autocalculate = @payment.parent_id.nil?
   end
 
   # POST /payments
@@ -56,12 +61,7 @@ class PaymentsController < ApplicationController
               @payment_child.save
           end
         else
-          #we need to update the parent
-          p = @payment.parent
-          p.amount += @payment.amount
-          p.profit = @loan.recal_profit( p.amount ).round(2)
-          p.payment_to_borrowed = @loan.recal_payment_to_borroewd( p.amount ).round(2)
-          p.save!
+          update_parent(@payment)
         end
         @loan.save!
         format.js   { render "dialog_from_creditors" } if request.referrer.include?(creditors_path)
@@ -79,15 +79,10 @@ class PaymentsController < ApplicationController
   def update
     respond_to do |format|
       if @payment.update(payment_params)
-        unless @payment.parent_id.nil?
-          #we need to update the parent
-          p = @payment.parent
-          p.amount = p.children.sum(:amount)
-          p.profit = @loan.recal_profit( p.amount ).round(2)
-          p.payment_to_borrowed = @loan.recal_payment_to_borroewd( p.amount ).round(2)
-          p.save!
-        end
+        
+        update_parent(@payment)
         @loan.save!
+
         format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully updated.' }
         format.json { render :show, status: :ok, location: @payment }
       else
@@ -104,17 +99,28 @@ class PaymentsController < ApplicationController
     p = @payment.parent
 
     @payment.destroy
-    if is_child
-      #we need to update the parent
-      p.amount = p.children.sum(:amount)
-      p.profit = @loan.recal_profit( p.amount ).round(2)
-      p.payment_to_borrowed = @loan.recal_payment_to_borroewd( p.amount ).round(2)
-      p.save!
-    end
+    
+    update_parent(@payment)
     @loan.save!
+
     respond_to do |format|
       format.html { redirect_to loan_path(@loan), notice: 'Payment was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def update_parent(child_payment)
+    is_child = ! @payment.parent_id.nil?
+
+    if is_child
+      p = @payment.parent
+    
+      #we need to update the parent
+      p.amount = p.children.sum(:amount)
+      p.profit = @loan.recal_profit( p.amount, p.id ).round(2)
+      #p.payment_to_borrowed = @loan.recal_payment_to_borroewd( p.amount ).round(2)
+      p.payment_to_borrowed = (p.amount - p.profit).round(2)
+      p.save!
     end
   end
 

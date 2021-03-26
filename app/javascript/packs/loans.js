@@ -47,5 +47,8 @@ $(function(){
 
       $('.monto_pago').text('-');
    }
+
+   //Runs at load
+   calculate_monto();
 });
 
