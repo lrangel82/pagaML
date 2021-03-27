@@ -182,9 +182,9 @@ class Loan < ApplicationRecord
     f = (week_end - start_date).to_i
     payment_number = (f / payment_frequency_days).truncate * payment_frequency_days
     #y esta pagado
-    return 0 if ( payment_number > i && paied? )
+    return 0 if ( payment_number >= i && paied? )
     #si le toca y no hay pago
-    return calculate_amount_payment if ( payment_number > i )
+    return calculate_amount_payment if ( payment_number >= i )
     
     return 0
   end

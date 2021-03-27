@@ -25,7 +25,7 @@
 <% @loans.each do |loan| %>
    <div class="col-md">
       
-      <% if (!@payments_week.exists?( loan_id: loan.id ) && loan.status_id == 1) %>
+      <% if ((!@payments_week.exists?( loan_id: loan.id ) && !loan.paied?) || !@payments_week.where( loan_id: loan.id ).first.is_complete? ) %>
       <div class="m-2 p-2 bg-danger rounded" >
       DEUDA
       <% else %>
@@ -47,6 +47,9 @@
       <% if @payments_week.exists?( loan_id: loan.id ) %>
          <% @payments_week.where( loan_id: loan.id ).each do |p| %>
             <br>Abono de: <%= number_to_currency(p.amount) %>
+            <% unless p.is_complete? %>
+            Resta: <b><%= number_to_currency(loan.calcule_weekly_payment(@year, @week) - p.amount) %></b>
+            <% end %>
          <% end %>
       <% else %>
          <br>Abono de: <%= number_to_currency(loan.calcule_weekly_payment(@year, @week)) %>
