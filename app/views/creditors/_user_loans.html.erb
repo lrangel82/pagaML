@@ -1,5 +1,6 @@
-<% @loans.each do |loan| %>
-   <div class="col-md">
+
+<% @loans.active.each do |loan| %>
+   <div class="col-md p-2">
       <div class="p-2 btn-light show_detail_loan" data-loanpath="<%=loan_path(loan)%>">
       <%= number_to_currency(loan.amount_borrowed) %>
       <%= t(loan.status_text) %><br>
@@ -20,6 +21,18 @@
          Faltan <%=pluralize(loan.days_left,'dia')%>
       <% end %>
       <% end %>
+      </div>
+   </div>
+<% end %>
+<% if @loans.no_active.count > 0 %>
+   <div class="col-12 p-2">
+      <div class="row p-2">
+         <% @loans.no_active.each do |loan| %>
+            <div class="col m-1 p-1 btn-light border border-dark show_detail_loan" data-loanpath="<%=loan_path(loan)%>">
+            <small><%= number_to_currency(loan.amount_borrowed) %>
+            <%= t(loan.status_text) %></small>
+            </div>
+         <% end %>
       </div>
    </div>
 <% end %>

@@ -8,8 +8,6 @@
    </div>
    <div class="row">
      <span class="col-sm"> <%=t(:loans_granted)%>: <%=@loans_count%> </span>
-     <span class="col-sm"> <%=t(:next_total_payment)%>: <%=number_to_currency(@total_next_amount_payment)%></span>
-     <span class="col-sm"> <%=t(:profit_paid)%>: <%=number_to_currency(@total_profit)%></span>
    </div>
 </div>
 
@@ -25,8 +23,6 @@
        <p class="mb-1">CLABE:<%=moneylender.clabe%>   acount number:<%=moneylender.account_number%></p>
        <small><%=t(:amount_borrowed)%> <%=number_to_currency(moneylender.loan.sum(:amount_borrowed))%> </small>
        <small><%=t(:balance)%> <%=number_to_currency(moneylender.loan.sum(:balance))%> </small>
-       <small><%=t(:next_total_payment)%> <%=number_to_currency(moneylender.loan.sum(&:next_amount_payment))%> </small>
-       <small><%=t(:profit_paid)%> <%=number_to_currency(moneylender.loan.sum{ |l| l.payments.sum(:profit) })%> </small>
 
        <div>
        <%if (moneylender.loans_delayed > 0 ) %>

@@ -16,6 +16,8 @@ class Loan < ApplicationRecord
   scope :coming, -> { where({next_payment_date: (Date.today + 1.day)..(Date.today + 2.day), status_id: 1} ) }
   scope :ok, -> { where({next_payment_date: (Date.today + 3.day)..Date::Infinity.new , status_id: 1} )}
   scope :closed, -> { where(status_id: [4,5]) }
+  scope :active, -> { where(status_id: 1 ) }
+  scope :no_active, -> { where.not(status_id: 1 ) }
 
   include ActionView::Helpers::NumberHelper
 
@@ -170,6 +172,7 @@ class Loan < ApplicationRecord
   end
 
   def calcule_weekly_payment(year,week)
+    return 0 if closed?
     week_start = Date.commercial( year, week, 1 )
     week_end   = Date.commercial( year, week, 7 )
     

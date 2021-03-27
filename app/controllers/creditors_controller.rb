@@ -21,8 +21,7 @@ class CreditorsController < ApplicationController
       @loans_count ||= @loans.count
       @total_amount_borrowed ||= @loans.sum(:amount_borrowed)
       @total_balance ||= @loans.sum(:balance)
-      @total_next_amount_payment = @loans.sum(&:next_amount_payment)
-      @total_profit ||= @loans.sum{ |l| l.payments.sum(:profit) }
+      
       render "creditors/index"
    end
 

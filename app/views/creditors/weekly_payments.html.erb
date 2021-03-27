@@ -3,13 +3,13 @@
 
 <div class="row">
 
-<%= link_to t(:buttons_previous), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek - 1 ), class: "btn btn-secondary btn-lg col-4" %>
+<%= link_to t(:previa), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek - 1 ), class: "btn btn-secondary btn-lg col-4" %>
 
 <span class="col-4 text-center align-middle">
 <%=t(:del)%> <%=@week_start.strftime("%y/%m/%d")%> <%=t(:a)%> <%=@week_end.strftime("%y/%m/%d")%>
 </span>
 
-<%= link_to t(:buttons_next), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek + 1 ), class: "btn btn-secondary btn-lg col-4" %>
+<%= link_to t(:siguiente), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek + 1 ), class: "btn btn-secondary btn-lg col-4" %>
 
 </div>
 </br>
@@ -22,7 +22,7 @@
 </div>
 
 
-<% @loans.each do |loan| %>
+<% @loans.order(:user_id).each do |loan| %>
    <div class="col-md">
       
       <% if ((!@payments_week.exists?( loan_id: loan.id ) && !loan.paied?) || !@payments_week.where( loan_id: loan.id ).first.is_complete? ) %>

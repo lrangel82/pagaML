@@ -16,8 +16,6 @@
         CLABE:<%=@moneylender.clabe%>
       </div>
       
-      <h6 class="col-sm"><%=t(:next_total_payment)%>  <%=number_to_currency(@moneylender.loan.sum(&:next_amount_payment))%></h6>
-      <h6 class="col-sm"><%=t(:profit_paid)%> <%=number_to_currency(@moneylender.loan.sum{ |l| l.payments.sum(:profit) })%></h6>
       <h6 class="col-sm"><%=t(:account)%>:<%=@moneylender.account_number%></h6>
     </div>
     

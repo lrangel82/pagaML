@@ -8,9 +8,11 @@
             <%="bg-success text-white" if user.paied?(session[:money_lender_id]) %>
             <%="bg-warning text-white" if user.coming?(session[:money_lender_id]) %>
             <%="bg-primary text-white" if user.ok?(session[:money_lender_id]) %>">
-            <b><%= user.complete_name %></b><br/>
-            <small><%= pluralize(user.loans.where( moneylender_id: session[:money_lender_id]).count, 'prestamo')  %> <b>&#x02C5;</b></small>
-            <div class="loans_detail row g-5">
+            <b><%= user.complete_name %></b>
+            <div class="d-inline-flex">
+              <b><small><%= pluralize(user.loans.where( moneylender_id: session[:money_lender_id]).count, 'prestamo')  %> &#x02C5;</small></b>
+            </div>
+            <div class="loans_detail row">
             </div>
           </div>
         </div>
