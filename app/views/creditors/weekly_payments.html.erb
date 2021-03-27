@@ -49,7 +49,7 @@
             <br>Abono de: <%= number_to_currency(p.amount) %>
          <% end %>
       <% else %>
-         Abono de: <%= number_to_currency(loan.calcule_weekly_payment(@year, @week)) %>
+         <br>Abono de: <%= number_to_currency(loan.calcule_weekly_payment(@year, @week)) %>
       <% end %>
       </div>
    </div>
