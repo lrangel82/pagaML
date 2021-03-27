@@ -148,7 +148,7 @@ class Loan < ApplicationRecord
     #  days_to_add = payment_frequency_days
     #else
       months_to_add = 0
-      days_to_add = payment_frequency_days * (payments.paied.count + 1)
+      days_to_add = payment_frequency_days * (payments.parents.paied.count + 1)
     #end
     next_payment_date = start_date + months_to_add.month
     next_payment_date = next_payment_date + days_to_add.day
@@ -158,11 +158,35 @@ class Loan < ApplicationRecord
     #return 0 unless loan_type
     return 0 unless status.is_active?
 
+    calculate_amount_payment
+  end
+
+  def calculate_amount_payment
     if is_profit_balane
       balance * profit_by_payment / 100
     else
       amount_borrowed * (total_profit / 100  + 1) / number_of_payments
     end
+  end
+
+  def calcule_weekly_payment(year,week)
+    week_start = Date.commercial( year, week, 1 )
+    week_end   = Date.commercial( year, week, 7 )
+    
+    #Existe un pago esa semana y esta completo, mandar el valor
+    p = payments.parents.where( "payment_date >= ? and payment_date <= ?", week_start, week_end ).first
+    return p.amount if !p.nil? && p.is_complete?
+
+    #le toca abono esa semana?
+    i = (week_start -  start_date).to_i
+    f = (week_end - start_date).to_i
+    payment_number = (f / payment_frequency_days).truncate * payment_frequency_days
+    #y esta pagado
+    return 0 if ( payment_number > i && paied? )
+    #si le toca y no hay pago
+    return calculate_amount_payment if ( payment_number > i )
+    
+    return 0
   end
 
   def recal_profit(base_amount = nil, without_payment_id=0)

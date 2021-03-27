@@ -1,25 +1,40 @@
-<%= link_to t(:buttons_previous), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek - 1 ), class: "btn btn-secondary btn-lg" %>
+<%= javascript_pack_tag 'creditors', 'data-turbolinks-track': 'reload' %>
 
+
+<div class="row">
+
+<%= link_to t(:buttons_previous), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek - 1 ), class: "btn btn-secondary btn-lg col-4" %>
+
+<span class="col-4 text-center align-middle">
 <%=t(:del)%> <%=@week_start.strftime("%y/%m/%d")%> <%=t(:a)%> <%=@week_end.strftime("%y/%m/%d")%>
+</span>
 
+<%= link_to t(:buttons_next), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek + 1 ), class: "btn btn-secondary btn-lg col-4" %>
 
-<%= link_to t(:buttons_next), url_for(action: 'weekly_payments', controller: 'creditors', moneylender_id: @moneylender.id, year: @week_start.year, week: @week_start.cweek + 1 ), class: "btn btn-secondary btn-lg" %>
-
+</div>
 </br>
-<%=t(:a_pagar)%>: <%=number_to_currency(@total_a_pagar)%>
-<%=t(:pagado)%>: <%=number_to_currency(@total_pagado)%>
+
+<div class="card">
+   <div class="card-body text-center">
+   <h2><%=t(:total_semanal)%>: <%=number_to_currency(@total_a_pagar)%></h2>
+   <h2><%=t(:pagado)%>: <%=number_to_currency(@total_pagado)%></h2>
+   </div>
+</div>
+
 
 <% @loans.each do |loan| %>
    <div class="col-md">
-      <div class="p-2 btn-light show_detail_loan" data-loanpath="<%=loan_path(loan)%>">
-      <% if @payments_week.exists?( loan_id: loan.id ) %>
-      PAGADO
-      <% else %>
+      
+      <% if (!@payments_week.exists?( loan_id: loan.id ) && loan.status_id == 1) %>
+      <div class="m-2 p-2 bg-danger rounded" >
       DEUDA
+      <% else %>
+      <div class="m-2 p-2 bg-success rounded" >
+      PAGADO
       <% end %>
       <b><%= loan.user.complete_name %></b> <small>(<%= number_to_currency(loan.amount_borrowed) %>)</small>
-      <%= t(loan.status_text) %><br>
-
+      
+      <a id="ver_detalle" role="button" aria-pressed="true" class="btn btn-light float-right" href="<%=loan_path(loan)%>">Ver Detalle</a>
       <% if loan.delayed? %>
          <% if loan.payments.parents.count > 0 && !loan.payments.parents.last.is_complete? %>
          <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=loan_new_subpayment_path(loan,loan.payments.parents.last.id)%>">Completar Abono</a>
@@ -27,16 +42,17 @@
          <a id="add_aqui" role="button" aria-pressed="true" class="add_payment btn btn-warning float-right" data-dialogpath="<%=new_loan_payment_path(loan)%>">Abono</a>
          <% end %>
       <% end %>
-      <% unless loan.paied? %>
-      Abono de: <%= number_to_currency(loan.next_amount_payment) %>
-      Resta: <%= number_to_currency(loan.balance) %><br/>
-      <%= pluralize(loan.payments.paied.count, 'pago') %>
-      <% if loan.delayed? %>
-         Retrazo <%=pluralize(loan.days_left * -1,'dia')%>
+      <%= t(loan.status_text) %>
+
+      <% if @payments_week.exists?( loan_id: loan.id ) %>
+         <% @payments_week.where( loan_id: loan.id ).each do |p| %>
+            <br>Abono de: <%= number_to_currency(p.amount) %>
+         <% end %>
       <% else %>
-         Faltan <%=pluralize(loan.days_left,'dia')%>
-      <% end %>
+         Abono de: <%= number_to_currency(loan.calcule_weekly_payment(@year, @week)) %>
       <% end %>
       </div>
    </div>
 <% end %>
+
+<%= render partial: "modal" %>

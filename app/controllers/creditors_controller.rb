@@ -121,14 +121,35 @@ class CreditorsController < ApplicationController
    # GET /creditors/:moneylender_id/weekly_payments/:year/:week
    def weekly_payments
       pparams = params.permit( :moneylender_id, :year, :week )
-      @week_start = Date.commercial( pparams['year'].to_i, pparams['week'].to_i, 1 )
-      @week_end   = Date.commercial( pparams['year'].to_i, pparams['week'].to_i, 7 )
+      @year=pparams['year'].to_i
+      @week=pparams['week'].to_i
+      @week_start = Date.commercial( @year, @week, 1 )
+      @week_end   = Date.commercial( @year, @week, 7 )
       @moneylender = Moneylender.find(pparams['moneylender_id'])
-      @loans = @moneylender.loan.where( "start_date <= ? and end_date >= ? and loans.status_id = 1", @week_start, @week_end )
+      long_loans = @moneylender.loan.where( "start_date <= ? and end_date >= ? ", @week_start, @week_end )
+      end_loans = @moneylender.loan.where( "end_date >= ? and end_date <= ?", @week_start, @week_end )
+      this_Wloans = @moneylender.loan.where( "next_payment_date >= ? and next_payment_date <= ?", @week_start, @week_end )
+
+      #Find the loans that has some pyment in the window of the week
+      loansIn=[]
+      long_loans.each do |l| 
+         i = (@week_start -  l.start_date).to_i
+         f = (@week_end - l.start_date).to_i
+         payment_number = (f / l.payment_frequency_days).truncate * l.payment_frequency_days
+         loansIn.push(l.id) if ( payment_number > i && l.status_id = 1)
+      end
+
+
+      #@loans = Loan.where(id: loansIn).or(end_loans).or(this_Wloans)
+      loansIn = long_loans.or(end_loans).or(this_Wloans).select{ |l| l.calcule_weekly_payment(@year,@week) > 0 }.pluck(:id)
+      @loans = Loan.where(id: loansIn)
+
+
       @payments_week = Payment.parents.joins(:loan).merge(@loans).where( "payment_date >= ? and payment_date <= ?", @week_start, @week_end )
       
-      @total_a_pagar = @loans.sum(:next_amount_payment)
-      @total_pagado  = @payments_week.sum(:payment_to_borrowed)
+      @total_a_pagar = @loans.sum { |l| l.calcule_weekly_payment(@year, @week) } 
+      #@loans.where("next_payment_date >= ? and next_payment_date <= ?", @week_start, @week_end).sum(:next_amount_payment)
+      @total_pagado  = @payments_week.sum(:amount)
 
       respond_to do |format|
          #format.js {render template: "show_loans" }
