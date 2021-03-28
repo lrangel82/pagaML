@@ -89,7 +89,10 @@ class Loan < ApplicationRecord
   def total_profit
     profit_by_payment * number_of_payments
   end
-
+  
+  def active?
+    status_id == 1
+  end
   def delayed?
     next_payment_date <= Date.today && status_id == 1
   end
@@ -104,6 +107,16 @@ class Loan < ApplicationRecord
   end
   def closed?
     status_id == 4 or status_id == 5
+  end
+
+  def get_color_name
+    return "danger"    if delayed?
+    return "warning"   if coming?
+    return "success"   if paied?
+    return "secondary" if closed?
+    return "info"      if ok?
+    return "primary"   if active?
+    return "outline-primary"
   end
 
   def status_text

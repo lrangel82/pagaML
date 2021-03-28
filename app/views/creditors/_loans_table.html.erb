@@ -21,9 +21,11 @@
       <% elsif loan.paied? -%>
       <tr class="show_detail_loan table-success" data-loanpath="<%=loan_path(loan) %>" >
       <% elsif loan.ok? -%>
-      <tr class="show_detail_loan table-primary" data-loanpath="<%=loan_path(loan) %>" >
+      <tr class="show_detail_loan table-info" data-loanpath="<%=loan_path(loan) %>" >
       <% elsif loan.closed? -%>
       <tr class="show_detail_loan table-secondary" data-loanpath="<%=loan_path(loan) %>" >
+      <% elsif loan.active? -%>  
+      <tr class="add_payment table-primary" data-dialogpath="<%=loan_path(loan) %>" >
       <% end -%>
       
         <th scope="row"><%= link_to loan.code, loan_path(loan) %> </th>

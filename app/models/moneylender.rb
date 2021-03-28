@@ -2,6 +2,9 @@ class Moneylender < ApplicationRecord
    has_many :loan
    belongs_to :user
 
+   def loans_active
+      @loans_active ||= loan.active.count
+   end
    def loans_delayed
       @loans_delayed ||= loan.delayed.count
    end

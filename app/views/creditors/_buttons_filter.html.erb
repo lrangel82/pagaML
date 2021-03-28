@@ -4,6 +4,11 @@
     <a href="<%=creditor_path(session[:money_lender_id], render_view_loans: "table")%>" type="button" class="filterbtn btn btn-sm btn-light <%="active" if @render_view_loans=="table" %>" data-remote="true"><input type="radio" name="options_view" id="option2" autocomplete="off" <%="checked" if @render_view_loans=="table" %>>Lista</a>
  </div>
 
+ <a id="searchDelayed" href="<%=creditor_path(session[:money_lender_id], filter: "active")%>" type="button" class="filterbtn btn btn-outline-primary btn-sm " data-searchtext="<%=t(:open)+' '+t(:active)%>" data-remote="true">
+  <%=t(:active)%> <span class="badge badge-light"><%=@moneylender.loans_active%></span>
+  <span class="sr-only">Prestamos activos</span>
+ </a>
+
  <a id="searchDelayed" href="<%=creditor_path(session[:money_lender_id], filter: "delayed")%>" type="button" class="filterbtn btn btn-outline-danger btn-sm " data-searchtext="<%=t(:open)+' '+t(:delayed)%>" data-remote="true">
   <%=t(:retrazados)%> <span class="badge badge-light"><%=@moneylender.loans_delayed%></span>
   <span class="sr-only">Prestamos retrazados</span>
@@ -14,7 +19,7 @@
   <span class="sr-only">Prestamos proximos</span>
  </a>
 
- <a id="searchAware" href="<%=creditor_path(session[:money_lender_id], filter: "aware")%>" type="button" class="filterbtn btn btn-outline-primary btn-sm " data-searchtext="<%=t(:open)+' '+t(:aware)%>" data-remote="true">
+ <a id="searchAware" href="<%=creditor_path(session[:money_lender_id], filter: "aware")%>" type="button" class="filterbtn btn btn-outline-info btn-sm " data-searchtext="<%=t(:open)+' '+t(:aware)%>" data-remote="true">
   <%=t(:al_corriente)%> <span class="badge badge-light"><%=@moneylender.loans_ok%></span>
   <span class="sr-only">Prestamos al corriente</span>
  </a>
