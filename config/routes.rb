@@ -26,8 +26,10 @@ Rails.application.routes.draw do
     get "payments/new/:parent_id" => "payments#new", as: "new_subpayment"
   end
 
-  namespace :client do
-    get 'search'
+  get 'client/search'
+  resources :client do
+    #get 'search'
+    #get 'show/:user_id' => "client#show", as: 'show'
   end
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

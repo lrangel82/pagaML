@@ -20,6 +20,13 @@
     margin: 0 auto;
 }
 
+.icon_user{
+  background-image: image-url('user25.png');
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+
 .loading{
    background-image: image-url('loading.svg');
    background-size: 50px;

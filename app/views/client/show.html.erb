@@ -1,0 +1,23 @@
+<%= javascript_pack_tag 'client', 'data-turbolinks-track': 'reload' %>
+<div class="card">
+   <div class="card-body">
+      <div class="card-title"><h1><%=@client.complete_name%></h1></div>
+
+      <p class="card-text">
+         <%=@client.email%>
+      </p>
+      <p class="card-text">
+         <span><%=t(:ultimo_acceso)%>: <%=@client.last_sign_in_at%>(<%=@client.last_sign_in_ip%>)</span>
+         <span><%=t(:creado)%>: <%=@client.created_at%></span>
+         <span><%=t(:actualizado)%>: <%=@client.updated_at%></span>
+      </p>
+      <p>
+
+      </p>
+   </div>
+</div>
+
+<%= render template: "creditors/_user_loans", locals: { loans: @loans } %>
+
+<br/>
+<%= link_to  t('buttons.back'), url_for(:back), class: "btn btn-secondary btn-lg" %>

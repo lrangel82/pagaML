@@ -21,11 +21,14 @@
                   "btn-outline-primary"
                 end %>">
             <b><%= user.complete_name %></b>
+
             <div class="d-inline-flex">
               <b><small><%= pluralize(loans.where(user_id: user.id).count, 'prestamo')  %> &#x02C5;</small></b>
             </div>
+            <%= link_to  " ", client_path(user.id), class: "icon_user float-right" %>
             <div class="loans_detail row">
             </div>
+
           </div>
         </div>
   <% end %>

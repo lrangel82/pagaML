@@ -43,8 +43,8 @@ function init_events_for_creditors(){
         });
       }
       
-      event.preventDefault();
-      return false;
+      //event.preventDefault();
+      //return false;
    });
 
    $('.add_payment').off("click");

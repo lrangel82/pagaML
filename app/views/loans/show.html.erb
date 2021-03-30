@@ -46,8 +46,4 @@
 
 <%= render template: "payments/index" %>
 
-<% if @can_user_edit %>
-  <%= link_to t('buttons.back'), creditor_path(@loan.moneylender_id), class: "btn btn-secondary btn-lg" %>
-<% else %>
-  <%= link_to t('buttons.back'), '/', class: "btn btn-secondary btn-lg" %>
-<% end %>
+<%= link_to t('buttons.back'), url_for(:back), class: "btn btn-secondary btn-lg" %>
