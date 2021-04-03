@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   end
 
   get 'client/search'
+  get 'client/:id/send_invitation' => "client#send_invitation", as: "client_send_invitation"
   resources :client do
     #get 'search'
     #get 'show/:user_id' => "client#show", as: 'show'
