@@ -27,11 +27,6 @@
   </div>
 
   <div class="field">
-    <%= form.label :loan_type_id %>
-    <%= form.collection_select :loan_type_id, LoanType.order(:short_name), :id, :short_name, include_blank: true %>
-  </div>
-
-  <div class="field">
     <%= form.label :amount_borrowed %>
     <%= form.text_field :amount_borrowed %>
   </div>
