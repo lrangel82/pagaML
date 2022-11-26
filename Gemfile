@@ -59,3 +59,6 @@ gem 'omniauth-facebook'
 #gem 'omniauth-google'
 #gem 'omniauth-twitter'
 #gem 'omniauth-instagram'
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
